@@ -1,11 +1,20 @@
-## My Project
+## aws-amplify-gen2-example
 
-TODO: Fill this README out!
+### Getting Started
 
-Be sure to:
+First, run the development server:
 
-* Change the title in this README
-* Edit your repository description on GitHub
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Security
 
@@ -14,4 +23,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
-
