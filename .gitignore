@@ -1,0 +1,11 @@
+# amplify generated files
+.amplify
+amplifyconfiguration*
+
+# node modules
+node_modules
+
+# next generated files
+.next
+
+# amplify
