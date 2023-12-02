@@ -51,7 +51,7 @@
   border-radius: var(--border-radius);
   background: rgba(var(--card-rgb), 0);
   border: 1px solid rgba(var(--card-border-rgb), 0);
-  transition: background 200ms, border 200ms, box-shadow 200ms;
+  transition: background 200ms, border 200ms;
 }
 
 .card span {
@@ -78,25 +78,44 @@
   align-items: center;
   position: relative;
   padding: 4rem 0;
-  gap: 4rem;
 }
 
+.center::before {
+  background: var(--secondary-glow);
+  border-radius: 50%;
+  width: 480px;
+  height: 360px;
+  margin-left: -400px;
+}
+
+.center::after {
+  background: var(--primary-glow);
+  width: 240px;
+  height: 180px;
+  z-index: -1;
+}
+
+.center::before,
+.center::after {
+  content: '';
+  left: 50%;
+  position: absolute;
+  filter: blur(45px);
+  transform: translateZ(0);
+}
+
+.logo {
+  position: relative;
+}
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
     background: rgba(var(--card-rgb), 0.1);
     border: 1px solid rgba(var(--card-border-rgb), 0.15);
-    box-shadow: 0px 4px 12px 0px #CBBEFF;
   }
 
   .card:hover span {
     transform: translateX(4px);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .card:hover {
-      box-shadow: none;
-    }
   }
 }
 
@@ -191,11 +210,14 @@
 }
 
 @media (prefers-color-scheme: dark) {
+  .vercelLogo {
+    filter: invert(1);
+  }
+
   .logo {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
   }
 }
-
 
 @keyframes rotate {
   from {
