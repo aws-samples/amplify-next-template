@@ -1,0 +1,28 @@
+
+.header-logo {
+    height: 50px
+}
+
+.nav-bar-header {
+    align-items: center;
+    background-color: #0C1824;
+    box-shadow: var(--shadows-medium);
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 32px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .nav-bar-header .frame {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 32px;
+    justify-content: center;
+    position: relative;
+  }
+
+  .nav-bar-header .text-wrapper {
+    color: #fff !important
+  }

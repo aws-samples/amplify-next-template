@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-lyricboostapp-dev-04812-authRole",
+      "UnauthRoleArn": "arn:aws:iam::758304301615:role/amplify-lyricboostapp-dev-04812-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::758304301615:role/amplify-lyricboostapp-dev-04812-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-lyricboostapp-dev-04812-deployment",
+      "UnauthRoleName": "amplify-lyricboostapp-dev-04812-unauthRole",
+      "StackName": "amplify-lyricboostapp-dev-04812",
+      "StackId": "arn:aws:cloudformation:us-east-1:758304301615:stack/amplify-lyricboostapp-dev-04812/ece88e20-965e-11ee-b765-12e113ff3f65",
+      "AmplifyAppId": "d3bn0zu1n32lq5"
+    },
+    "categories": {
+      "auth": {
+        "lyricboostapp": {}
+      }
+    }
+  }
+}
