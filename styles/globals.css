@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "figtree";
+  src:
+    url("../fonts/Figtree-Italic-VariableFont_wght.ttf") format("ttf"),
+    url("../fonts/Figtree-VariableFont_wght.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  /*font-family: "figtree", sans-serif !important;*/
+  background: linear-gradient(
+    to bottom,
+    rgb(245, 245, 245),
+    rgb(235, 253, 255)
+  );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #323f7f;
+}
+
+h1 {
+  font-weight: 700;
+  z-index: 2;
+  @media (max-width: 640px) {
+    font-size: 1.7em;
+  }
+}
+
+h2 {
+  @media (max-width: 640px) {
+    font-size: 1.2em;
+  }
+}

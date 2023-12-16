@@ -1,0 +1,16 @@
+.list-item {
+  cursor: pointer;
+  padding-block: 14px !important;
+  padding: 10px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.list-item:hover {
+  background-color: #323f7f;
+  color: white;
+}
+
+.active {
+  background-color: rgba(50, 63, 127, 0.2);
+}
