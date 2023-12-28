@@ -1,12 +1,12 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import Image from "next/image";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Get started by editing&nbsp;
+          Wow! I'm starting migration. Get started by editing&nbsp;
           <code className={styles.code}>app/page.tsx</code>
         </p>
       </div>
@@ -76,11 +76,9 @@ export default function Home() {
           <h2>
             Data <span>-&gt;</span>
           </h2>
-          <p>
-            Fully-typed real-time API with NoSQL database.
-          </p>
+          <p>Fully-typed real-time API with NoSQL database.</p>
         </a>
       </div>
     </main>
-  )
+  );
 }
