@@ -21,13 +21,9 @@ export default function Home() {
           priority
         />
         <span>+</span>
-        <Image
-          src="/amplify.svg"
-          alt="Amplify Logo"
-          width={45}
-          height={37}
-          priority
-        />
+        <p>
+          Deployed By: r01
+        </p>
       </div>
 
       <div className={styles.grid}>
