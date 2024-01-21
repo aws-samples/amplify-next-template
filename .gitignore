@@ -9,3 +9,6 @@ node_modules
 .next
 
 # amplify
+
+# misc
+.DS_Store
