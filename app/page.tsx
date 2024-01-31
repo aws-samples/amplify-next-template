@@ -7,8 +7,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
+          This is Sample Pull request
         </p>
         <p>
           This page is server-side rendered. It was rendered on {data.props.formattedDate}.
