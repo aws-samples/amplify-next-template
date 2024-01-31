@@ -1,13 +1,17 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import Image from 'next/image';
+import styles from './page.module.css';
 
 export default function Home() {
+  const data = getData();
   return (
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.tsx</code>
+        </p>
+        <p>
+          This page is server-side rendered. It was rendered on {data.props.formattedDate}.
         </p>
       </div>
 
@@ -76,11 +80,21 @@ export default function Home() {
           <h2>
             Data <span>-&gt;</span>
           </h2>
-          <p>
-            Fully-typed real-time API with NoSQL database.
-          </p>
+          <p>Fully-typed real-time API with NoSQL database.</p>
         </a>
       </div>
     </main>
-  )
+  );
+}
+
+function getData() {
+  const renderDate = Date.now();
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'long',
+    timeStyle: 'long',
+  }).format(renderDate);
+  console.log(
+    `SSR ran on ${formattedDate}. This will be logged in CloudWatch.`
+  );
+  return { props: { formattedDate } };
 }
