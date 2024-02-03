@@ -52,7 +52,7 @@ export default function Home() {
           <h2>
             Quickstart <span>-&gt;</span>
           </h2>
-          <p>Follow a tutorial to build a fullstack app with Amplify Gen 2.</p>
+          <p>Follow a tutorial to build a fullstack app with Amplify Gen 2 .. Can you take the challenge ? hahahah.</p>
         </a>
 
         <a
@@ -64,7 +64,7 @@ export default function Home() {
           <h2>
             Auth <span>-&gt;</span>
           </h2>
-          <p>Zero-config Auth UI components with social sign-in and MFA.</p>
+          <p> do you know ??? hahahahahaha Zero-config Auth UI components with social sign-in and MFA.</p>
         </a>
 
         <a
