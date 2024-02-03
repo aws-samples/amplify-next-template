@@ -77,7 +77,7 @@ export default function Home() {
             Data <span>-&gt;</span>
           </h2>
           <p>
-            Fully-typed real-time API with NoSQL database.
+            Hahahahahah   hahahahahah
           </p>
         </a>
       </div>
