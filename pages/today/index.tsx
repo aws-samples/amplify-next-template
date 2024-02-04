@@ -2,7 +2,7 @@ import Layout from "@/components/layouts/Layout";
 import ListView from "@/components/lists/ListView";
 import { IoSquareOutline, IoCheckboxSharp } from "react-icons/io5";
 import styles from "./Today.module.css";
-import { tasks } from "./demoData";
+import { tasks } from "./_demoData";
 
 export type Tasks = {
   id: number;
