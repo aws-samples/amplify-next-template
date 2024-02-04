@@ -1,0 +1,7 @@
+.isDone {
+  color: var(--primary-button-bg-color);
+}
+
+.isOpen {
+  color: var(--secondary-button-bg-color);
+}

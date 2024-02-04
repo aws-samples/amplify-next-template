@@ -1,0 +1,45 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  margin-bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-color-transparent);
+  /* background-color: blueviolet; */
+}
+
+.headerContent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: calc(var(--content-width) + 15rem);
+}
+
+.headerLeft {
+  left: 0.4em;
+}
+
+.headerLeft,
+.headerRight {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.headerMiddle {
+  position: relative;
+}
+
+.headerRight {
+  right: 0.4em;
+}

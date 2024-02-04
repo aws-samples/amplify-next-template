@@ -1,0 +1,99 @@
+:root {
+  /* Base colors */
+  --background-color: rgb(246, 249, 244);
+  --bg-color-transparent: rgba(246, 249, 244, 0.95);
+  --color-bg-sheet: #fefefe;
+  --color-shadow: rgba(206, 219, 202, 0.5);
+  --header-text-color: #333333;
+  --footer-text-color: #555555;
+  --primary-button-bg-color: #ffa07a;
+  --secondary-button-bg-color: #90ee90;
+  --hover-color: #c7f1e0;
+  --text-color: #090d0c;
+  --app-name-color: #2a2c29;
+  --subtle-text-color: #636a67;
+
+  /* Fonts */
+  --font-family: "Nunito", sans-serif;
+  --font-size-base: "10px";
+  --font-size-xxxx-small: 0.9rem;
+  --font-size-xxx-small: 1rem;
+  --font-size-xx-small: 1.1rem;
+  --font-size-x-small: 1.2rem;
+  --font-size-small: 1.4rem;
+  --font-size-medium: 1.6rem;
+  --font-size-large: 1.8rem;
+  --font-size-x-large: 2.4rem;
+  --font-size-xx-large: 3.4rem;
+
+  /* Hover states */
+  --button-hover-brightness: 1.1;
+
+  /* sizing */
+  --content-width: 98rem;
+  --sheet-padding: 5rem;
+  --body-padding: 6.4rem;
+  --page-padding: 1.6rem;
+  --negative-page-padding: calc(-1 * var(var(--page-padding)));
+  --base-space: 1.25em;
+}
+
+@media (min-width: 40em) {
+  :root {
+    --font-size-base: 11px;
+  }
+}
+
+@media (min-width: 60em) {
+  :root {
+    --font-size-xxx-small: 1.1rem;
+    --font-size-xx-small: 1.2rem;
+    --font-size-x-small: 1.4rem;
+    --font-size-small: 1.6rem;
+    --font-size-medium: 1.8rem;
+    --font-size-large: 2rem;
+    --font-size-x-large: 2.8rem;
+    --font-size-xx-large: 4rem;
+  }
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito/Nunito-VariableFont_wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito/Nunito-Italic-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito/static/Nunito-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+html {
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--background-color);
+  font-size: var(--font-size-medium);
+  padding-bottom: 0;
+  letter-spacing: 0;
+  padding: 0 0 var(--body-padding);
+  margin: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  display: block;
+}

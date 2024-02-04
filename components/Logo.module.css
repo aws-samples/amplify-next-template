@@ -1,0 +1,46 @@
+.logoNameWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.logoIcon {
+  width: 8rem;
+  height: 5rem;
+  display: block;
+  background: url("/images/app-logo-transparent.png") no-repeat center/5rem;
+}
+
+.appNameWrapper {
+  position: relative;
+  display: flex;
+  font-size: 2rem;
+}
+
+.appName {
+  display: flex;
+  align-items: center;
+  width: auto;
+  padding-top: 2rem;
+  height: 3.2rem;
+  margin-left: -2.2rem;
+  color: var(--app-name-color);
+  font-weight: 1000;
+  text-transform: uppercase;
+}
+
+@media (max-width: 40em) {
+  .logoIcon {
+    width: 4.8rem;
+    height: 3rem;
+    margin-top: 0.2rem;
+    background: url("/images/app-logo-transparent.png") no-repeat center/3rem;
+  }
+  .appNameWrapper {
+    font-size: 1.2rem;
+  }
+  .appName {
+    padding-top: 1.2rem;
+    height: 1.92rem;
+    margin-left: -1.32rem;
+  }
+}
