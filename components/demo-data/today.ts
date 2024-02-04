@@ -1,6 +1,6 @@
 // Make a json with 25 tasks with random data; each record has the following fields: id, title, project, dueDate, and a done flag
 import { faker } from "@faker-js/faker";
-import { Tasks } from ".";
+import { Tasks } from "../../pages/today";
 
 let cachedTasks = [] as Tasks[];
 

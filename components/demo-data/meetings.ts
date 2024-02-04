@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Meeting } from ".";
+import { Meeting } from "../../pages/meetings";
 
 let cachedMeetings = [] as Meeting[];
 

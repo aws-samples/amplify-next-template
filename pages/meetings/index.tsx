@@ -1,6 +1,6 @@
 import Layout from "@/components/layouts/Layout";
 import ListView from "@/components/lists/ListView";
-import { meetings } from "./_demoData";
+import { meetings } from "../../components/demo-data/meetings";
 import styles from "./Meetings.module.css";
 import { useRouter } from "next/router";
 
