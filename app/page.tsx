@@ -16,7 +16,7 @@ async function App() {
     const imageUrl = data.get("imageUrl") as string;
     console.log(`data: ${JSON.stringify(gods)}`)
     const result = await cookiesClient.models.God.create({
-      godId: 223,
+      godId: Array.isArray(gods) ? gods.length : 0,
       name: name,
       title: title,
       imageUrl: imageUrl
