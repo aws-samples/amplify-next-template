@@ -15,7 +15,7 @@ const schema = a.schema({
       title: a.string(),
       imageUrl: a.string()
     })
-    .authorization([a.allow.specificGroup('admins').to(['create', 'read']), a.allow.public('apiKey').to(['list', 'get']), a.allow.private().to(['list', 'get'])])
+    .authorization([a.allow.specificGroup('admins', 'userPools').to(['create', 'read', 'update']), a.allow.public('apiKey').to(['list', 'get']), a.allow.private('userPools').to(['list', 'get'])])
     .identifier(['godId'])
 });
 
