@@ -11,6 +11,8 @@
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.0.13",
     "@aws-amplify/ui-react": "^6.1.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "aws-amplify": "^6.0.3",
     "next": "13.5.4",
     "react": "^18",
@@ -22,6 +24,9 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.3.2"
   }
 }

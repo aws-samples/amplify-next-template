@@ -8,15 +8,20 @@ import Logout from "@/components/Logout";
 
 async function App() {
   const user = await AuthGetCurrentUserServer();
-  const { data: todos } = await cookiesClient.models.Todo.list();
-
-  async function addTodo(data: FormData) {
+  const { data: gods } = await cookiesClient.models.God.list();
+  async function addGod(data: FormData) {
     "use server";
+    const name = data.get("name") as string;
     const title = data.get("title") as string;
-    await cookiesClient.models.Todo.create({
-      content: title,
-      isDone: false,
+    const imageUrl = data.get("imageUrl") as string;
+    console.log(`data: ${JSON.stringify(gods)}`)
+    const result = await cookiesClient.models.God.create({
+      godId: 223,
+      name: name,
+      title: title,
+      imageUrl: imageUrl
     });
+    console.log(JSON.stringify(result))
     revalidatePath("/");
   }
 
@@ -24,13 +29,15 @@ async function App() {
     <>
       <h1>Hello, Amplify 👋</h1>
       {user && <Logout />}
-      <form action={addTodo}>
+      <form action={addGod}>
+        <input type="text" name="name" />
         <input type="text" name="title" />
-        <button type="submit">Add Todo</button>
+        <input type="text" name="imageUrl" />
+        <button type="submit">Add God</button>
       </form>
 
       <ul>
-        {todos && todos.map((todo) => <li key={todo.id}>{todo.content}</li>)}
+        {(gods && gods.length > 0) && gods.map((god) => <li key={god.godId}>{god.name}</li>)}
       </ul>
     </>
   );

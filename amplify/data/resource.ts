@@ -8,12 +8,15 @@ specify that owners, authenticated via your Auth resource can "create",
 authenticated via an API key, can only "read" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  God: a
     .model({
-      content: a.string(),
-      isDone: a.boolean(),
+      godId: a.integer().required(),
+      name: a.string(),
+      title: a.string(),
+      imageUrl: a.string()
     })
-    .authorization([a.allow.owner()]),
+    .authorization([a.allow.specificGroup('admins').to(['create', 'read']), a.allow.public('apiKey').to(['list', 'get']), a.allow.private().to(['list', 'get'])])
+    .identifier(['godId'])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -21,7 +24,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool',
+    defaultAuthorizationMode: 'apiKey',
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,

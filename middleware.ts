@@ -13,6 +13,7 @@ export async function middleware(request: NextRequest) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec, {});
+        console.log(JSON.stringify(session))
         return session.tokens !== undefined;
       } catch (error) {
         console.log(error);
@@ -25,7 +26,7 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  return NextResponse.redirect(new URL("/login", request.url));
+  return NextResponse.redirect(new URL("/authentication/login", request.url));
 }
 
 export const config = {
@@ -38,6 +39,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - login
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|login).*)",
+    "/",
   ],
 };
