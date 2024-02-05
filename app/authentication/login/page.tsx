@@ -1,9 +1,8 @@
 import type { ReactElement } from 'react'
 import Login from '@/components/Login'
-import { NextPageWithLayout } from '@/app/_app'
 import AuthLayout from '../layout'
  
-const Page: NextPageWithLayout = () => {
+const Page = () => {
   return <Login/>
 }
  
