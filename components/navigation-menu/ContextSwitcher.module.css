@@ -1,0 +1,46 @@
+.contextSwitcherContainer {
+  text-align: center;
+}
+
+.title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.switcher {
+  display: flex;
+  position: relative;
+  border: 2px solid rgb(198, 195, 195);
+  border-radius: 2rem;
+  width: 100%;
+  justify-content: space-around;
+  background: none;
+  transition: background-color 0.3s ease;
+}
+
+.context {
+  flex-grow: 1;
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  color: var(--context-color);
+  position: relative;
+}
+
+.highlighter {
+  position: absolute;
+  height: calc(100% + 4px);
+  top: -2px;
+  left: 0;
+  border-radius: 2rem;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.context:hover {
+  color: var(--context-color-hover);
+}
+
+.isActive,
+.isActive:hover {
+  color: white;
+}

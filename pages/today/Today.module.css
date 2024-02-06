@@ -1,7 +1,7 @@
 .isDone {
-  color: var(--primary-button-bg-color);
+  color: var(--color-btn);
 }
 
 .isOpen {
-  color: var(--secondary-button-bg-color);
+  color: var(--color-btn);
 }

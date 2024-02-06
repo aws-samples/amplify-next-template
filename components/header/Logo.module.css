@@ -8,6 +8,7 @@
   height: 5rem;
   display: block;
   background: url("/images/app-logo-transparent.png") no-repeat center/5rem;
+  filter: var(--logo-filter);
 }
 
 .appNameWrapper {
@@ -23,7 +24,7 @@
   padding-top: 2rem;
   height: 3.2rem;
   margin-left: -2.2rem;
-  color: var(--app-name-color);
+  color: var(--color-text);
   font-weight: 1000;
   text-transform: uppercase;
 }

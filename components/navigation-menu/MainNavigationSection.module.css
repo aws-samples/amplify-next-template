@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menuItem {
+  flex: 1;
+  margin: 0 5px;
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem;
+  border: none;
+  background-color: var(--color-btn);
+  box-shadow: none;
+  transition: background-color 1s ease;
+}
+
+.menuItem:hover {
+  filter: brightness(98%);
+  box-shadow: 2px 2px 8px rgba(89, 88, 88, 0.344);
+}
+
+.menuIcon {
+  font-size: 5rem;
+}
+
+.menuLabel {
+  font-size: var(--font-size-small);
+  font-weight: bold;
+}
+
+.wrapper :first-child.menuItem {
+  margin-left: 0;
+}
+
+.wrapper :last-child.menuItem {
+  margin-right: 0;
+}

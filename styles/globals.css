@@ -1,9 +1,6 @@
 :root {
   /* Base colors */
-  --background-color: rgb(246, 249, 244);
-  --bg-color-transparent: rgba(246, 249, 244, 0.95);
   --color-bg-sheet: #fefefe;
-  --color-shadow: rgba(206, 219, 202, 0.5);
   --header-text-color: #333333;
   --footer-text-color: #555555;
   --primary-button-bg-color: #ffa07a;
@@ -12,6 +9,9 @@
   --text-color: #090d0c;
   --app-name-color: #2a2c29;
   --subtle-text-color: #636a67;
+
+  /* Logo */
+  --logo-image-url: url("/images/app-logo-transparent.png");
 
   /* Fonts */
   --font-family: "Nunito", sans-serif;
@@ -36,6 +36,7 @@
   --page-padding: 1.6rem;
   --negative-page-padding: calc(-1 * var(var(--page-padding)));
   --base-space: 1.25em;
+  --navigation-menu-width: 40rem;
 }
 
 @media (min-width: 40em) {
@@ -80,7 +81,7 @@
 }
 
 html {
-  color: var(--text-color);
+  color: var(--default-text-color);
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   line-height: 1.4;
@@ -88,7 +89,6 @@ html {
 }
 
 body {
-  background-color: var(--background-color);
   font-size: var(--font-size-medium);
   padding-bottom: 0;
   letter-spacing: 0;
