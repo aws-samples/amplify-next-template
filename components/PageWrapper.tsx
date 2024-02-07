@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
 
-export default function PageWrapper({ children }: { children: ReactNode }) {
+type PageWrapperProps = {
+  children: ReactNode;
+};
+
+export default function PageWrapper({ children }: PageWrapperProps) {
   const router = useRouter();
 
   useEffect(() => {

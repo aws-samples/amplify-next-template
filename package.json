@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.1.2",
-    "@faker-js/faker": "^8.4.0",
     "aws-amplify": "^6.0.13",
     "next": "14.1.0",
     "react": "^18",
@@ -20,6 +19,7 @@
   "devDependencies": {
     "@aws-amplify/backend": "^0.10.3",
     "@aws-amplify/backend-cli": "^0.10.0",
+    "@faker-js/faker": "^8.4.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

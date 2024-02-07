@@ -28,6 +28,16 @@
   font-weight: bold;
 }
 
+@media (max-width: 40em) {
+  .menuIcon {
+    font-size: 4rem;
+  }
+  .menuLabel {
+    font-size: var(--font-size-xx-small);
+    font-weight: normal;
+  }
+}
+
 .wrapper :first-child.menuItem {
   margin-left: 0;
 }

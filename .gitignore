@@ -39,3 +39,4 @@ next-env.d.ts
 .amplify
 amplifyconfiguration*
 public/images/profile-pic-test.jpeg
+components/import-data/*

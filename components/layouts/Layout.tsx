@@ -10,7 +10,10 @@ type LayoutProps = CategoryTitleProps & {
   children: ReactNode;
 };
 
-export default function Layout(props: LayoutProps) {
+export default function Layout({
+  children,
+  ...categoryTitleProps
+}: LayoutProps) {
   const [isMenuVisible, setMenuVisibility] = useState(false);
   const [currentContext, setContext] = useState<Context>("family");
 
@@ -69,11 +72,8 @@ export default function Layout(props: LayoutProps) {
               className={`${styles.sheet} ${styles.sheetVh} ${styles.sheetContent}`}
             >
               <div className={styles.categoryWrapper}>
-                <CategoryTitle
-                  title={props.title}
-                  addButton={props.addButton}
-                />
-                <div className={styles.categoryContent}>{props.children}</div>
+                <CategoryTitle {...categoryTitleProps} />
+                <div className={styles.categoryContent}>{children}</div>
               </div>
             </div>
           </div>

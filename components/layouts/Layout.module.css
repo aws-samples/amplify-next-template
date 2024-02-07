@@ -51,7 +51,6 @@
   background: var(--color-bg-sheet);
   box-shadow: 0 0 3rem var(--color-shadow);
   margin: 0 var(--negative-page-padding) 0;
-  /* width: calc(100% + var(--page-padding) / 2); */
   width: 100%;
   border-radius: 0;
   position: relative;
@@ -111,6 +110,7 @@
   --color-btn-secondary: hsl(55, 88%, 17%);
   --color-text: #1c1b0c;
   --color-text-secondary: #66644d;
+  --color-subtle: hwb(55 60% 20%);
   --logo-filter: grayscale(100%) sepia(1) hue-rotate(340deg) brightness(90%)
     saturate(400%);
 }
@@ -124,6 +124,7 @@
   --color-btn-secondary: hsl(98, 96%, 17%);
   --color-text: #131d0e;
   --color-text-secondary: #4b5943;
+  --color-subtle: hwb(98 60% 20%);
   --logo-filter: grayscale(100%) sepia(1) hue-rotate(40deg) brightness(90%)
     saturate(400%);
 }
@@ -137,6 +138,7 @@
   --color-btn-secondary: hsl(181, 95%, 17%);
   --color-text: #0e1b1b;
   --color-text-secondary: #435859;
+  --color-subtle: hwb(181 60% 20%);
   --logo-filter: grayscale(100%) sepia(1) hue-rotate(100deg) brightness(90%)
     saturate(400%);
 }
