@@ -34,6 +34,7 @@ const schema = a.schema({
       solution: a.string(),
       risks: a.string(),
       noGos: a.string(),
+      notionId: a.integer(),
       createdOn: a.datetime(),
     })
     .authorization([a.allow.owner()]),
