@@ -26,7 +26,7 @@ const schema = a.schema({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       name: a.string(),
       startDate: a.date(),
-      // batches: a.hasMany("SixWeekBatch"),
+      batches: a.hasMany("SixWeekBatch"),
     })
     .authorization([a.allow.owner()]),
   SixWeekBatch: a

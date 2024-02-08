@@ -27,6 +27,7 @@ type ImportProjectDataType = {
 };
 
 type MapFunction<T, R> = (record: T) => R;
+export type LogFunction = (str: string) => void;
 
 const showData = <T, R>(mapFn: MapFunction<T, R>, data: T[]) =>
   flow(map(mapFn), JSON.stringify)(data);
@@ -53,10 +54,12 @@ export default function NewCommitmentPage() {
   client.models.SixWeekBatch.list().then(({ data }) => setSixWeekBatch(data));
   // client.models.Projects.list().then(({ data }) => setProjects(data));
 
+  const log = (str: string) => setLogData([...logData, str]);
+
   const handleImportClick = () => {
     // const newData = JSON.parse(importData) as ImportAccountData[];
     setLogData([]);
-    createSixWeekCycle(logData, setLogData);
+    createSixWeekCycle(log);
   };
 
   return (

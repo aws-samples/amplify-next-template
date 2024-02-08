@@ -1,19 +1,10 @@
-import { Dispatch, SetStateAction } from "react";
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "@/amplify/data/resource";
+import { LogFunction } from "@/pages/commitments/new";
 
 const client = generateClient<Schema>();
 
-const logDataFn =
-  (logData: string[], setLogData: Dispatch<SetStateAction<string[]>>) =>
-  (log: string) =>
-    setLogData([...logData, log]);
-
-export const createSixWeekCycle = (
-  logData: string[],
-  setLogData: Dispatch<SetStateAction<string[]>>
-) => {
-  const log = logDataFn(logData, setLogData);
+export const createSixWeekCycle = (log: LogFunction) => {
   client.models.SixWeekCycle.create({
     name: "Just a test",
     startDate: "2024-01-22",
