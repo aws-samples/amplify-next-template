@@ -4,9 +4,9 @@ import Layout from "@/components/layouts/Layout";
 import { useState } from "react";
 import { flow, map } from "lodash/fp";
 import {
-  ImportAccountData,
-  createAccount,
-} from "@/components/imports/accounts";
+  ImportProjectData,
+  createProject,
+} from "@/components/imports/projects";
 
 const client = generateClient<Schema>();
 
@@ -37,9 +37,9 @@ export default function NewCommitmentPage() {
   client.models.Projects.list().then(({ data }) => setProjects(data));
 
   const handleImportClick = () => {
-    console.log("ACCOUNT CREATION STARTED...");
-    const newData = JSON.parse(importData) as ImportAccountData[];
-    newData.map(createAccount(accounts));
+    console.log("PROJECTS CREATION STARTED...");
+    const newData = JSON.parse(importData) as ImportProjectData[];
+    newData.map(createProject(projects, accounts, sixWeekBatches));
   };
 
   return (
@@ -48,7 +48,7 @@ export default function NewCommitmentPage() {
         value={importData}
         onChange={(event) => setImportData(event.target.value)}
       />
-      <button onClick={handleImportClick}>Import Data</button>
+      <button onClick={handleImportClick}>Import Project Data</button>
       <div>
         <strong>Accounts</strong>
         {showData<Schema["Account"], any>(({ name }) => name, accounts)}
