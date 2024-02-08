@@ -1,5 +1,6 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "@/amplify/data/resource";
+const client = generateClient<Schema>();
 
 export type Context = "work" | "family" | "hobby";
 
@@ -15,8 +16,6 @@ export type ImportSixWeekBatchesData = {
   noGos: string;
   createdOn: string;
 };
-
-const client = generateClient<Schema>();
 
 export const createSixWeekBatch =
   (

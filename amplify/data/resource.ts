@@ -17,8 +17,8 @@ const schema = a.schema({
       name: a.string().required(),
       introduction: a.string(),
       subsidiaries: a.hasMany("Account"),
-      // projects: a.manyToMany("Projects", { relationName: "AccountProjects" }),
-      //     controller: a.belongsTo("Account"),
+      projects: a.manyToMany("Projects", { relationName: "AccountProjects" }),
+      controller: a.belongsTo("Account"),
     })
     .authorization([a.allow.owner()]),
   SixWeekCycle: a
@@ -50,9 +50,9 @@ const schema = a.schema({
       solution: a.string(),
       risks: a.string(),
       noGos: a.string(),
-      // projects: a.manyToMany("Projects", {
-      //   relationName: "SixWeekBatchProjects",
-      // }),
+      projects: a.manyToMany("Projects", {
+        relationName: "SixWeekBatchProjects",
+      }),
       createdOn: a.datetime(),
     })
     .authorization([a.allow.owner()]),
@@ -69,10 +69,10 @@ const schema = a.schema({
       myNextActions: a.string(),
       othersNextActions: a.string(),
       context: a.ref("Context"),
-      // accounts: a.manyToMany("Account", { relationName: "AccountProjects" }),
-      // batches: a.manyToMany("SixWeekBatch", {
-      //   relationName: "SixWeekBatchProjects",
-      // }),
+      accounts: a.manyToMany("Account", { relationName: "AccountProjects" }),
+      batches: a.manyToMany("SixWeekBatch", {
+        relationName: "SixWeekBatchProjects",
+      }),
     })
     .authorization([a.allow.owner()]),
 });
