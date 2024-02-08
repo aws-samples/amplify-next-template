@@ -42,7 +42,7 @@ export default function NewCommitmentPage() {
   const handleImportClick = () => {
     console.log("PEOPLE CREATION STARTED...");
     const newData = JSON.parse(importData) as ImportPeopleData[];
-    newData.map(createPerson(people));
+    newData.map(createPerson);
   };
 
   return (
