@@ -7,28 +7,32 @@ specify that owners, authenticated via your Auth resource can "create",
 "read", "update", and "delete" their own records. Public users,
 authenticated via an API key, can only "read" records.
 =========================================================================*/
+
 const schema = a.schema({
-  Customers: a
+  Context: a.enum(["family", "hobby", "work"]),
+  Account: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       notionId: a.integer().required(),
       name: a.string().required(),
-      controller: a.belongsTo("Customers"),
-      subsidiaries: a.hasMany("Customers"),
       introduction: a.string(),
+      // subsidiaries: a.hasMany("Account"),
+      // projects: a.manyToMany("Projects", { relationName: "AccountProjects" }),
+      //     controller: a.belongsTo("Account"),
     })
     .authorization([a.allow.owner()]),
-  Cycle: a
+  SixWeekCycle: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       name: a.string(),
       startDate: a.date(),
-      commitments: a.hasMany("Commitments"),
+      // batches: a.hasMany("SixWeekBatch"),
     })
     .authorization([a.allow.owner()]),
-  Commitments: a
+  SixWeekBatch: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
       idea: a.string(),
       status: a.enum([
         "idea",
@@ -38,18 +42,39 @@ const schema = a.schema({
         "aborted",
         "finished",
       ]),
-      cycle: a.belongsTo("Cycle"),
-      context: a.enum(["family", "hobby", "work"]),
+      // sixWeekCycle: a.belongsTo("SixWeekCycle"),
+      context: a.ref("Context"),
       appetite: a.enum(["big", "small"]),
       hours: a.integer(),
       problem: a.string(),
       solution: a.string(),
       risks: a.string(),
       noGos: a.string(),
-      notionId: a.integer(),
+      // projects: a.manyToMany("Projects", {
+      //   relationName: "SixWeekBatchProjects",
+      // }),
       createdOn: a.datetime(),
     })
     .authorization([a.allow.owner()]),
+  // Projects: a
+  //   .model({
+  //     owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+  //     notionId: a.integer().required(),
+  //     project: a.string(),
+  //     done: a.boolean(),
+  //     doneOn: a.date(),
+  //     dueOn: a.date(),
+  //     onHoldTill: a.date(),
+  //     createdOnDay: a.date(),
+  //     myNextActions: a.string(),
+  //     othersNextActions: a.string(),
+  //     context: a.ref("Context"),
+  //     accounts: a.manyToMany("Account", { relationName: "AccountProjects" }),
+  //     batches: a.manyToMany("SixWeekBatch", {
+  //       relationName: "SixWeekBatchProjects",
+  //     }),
+  //   })
+  //   .authorization([a.allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

@@ -7,12 +7,12 @@ import { useState } from "react";
 const client = generateClient<Schema>();
 
 export default function CommitmentsPage() {
-  const [commitments, setCommitments] = useState<Schema["Commitments"][]>([]);
+  // const [commitments, setCommitments] = useState<Schema["Commitments"][]>([]);
   const router = useRouter();
 
-  client.models.Commitments.list().then(({ data }) => {
-    setCommitments(data);
-  });
+  // client.models.Commitments.list().then(({ data }) => {
+  //   setCommitments(data);
+  // });
 
   return (
     <Layout
@@ -22,8 +22,9 @@ export default function CommitmentsPage() {
         onClick: () => router.push("/commitments/new"),
       }}
     >
+      Items will come
       {/* <ListView listItems={} /> */}
-      <div>{JSON.stringify(commitments.map(({ context }) => context))}</div>
+      {/* <div>{JSON.stringify(commitments.map(({ context }) => context))}</div> */}
     </Layout>
   );
 }

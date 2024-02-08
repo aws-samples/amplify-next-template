@@ -3,14 +3,27 @@ import { generateClient } from "aws-amplify/data";
 import Layout from "@/components/layouts/Layout";
 import { useState } from "react";
 import { flow, map } from "lodash/fp";
+import {
+  ImportAccountData,
+  createAccount,
+} from "@/components/imports/accounts";
+import { createSixWeekCycle } from "@/components/imports/six-week-cycle";
 
 const client = generateClient<Schema>();
 
-type ImportDataType = {
+type ImportProjectDataType = {
   notionId: number;
-  name: string;
-  controllerId: number;
-  description: string;
+  project: string;
+  customerIds?: number[];
+  commitmentIds?: number[];
+  done?: boolean;
+  doneOn?: string;
+  dueOn?: string;
+  onHoldTill?: string;
+  createdAt: string;
+  myNextActions?: string;
+  nextActionsOfOthers?: string;
+  context: string;
 };
 
 type MapFunction<T, R> = (record: T) => R;
@@ -20,62 +33,30 @@ const showData = <T, R>(mapFn: MapFunction<T, R>, data: T[]) =>
 
 export default function NewCommitmentPage() {
   const [title, setTitle] = useState("New Commitment");
-  const [customers, setCustomers] = useState<Schema["Customers"][]>([]);
+  const [sixWeekCycle, setSixWeekCycle] = useState<Schema["SixWeekCycle"][]>(
+    []
+  );
+  const [sixWeekBatch, setSixWeekBatch] = useState<Schema["SixWeekBatch"][]>(
+    []
+  );
+  const [accounts, setAccounts] = useState<Schema["Account"][]>([]);
+  // const [projects, setProjects] = useState<Schema["Projects"][]>([]);
   const [importData, setImportData] = useState("[]");
+  const [logData, setLogData] = useState<string[]>([]);
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
   };
 
-  client.models.Customers.list().then(({ data }) => setCustomers(data));
-
-  const createRecord = async ({
-    description,
-    controllerId,
-    ...rest
-  }: ImportDataType) => {
-    const exists = customers.find(({ notionId }) => notionId == rest.notionId);
-    if (exists) {
-      console.log("Customer exists already", rest.name, exists.name);
-      return exists;
-    } else {
-      if (!controllerId) {
-        const { data: newRecord, errors } =
-          await client.models.Customers.create({
-            introduction: description,
-            ...rest,
-          });
-        console.log("New record", newRecord, "Errors", errors);
-        return newRecord;
-      } else {
-        const controller = customers.find(
-          ({ notionId }) => notionId == controllerId
-        );
-        if (!controller) {
-          console.log("Controller is not created yet", controllerId, rest.name);
-        } else {
-          const { data: newRecord, errors } =
-            await client.models.Customers.create({
-              introduction: description,
-              controller,
-              ...rest,
-            });
-          console.log("New record", newRecord, "Errors", errors);
-          return newRecord;
-        }
-      }
-    }
-  };
+  client.models.Account.list().then(({ data }) => setAccounts(data));
+  client.models.SixWeekCycle.list().then(({ data }) => setSixWeekCycle(data));
+  client.models.SixWeekBatch.list().then(({ data }) => setSixWeekBatch(data));
+  // client.models.Projects.list().then(({ data }) => setProjects(data));
 
   const handleImportClick = () => {
-    const newData = JSON.parse(importData) as ImportDataType[];
-    console.log(
-      "DATA TO BE CREATED:",
-      newData,
-      "# of Records:",
-      newData.length
-    );
-    console.log("Results", newData.map(createRecord));
+    // const newData = JSON.parse(importData) as ImportAccountData[];
+    setLogData([]);
+    createSixWeekCycle(logData, setLogData);
   };
 
   return (
@@ -86,17 +67,42 @@ export default function NewCommitmentPage() {
       />
       <button onClick={handleImportClick}>Import Data</button>
       <div>
-        <strong>Customers</strong>
-        {showData<Schema["Customers"], any>(
-          ({ name }) => ({
-            name,
-          }),
-          customers
-        )}
+        <strong>Accounts</strong>
+        {showData<Schema["Account"], any>(({ name }) => name, accounts)}
+        <strong># of records</strong>
+        {accounts.length}
       </div>
       <div>
+        <strong>Six Week Cycles</strong>
+        {showData<Schema["SixWeekCycle"], any>(
+          ({ name }) => name,
+          sixWeekCycle
+        )}
         <strong># of records</strong>
-        {customers.length}
+        {sixWeekCycle.length}
+      </div>
+      <div>
+        <strong>Six Week Batches</strong>
+        {showData<Schema["SixWeekBatch"], any>(
+          ({ idea }) => idea,
+          sixWeekBatch
+        )}
+        <strong># of records</strong>
+        {sixWeekBatch.length}
+      </div>
+      {/* <div>
+        <strong>Projects</strong>
+        {showData<Schema["Projects"], any>(({ project }) => project, projects)}
+        <strong># of records</strong>
+        {projects.length}
+      </div> */}
+      <div>
+        <strong>Log Data:</strong>
+      </div>
+      <div>
+        {logData.map((line, idx) => (
+          <div key={idx}>{line}</div>
+        ))}
       </div>
     </Layout>
   );
