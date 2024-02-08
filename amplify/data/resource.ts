@@ -8,8 +8,19 @@ specify that owners, authenticated via your Auth resource can "create",
 authenticated via an API key, can only "read" records.
 =========================================================================*/
 const schema = a.schema({
+  Customers: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
+      name: a.string().required(),
+      controller: a.belongsTo("Customers"),
+      subsidiaries: a.hasMany("Customers"),
+      introduction: a.string(),
+    })
+    .authorization([a.allow.owner()]),
   Cycle: a
     .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       name: a.string(),
       startDate: a.date(),
       commitments: a.hasMany("Commitments"),
@@ -17,6 +28,7 @@ const schema = a.schema({
     .authorization([a.allow.owner()]),
   Commitments: a
     .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       idea: a.string(),
       status: a.enum([
         "idea",
