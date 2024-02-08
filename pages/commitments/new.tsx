@@ -3,11 +3,10 @@ import { generateClient } from "aws-amplify/data";
 import Layout from "@/components/layouts/Layout";
 import { useState } from "react";
 import { flow, map } from "lodash/fp";
-// import {
-//   ImportAccountData,
-//   createAccount,
-// } from "@/components/imports/accounts";
-import { createSixWeekCycle } from "@/components/imports/six-week-cycle";
+import {
+  ImportSixWeekBatchesData,
+  createSixWeekBatch,
+} from "@/components/imports/six-week-batches";
 
 const client = generateClient<Schema>();
 
@@ -27,7 +26,6 @@ type ImportProjectDataType = {
 };
 
 type MapFunction<T, R> = (record: T) => R;
-export type LogFunction = (str: string) => void;
 
 const showData = <T, R>(mapFn: MapFunction<T, R>, data: T[]) =>
   flow(map(mapFn), JSON.stringify)(data);
@@ -37,13 +35,12 @@ export default function NewCommitmentPage() {
   const [sixWeekCycle, setSixWeekCycle] = useState<Schema["SixWeekCycle"][]>(
     []
   );
-  const [sixWeekBatch, setSixWeekBatch] = useState<Schema["SixWeekBatch"][]>(
-    []
-  );
+  const [sixWeekBatches, setSixWeekBatches] = useState<
+    Schema["SixWeekBatch"][]
+  >([]);
   const [accounts, setAccounts] = useState<Schema["Account"][]>([]);
-  // const [projects, setProjects] = useState<Schema["Projects"][]>([]);
+  const [projects, setProjects] = useState<Schema["Projects"][]>([]);
   const [importData, setImportData] = useState("[]");
-  const [logData, setLogData] = useState<string[]>([]);
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -51,15 +48,12 @@ export default function NewCommitmentPage() {
 
   client.models.Account.list().then(({ data }) => setAccounts(data));
   client.models.SixWeekCycle.list().then(({ data }) => setSixWeekCycle(data));
-  client.models.SixWeekBatch.list().then(({ data }) => setSixWeekBatch(data));
-  // client.models.Projects.list().then(({ data }) => setProjects(data));
-
-  const log = (str: string) => setLogData([...logData, str]);
+  client.models.SixWeekBatch.list().then(({ data }) => setSixWeekBatches(data));
+  client.models.Projects.list().then(({ data }) => setProjects(data));
 
   const handleImportClick = () => {
-    // const newData = JSON.parse(importData) as ImportAccountData[];
-    setLogData([]);
-    createSixWeekCycle(log);
+    const newData = JSON.parse(importData) as ImportSixWeekBatchesData[];
+    newData.map(createSixWeekBatch(sixWeekBatches, sixWeekCycle[0]));
   };
 
   return (
@@ -88,24 +82,16 @@ export default function NewCommitmentPage() {
         <strong>Six Week Batches</strong>
         {showData<Schema["SixWeekBatch"], any>(
           ({ idea }) => idea,
-          sixWeekBatch
+          sixWeekBatches
         )}
         <strong># of records</strong>
-        {sixWeekBatch.length}
+        {sixWeekBatches.length}
       </div>
-      {/* <div>
+      <div>
         <strong>Projects</strong>
         {showData<Schema["Projects"], any>(({ project }) => project, projects)}
         <strong># of records</strong>
         {projects.length}
-      </div> */}
-      <div>
-        <strong>Log Data:</strong>
-      </div>
-      <div>
-        {logData.map((line, idx) => (
-          <div key={idx}>{line}</div>
-        ))}
       </div>
     </Layout>
   );

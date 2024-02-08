@@ -1,6 +1,5 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "@/amplify/data/resource";
-import { LogFunction } from "@/pages/commitments/new";
 
 export type Context = "work" | "family" | "hobby";
 
@@ -19,14 +18,28 @@ export type ImportSixWeekBatchesData = {
 
 const client = generateClient<Schema>();
 
-export const createSixWeekBatch = async (
-  log: LogFunction,
-  { ...rest }: ImportSixWeekBatchesData
-) => {};
-
-// export const createSixWeekCycle = (log: (str: string) => void) => {
-//   client.models.SixWeekCycle.create({
-//     name: "Just a test",
-//     startDate: "2024-01-22",
-//   }).then(({ data }) => log(JSON.stringify(data)));
-// };
+export const createSixWeekBatch =
+  (
+    sixWeekBatches: Schema["SixWeekBatch"][],
+    sixWeekCycle: Schema["SixWeekCycle"]
+  ) =>
+  async ({ ...rest }: ImportSixWeekBatchesData) => {
+    const exists = sixWeekBatches.find(
+      ({ notionId }) => notionId == rest.notionId
+    );
+    if (exists) {
+      console.log("Record exists already", rest.idea, exists.idea);
+      return exists;
+    } else {
+      console.log("To be created", rest);
+      const { data: newData, errors } = await client.models.SixWeekBatch.create(
+        {
+          status: "inprogress",
+          sixWeekCycle,
+          ...rest,
+        }
+      );
+      console.log("Record created", newData, "Errors", errors);
+      return newData;
+    }
+  };

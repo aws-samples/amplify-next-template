@@ -16,7 +16,7 @@ const schema = a.schema({
       notionId: a.integer().required(),
       name: a.string().required(),
       introduction: a.string(),
-      // subsidiaries: a.hasMany("Account"),
+      subsidiaries: a.hasMany("Account"),
       // projects: a.manyToMany("Projects", { relationName: "AccountProjects" }),
       //     controller: a.belongsTo("Account"),
     })
@@ -42,7 +42,7 @@ const schema = a.schema({
         "aborted",
         "finished",
       ]),
-      // sixWeekCycle: a.belongsTo("SixWeekCycle"),
+      sixWeekCycle: a.belongsTo("SixWeekCycle"),
       context: a.ref("Context"),
       appetite: a.enum(["big", "small"]),
       hours: a.integer(),
@@ -56,25 +56,25 @@ const schema = a.schema({
       createdOn: a.datetime(),
     })
     .authorization([a.allow.owner()]),
-  // Projects: a
-  //   .model({
-  //     owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-  //     notionId: a.integer().required(),
-  //     project: a.string(),
-  //     done: a.boolean(),
-  //     doneOn: a.date(),
-  //     dueOn: a.date(),
-  //     onHoldTill: a.date(),
-  //     createdOnDay: a.date(),
-  //     myNextActions: a.string(),
-  //     othersNextActions: a.string(),
-  //     context: a.ref("Context"),
-  //     accounts: a.manyToMany("Account", { relationName: "AccountProjects" }),
-  //     batches: a.manyToMany("SixWeekBatch", {
-  //       relationName: "SixWeekBatchProjects",
-  //     }),
-  //   })
-  //   .authorization([a.allow.owner()]),
+  Projects: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
+      project: a.string(),
+      done: a.boolean(),
+      doneOn: a.date(),
+      dueOn: a.date(),
+      onHoldTill: a.date(),
+      createdOnDay: a.date(),
+      myNextActions: a.string(),
+      othersNextActions: a.string(),
+      context: a.ref("Context"),
+      // accounts: a.manyToMany("Account", { relationName: "AccountProjects" }),
+      // batches: a.manyToMany("SixWeekBatch", {
+      //   relationName: "SixWeekBatchProjects",
+      // }),
+    })
+    .authorization([a.allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
