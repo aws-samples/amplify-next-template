@@ -6,24 +6,37 @@ export type ImportPeopleData = {
   notionId: number;
   name: string;
   howToSay: string;
-  birthday: string;
+  birtday: string;
   dateOfDeath: string;
   createdOn: string;
 };
 
-export const createPerson =
-  (people: Schema["Person"][]) =>
-  async ({ ...rest }: ImportPeopleData) => {
-    const exists = people.find(({ notionId }) => notionId == rest.notionId);
-    if (exists) {
-      console.log("Record exists already", rest.name, exists.name);
-      return exists;
-    } else {
-      console.log("To be created", rest.name);
-      const { data: newPerson, errors } = await client.models.Person.create({
-        ...rest,
+export const cleanUpPeople = async (data: number[]) => {
+  const results = await Promise.all(
+    data.map(async (notionId) => {
+      const { data } = await client.models.Person.list({
+        filter: { notionId: { eq: notionId } },
       });
-      console.log("New record", newPerson, "Errors", errors);
-      return newPerson;
-    }
-  };
+      return { notionId, results: data };
+    })
+  );
+  console.log(results);
+};
+
+export const createPerson = async ({ birtday, ...rest }: ImportPeopleData) => {
+  const { data: exists } = await client.models.Person.list({
+    filter: { notionId: { eq: rest.notionId } },
+  });
+  if (exists.length > 0) {
+    console.log("Record exists already", rest.name, exists.length);
+    return exists;
+  } else {
+    console.log("To be created", rest.name);
+    const { data: newPerson, errors } = await client.models.Person.create({
+      birthday: birtday,
+      ...rest,
+    });
+    console.log("New record", newPerson, "Errors", errors);
+    return newPerson;
+  }
+};

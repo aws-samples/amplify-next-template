@@ -33,10 +33,10 @@ export default function NewCommitmentPage() {
     setTitle(newTitle);
   };
 
-  client.models.Account.list().then(({ data }) => setAccounts(data));
-  client.models.SixWeekCycle.list().then(({ data }) => setSixWeekCycle(data));
-  client.models.SixWeekBatch.list().then(({ data }) => setSixWeekBatches(data));
-  client.models.Projects.list().then(({ data }) => setProjects(data));
+  // client.models.Account.list().then(({ data }) => setAccounts(data));
+  // client.models.SixWeekCycle.list().then(({ data }) => setSixWeekCycle(data));
+  // client.models.SixWeekBatch.list().then(({ data }) => setSixWeekBatches(data));
+  // client.models.Projects.list().then(({ data }) => setProjects(data));
   client.models.Person.list().then(({ data }) => setPeople(data));
 
   const handleImportClick = () => {
