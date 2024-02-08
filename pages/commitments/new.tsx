@@ -7,6 +7,7 @@ import {
   ImportProjectData,
   createProject,
 } from "@/components/imports/projects";
+import { ImportPeopleData, createPerson } from "@/components/imports/people";
 
 const client = generateClient<Schema>();
 
@@ -25,6 +26,7 @@ export default function NewCommitmentPage() {
   >([]);
   const [accounts, setAccounts] = useState<Schema["Account"][]>([]);
   const [projects, setProjects] = useState<Schema["Projects"][]>([]);
+  const [people, setPeople] = useState<Schema["Person"][]>([]);
   const [importData, setImportData] = useState("[]");
 
   const handleTitleChange = (newTitle: string) => {
@@ -35,11 +37,12 @@ export default function NewCommitmentPage() {
   client.models.SixWeekCycle.list().then(({ data }) => setSixWeekCycle(data));
   client.models.SixWeekBatch.list().then(({ data }) => setSixWeekBatches(data));
   client.models.Projects.list().then(({ data }) => setProjects(data));
+  client.models.Person.list().then(({ data }) => setPeople(data));
 
   const handleImportClick = () => {
-    console.log("PROJECTS CREATION STARTED...");
-    const newData = JSON.parse(importData) as ImportProjectData[];
-    newData.map(createProject(projects, accounts, sixWeekBatches));
+    console.log("PEOPLE CREATION STARTED...");
+    const newData = JSON.parse(importData) as ImportPeopleData[];
+    newData.map(createPerson(people));
   };
 
   return (
@@ -48,12 +51,18 @@ export default function NewCommitmentPage() {
         value={importData}
         onChange={(event) => setImportData(event.target.value)}
       />
-      <button onClick={handleImportClick}>Import Project Data</button>
+      <button onClick={handleImportClick}>Import People Data</button>
       <div>
         <strong>Accounts</strong>
         {showData<Schema["Account"], any>(({ name }) => name, accounts)}
         <strong># of records</strong>
         {accounts.length}
+      </div>
+      <div>
+        <strong>People</strong>
+        {showData<Schema["Person"], any>(({ name }) => name, people)}
+        <strong># of records</strong>
+        {people.length}
       </div>
       <div>
         <strong>Six Week Cycles</strong>

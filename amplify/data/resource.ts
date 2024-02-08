@@ -10,6 +10,17 @@ authenticated via an API key, can only "read" records.
 
 const schema = a.schema({
   Context: a.enum(["family", "hobby", "work"]),
+  Person: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
+      name: a.string(),
+      howToSay: a.string(),
+      birthday: a.date(),
+      dateOfDeath: a.date(),
+      createdOn: a.date(),
+    })
+    .authorization([a.allow.owner()]),
   Account: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
