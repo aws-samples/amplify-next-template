@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 
 import Container from 'components/Container';
-import { Topbar, Sidebar, Footer } from './components';
-import pages from '../navigation--docs';
+import { Footer } from './components';
 
 interface Props {
   children: React.ReactNode;
@@ -15,21 +12,6 @@ interface Props {
 
 const Fixed = ({ children }: Props): JSX.Element => {
   const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.up('md'), {
-    defaultMatches: true,
-  });
-
-  const [openSidebar, setOpenSidebar] = useState(false);
-
-  const handleSidebarOpen = (): void => {
-    setOpenSidebar(true);
-  };
-
-  const handleSidebarClose = (): void => {
-    setOpenSidebar(false);
-  };
-
-  const open = isMd ? false : openSidebar;
 
   return (
     <Box>
@@ -40,17 +22,8 @@ const Fixed = ({ children }: Props): JSX.Element => {
           borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
         }}
         elevation={0}
-      >
-        <Container maxWidth={1} paddingY={{ xs: 1, sm: 1.5 }}>
-          <Topbar onSidebarOpen={handleSidebarOpen} />
-        </Container>
-      </AppBar>
-      <Sidebar
-        onClose={handleSidebarClose}
-        open={open}
-        variant={isMd ? 'permanent' : 'temporary'}
-        pages={pages}
-      />
+      ></AppBar>
+
       <main>
         <Box height={{ xs: 58, sm: 66, md: 71 }} />
         <Box
