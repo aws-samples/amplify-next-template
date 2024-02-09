@@ -10,6 +10,34 @@ authenticated via an API key, can only "read" records.
 
 const schema = a.schema({
   Context: a.enum(["family", "hobby", "work"]),
+  Activity: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
+      notes: a.string(),
+      forProjects: a.manyToMany("Projects", {
+        relationName: "ProjectActivity",
+      }),
+      finishedOn: a.datetime(),
+    })
+    .authorization([a.allow.owner()]),
+  Meeting: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
+      topic: a.string(),
+      meetingOn: a.datetime(),
+      participants: a.manyToMany("Person", {
+        relationName: "MeetingParticipant",
+      }),
+      projectsDiscussed: a.manyToMany("Projects", {
+        relationName: "MeetingDiscussedProject",
+      }),
+      newProjects: a.hasMany("Projects"),
+      timeInvested: a.integer(),
+      activities: a.hasMany("Activity"),
+    })
+    .authorization([a.allow.owner()]),
   Person: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
@@ -19,6 +47,7 @@ const schema = a.schema({
       birthday: a.date(),
       dateOfDeath: a.date(),
       createdOn: a.date(),
+      meetings: a.manyToMany("Meeting", { relationName: "MeetingParticipant" }),
     })
     .authorization([a.allow.owner()]),
   Account: a
@@ -84,6 +113,11 @@ const schema = a.schema({
       batches: a.manyToMany("SixWeekBatch", {
         relationName: "SixWeekBatchProjects",
       }),
+      discussedInMeetings: a.manyToMany("Meeting", {
+        relationName: "MeetingDiscussedProject",
+      }),
+      createdAtMeeting: a.belongsTo("Meeting"),
+      activities: a.manyToMany("Activity", { relationName: "ProjectActivity" }),
     })
     .authorization([a.allow.owner()]),
 });

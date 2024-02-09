@@ -10,3 +10,12 @@ export const toISODateString = (date: Date) => {
 
   return year + "-" + month + "-" + day;
 };
+export const logger =
+  (id?: number) =>
+  (...args: any[]) => {
+    if (id) {
+      console.log(new Date().toTimeString(), `[${id}]`, ...args);
+      return;
+    }
+    console.log(new Date().toTimeString(), ...args);
+  };
