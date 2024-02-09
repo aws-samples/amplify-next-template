@@ -18,6 +18,7 @@ const schema = a.schema({
       forProjects: a.manyToMany("Projects", {
         relationName: "ProjectActivity",
       }),
+      forMeeting: a.belongsTo("Meeting"),
       finishedOn: a.datetime(),
     })
     .authorization([a.allow.owner()]),

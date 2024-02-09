@@ -1,6 +1,6 @@
 import Layout from "@/components/layouts/Layout";
 import { useState } from "react";
-import { createMeetings } from "@/components/imports/meetings";
+import { createActivities } from "@/components/imports/activities";
 
 export default function NewCommitmentPage() {
   const [title, setTitle] = useState("New Commitment");
@@ -11,7 +11,7 @@ export default function NewCommitmentPage() {
   };
 
   const handleImportClick = () => {
-    createMeetings(importData);
+    createActivities(importData);
   };
 
   return (
@@ -20,7 +20,7 @@ export default function NewCommitmentPage() {
         value={importData}
         onChange={(event) => setImportData(event.target.value)}
       />
-      <button onClick={handleImportClick}>Import Meeting Data</button>
+      <button onClick={handleImportClick}>Import Activity Data</button>
     </Layout>
   );
 }
