@@ -1,8 +1,8 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "@/amplify/data/resource";
+import { Context } from "../navigation-menu/AppContext";
 const client = generateClient<Schema>();
 
-type Context = "work" | "family" | "hobby";
 export type ImportProjectData = {
   notionId: number;
   project: string;

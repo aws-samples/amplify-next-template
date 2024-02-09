@@ -4,6 +4,7 @@ import { IoSquareOutline, IoCheckboxSharp } from "react-icons/io5";
 import styles from "./Today.module.css";
 import { tasks } from "../../components/demo-data/today";
 import { useRouter } from "next/router";
+import { useAppContext } from "@/components/navigation-menu/AppContext";
 
 export type Tasks = {
   id: number;
@@ -14,6 +15,7 @@ export type Tasks = {
 };
 
 export default function TodayPage() {
+  const { context } = useAppContext();
   const router = useRouter();
   return (
     <Layout

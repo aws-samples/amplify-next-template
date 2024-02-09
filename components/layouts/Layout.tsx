@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import CategoryTitle, { CategoryTitleProps } from "../CategoryTitle";
 import styles from "./Layout.module.css";
 import NavigationMenu from "../navigation-menu/NavigationMenu";
-import { Context } from "../navigation-menu/ContextSwitcher";
+import { useAppContext } from "../navigation-menu/AppContext";
 
 type LayoutProps = CategoryTitleProps & {
   children: ReactNode;
@@ -15,7 +15,7 @@ export default function Layout({
   ...categoryTitleProps
 }: LayoutProps) {
   const [isMenuVisible, setMenuVisibility] = useState(false);
-  const [currentContext, setContext] = useState<Context>("family");
+  const { context } = useAppContext();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -49,19 +49,13 @@ export default function Layout({
             family: styles.familyColorScheme,
             hobby: styles.hobbyColorScheme,
             work: styles.workColorScheme,
-          }[currentContext]
+          }[context]
         }
       >
-        <Header
-          toggleMenu={toggleMenuVisibility}
-          menuIsOpen={isMenuVisible}
-          context={currentContext}
-        />
+        <Header toggleMenu={toggleMenuVisibility} menuIsOpen={isMenuVisible} />
         <NavigationMenu
           ref={menuRef}
           isOpen={isMenuVisible}
-          switchContext={(context: Context) => setContext(context)}
-          activeContext={currentContext}
           closeMenu={() => setMenuVisibility(false)}
         />
         <main

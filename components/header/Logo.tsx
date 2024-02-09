@@ -1,4 +1,4 @@
-import { Context } from "../navigation-menu/ContextSwitcher";
+import { Context } from "../navigation-menu/AppContext";
 import styles from "./Logo.module.css";
 type LogoProps = {
   context: Context;

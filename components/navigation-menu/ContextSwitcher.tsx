@@ -1,12 +1,6 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import styles from "./ContextSwitcher.module.css";
-
-export type Context = "family" | "hobby" | "work";
-
-type ContextSwitcherProps = {
-  switchContext: (context: Context) => void;
-  activeContext: Context;
-};
+import { Context, useAppContext } from "./AppContext";
 
 const contexts: {
   label: Context;
@@ -17,15 +11,13 @@ const contexts: {
   { label: "work", title: "Work" },
 ];
 
-function ContextSwitcher({
-  switchContext,
-  activeContext,
-}: ContextSwitcherProps) {
+function ContextSwitcher() {
   const [highlighterStyle, setHighlighterStyle] = useState({});
+  const { context, setContext } = useAppContext();
   const contextRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    const activeIndex = contexts.findIndex((c) => c.label == activeContext);
+    const activeIndex = contexts.findIndex((c) => c.label == context);
     const activeElement = contextRef.current[activeIndex];
 
     if (activeElement) {
@@ -34,10 +26,10 @@ function ContextSwitcher({
       setHighlighterStyle({
         width: `${width + innerOffset * 2}px`,
         transform: `translateX(${left - innerOffset}px)`,
-        backgroundColor: `var(--${activeContext}-color-main)`,
+        backgroundColor: `var(--${context}-color-main)`,
       });
     }
-  }, [activeContext]);
+  }, [context]);
 
   return (
     <div className={styles.contextSwitcherContainer}>
@@ -51,7 +43,7 @@ function ContextSwitcher({
               if (el) contextRef.current[idx] = el;
             }}
             className={`${styles.context} ${
-              activeContext == label ? styles.isActive : ""
+              context == label ? styles.isActive : ""
             }`}
             style={
               {
@@ -59,7 +51,7 @@ function ContextSwitcher({
                 "--context-color-hover": `var(--${label}-color-btn)`,
               } as CSSProperties
             }
-            onClick={() => switchContext(label)}
+            onClick={() => setContext(label)}
           >
             {title}
           </div>

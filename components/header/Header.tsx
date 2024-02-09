@@ -2,19 +2,15 @@ import SearchBar from "./SearchBar";
 import Logo from "./Logo";
 import ProfilePicture from "./ProfilePicture";
 import styles from "./Header.module.css";
-import { Context } from "../navigation-menu/ContextSwitcher";
+import { useAppContext } from "../navigation-menu/AppContext";
 
 type HeaderProps = {
-  context: Context;
   toggleMenu: () => void;
   menuIsOpen: boolean;
 };
 
-export default function Header({
-  menuIsOpen,
-  toggleMenu,
-  context,
-}: HeaderProps) {
+export default function Header({ menuIsOpen, toggleMenu }: HeaderProps) {
+  const { context } = useAppContext();
   return (
     <nav className={`${styles.header} ${menuIsOpen ? styles.menuIsOpen : ""}`}>
       <div className={styles.headerContent}>

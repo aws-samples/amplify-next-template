@@ -5,6 +5,7 @@ import "@aws-amplify/ui-react/styles.css";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { AppContextProvider } from "@/components/navigation-menu/AppContext";
 
 Amplify.configure(config);
 
@@ -17,7 +18,9 @@ function App({ Component, pageProps }: AppProps) {
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         ></meta>
       </Head>
-      <Component {...pageProps} />;
+      <AppContextProvider>
+        <Component {...pageProps} />;
+      </AppContextProvider>
     </>
   );
 }
