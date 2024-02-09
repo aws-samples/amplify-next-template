@@ -7,12 +7,12 @@ import NavItem from './components/NavItem';
 
 interface Props {
   pages: {
-    landings: Array<PageItem>;
-    company: Array<PageItem>;
+    home: Array<PageItem>;
+    copilots: Array<PageItem>;
     account: Array<PageItem>;
-    secondary: Array<PageItem>;
+    knowledge: Array<PageItem>;
     blog: Array<PageItem>;
-    portfolio: Array<PageItem>;
+    prompts: Array<PageItem>;
   };
 }
 
@@ -21,11 +21,11 @@ const SidebarNav = ({ pages }: Props): JSX.Element => {
   const { mode } = theme.palette;
 
   const {
-    landings: landingPages,
-    secondary: secondaryPages,
-    company: companyPages,
+    home: homePages,
+    copilots: copilotsPages,
+    knowledge: knowledgePages,
     account: accountPages,
-    portfolio: portfolioPages,
+    prompts: promptsPages,
     blog: blogPages,
   } = pages;
 
@@ -43,8 +43,8 @@ const SidebarNav = ({ pages }: Props): JSX.Element => {
             component={'img'}
             src={
               mode === 'light'
-                ? 'https://assets.maccarianagency.com/the-front/logos/logo.svg'
-                : 'https://assets.maccarianagency.com/the-front/logos/logo-negative.svg'
+                ? '/cleverbridge-primary-logo-2-medium.png'
+                : '/cleverbridge-primary-logo-reverse-2-medium.png'
             }
             height={1}
             width={1}
@@ -53,30 +53,31 @@ const SidebarNav = ({ pages }: Props): JSX.Element => {
       </Box>
       <Box paddingX={2} paddingY={2}>
         <Box>
-          <NavItem title={'Landings'} items={landingPages} />
+          <NavItem title={'Home'} items={homePages} />
         </Box>
         <Box>
-          <NavItem title={'Company'} items={companyPages} />
+          <NavItem title={'Copilots'} items={copilotsPages} />
         </Box>
         <Box>
-          <NavItem title={'Pages'} items={secondaryPages} />
+          <NavItem title={'Knowledgebase'} items={knowledgePages} />
         </Box>
         <Box>
-          <NavItem title={'Account'} items={accountPages} />
+          <NavItem title={'Prompts'} items={promptsPages} />
         </Box>
         <Box>
           <NavItem title={'Blog'} items={blogPages} />
         </Box>
         <Box>
-          <NavItem title={'Portfolio'} items={portfolioPages} />
+          <NavItem title={'Account'} items={accountPages} />
         </Box>
+
         <Box marginTop={2}>
           <Button
             size={'large'}
             variant="outlined"
             fullWidth
             component="a"
-            href="https://thefront.maccarianagency.com/docs/introduction"
+            href="https://www.cleverbridge.com"
             target={'blank'}
           >
             Documentation
@@ -90,9 +91,9 @@ const SidebarNav = ({ pages }: Props): JSX.Element => {
             fullWidth
             component="a"
             target="blank"
-            href="https://mui.com/store/items/the-front-landing-page/"
+            href="https://www.cleverbridge.com"
           >
-            Purchase now
+            Login
           </Button>
         </Box>
       </Box>

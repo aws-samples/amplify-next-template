@@ -9,12 +9,12 @@ interface Props {
   open: boolean;
   variant: 'permanent' | 'persistent' | 'temporary' | undefined;
   pages: {
-    landings: Array<PageItem>;
-    company: Array<PageItem>;
+    home: Array<PageItem>;
+    copilots: Array<PageItem>;
     account: Array<PageItem>;
-    secondary: Array<PageItem>;
+    knowledge: Array<PageItem>;
     blog: Array<PageItem>;
-    portfolio: Array<PageItem>;
+    prompts: Array<PageItem>;
   };
 }
 
