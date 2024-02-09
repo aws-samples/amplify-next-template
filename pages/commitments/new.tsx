@@ -1,26 +1,45 @@
 import Layout from "@/components/layouts/Layout";
 import { useState } from "react";
-import { createActivities } from "@/components/imports/activities";
+import { createDayPlans } from "@/components/imports/dayplans";
 
 export default function NewCommitmentPage() {
   const [title, setTitle] = useState("New Commitment");
-  const [importData, setImportData] = useState("[]");
+  const [importDayPlans, setImportDayPlans] = useState("[]");
+  const [importNonProjectTasks, setImportNonProjectTasks] = useState("[]");
+  const [importProjectTasks, setImportProjectTasks] = useState("[]");
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
   };
 
   const handleImportClick = () => {
-    createActivities(importData);
+    createDayPlans(importDayPlans, importNonProjectTasks, importProjectTasks);
   };
 
   return (
     <Layout title={title} drawBackBtn onTitleChange={handleTitleChange}>
+      <div>
+        <strong>Day Plans</strong>
+      </div>
       <textarea
-        value={importData}
-        onChange={(event) => setImportData(event.target.value)}
+        value={importDayPlans}
+        onChange={(event) => setImportDayPlans(event.target.value)}
       />
-      <button onClick={handleImportClick}>Import Activity Data</button>
+      <div>
+        <strong>Non Project Tasks</strong>
+      </div>
+      <textarea
+        value={importNonProjectTasks}
+        onChange={(event) => setImportNonProjectTasks(event.target.value)}
+      />
+      <div>
+        <strong>Project Tasks</strong>
+      </div>
+      <textarea
+        value={importProjectTasks}
+        onChange={(event) => setImportProjectTasks(event.target.value)}
+      />
+      <button onClick={handleImportClick}>Import Day Plan Data</button>
     </Layout>
   );
 }

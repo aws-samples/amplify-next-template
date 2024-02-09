@@ -10,6 +10,37 @@ authenticated via an API key, can only "read" records.
 
 const schema = a.schema({
   Context: a.enum(["family", "hobby", "work"]),
+  DayPlan: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
+      day: a.date(),
+      dayGoal: a.string(),
+      done: a.boolean(),
+      tasks: a.hasMany("NonProjectTask"),
+      projectTasks: a.hasMany("DayProjectTask"),
+    })
+    .authorization([a.allow.owner()]),
+  DayProjectTask: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      task: a.string(),
+      done: a.boolean(),
+      timeInvested: a.integer(),
+      dayPlan: a.belongsTo("DayPlan"),
+      projects: a.belongsTo("Projects"),
+    })
+    .authorization([a.allow.owner()]),
+  NonProjectTask: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      notionId: a.integer().required(),
+      dayPlan: a.belongsTo("DayPlan"),
+      task: a.string(),
+      context: a.ref("Context"),
+      done: a.boolean(),
+    })
+    .authorization([a.allow.owner()]),
   Activity: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
@@ -119,6 +150,7 @@ const schema = a.schema({
       }),
       createdAtMeeting: a.belongsTo("Meeting"),
       activities: a.manyToMany("Activity", { relationName: "ProjectActivity" }),
+      dayTasks: a.hasMany("DayProjectTask"),
     })
     .authorization([a.allow.owner()]),
 });
