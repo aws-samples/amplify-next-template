@@ -20,7 +20,7 @@ export type Tasks = {
 };
 
 export default function TodayPage() {
-  const [todos, setTodos] = useState<Schema["DayProjectTask"][]>([])
+  const [todos, setTodos] = useState<Schema["DayPlan"][]>([])
   const [errorMsg, setErrorMsg] = useState("")
   const { context } = useAppContext();
   const router = useRouter();
