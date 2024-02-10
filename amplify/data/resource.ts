@@ -13,7 +13,7 @@ const schema = a.schema({
   DayPlan: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       day: a.date(),
       dayGoal: a.string(),
       done: a.boolean(),
@@ -34,7 +34,7 @@ const schema = a.schema({
   NonProjectTask: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       dayPlan: a.belongsTo("DayPlan"),
       task: a.string(),
       context: a.ref("Context"),
@@ -44,7 +44,7 @@ const schema = a.schema({
   Activity: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       notes: a.string(),
       forProjects: a.manyToMany("Projects", {
         relationName: "ProjectActivity",
@@ -56,7 +56,7 @@ const schema = a.schema({
   Meeting: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       topic: a.string(),
       meetingOn: a.datetime(),
       participants: a.manyToMany("Person", {
@@ -73,7 +73,7 @@ const schema = a.schema({
   Person: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       name: a.string(),
       howToSay: a.string(),
       birthday: a.date(),
@@ -85,7 +85,7 @@ const schema = a.schema({
   Account: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       name: a.string().required(),
       introduction: a.string(),
       subsidiaries: a.hasMany("Account"),
@@ -104,7 +104,7 @@ const schema = a.schema({
   SixWeekBatch: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       idea: a.string(),
       status: a.enum([
         "idea",
@@ -131,7 +131,7 @@ const schema = a.schema({
   Projects: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       project: a.string(),
       done: a.boolean(),
       doneOn: a.date(),
