@@ -20,22 +20,28 @@ export type Tasks = {
 };
 
 export default function TodayPage() {
-  // const [tasks, setTasks] = useState<Schema["DayProjectTask"][]>([])
+  const [todos, setTodos] = useState<Schema["DayProjectTask"][]>([])
+  const [errorMsg, setErrorMsg] = useState("")
   const { context } = useAppContext();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const sub = client.models.DayProjectTask.observeQuery({filter: {pr}})
-  // }, [])
+  useEffect(() => {
+    const sub = client.models.DayPlan.observeQuery({filter: {done: {eq: false}}})
+      .subscribe({ next: ({ items, isSynced }) => {
+        setTodos([...items])
+      }})
+    return () => sub.unsubscribe()
+  }, [])
 
   return (
     <Layout
-      title="Today's Tasks"
+      title="Today's Tasks v1"
       addButton={{
         label: "New",
         onClick: () => router.push("/tasks/new"),
       }}
     >
+      <div>{JSON.stringify(todos)}</div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
           id: `${id}`,
