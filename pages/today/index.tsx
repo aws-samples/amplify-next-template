@@ -21,17 +21,17 @@ export type Tasks = {
 
 export default function TodayPage() {
   const [todos, setTodos] = useState<Schema["DayPlan"][]>([])
-  const [errorMsg, setErrorMsg] = useState("")
+  //const [errorMsg, setErrorMsg] = useState("")
   const { context } = useAppContext();
   const router = useRouter();
 
-  useEffect(() => {
-    const sub = client.models.DayPlan.observeQuery({filter: {done: {eq: false}}})
-      .subscribe({ next: ({ items, isSynced }) => {
-        setTodos([...items])
-      }})
-    return () => sub.unsubscribe()
-  }, [])
+  //useEffect(() => {
+  //  const sub = client.models.DayPlan.observeQuery({filter: {done: {eq: false}}})
+  //    .subscribe({ next: ({ items, isSynced }) => {
+  //      setTodos([...items])
+  //    }})
+  //  return () => sub.unsubscribe()
+  //}, [])
 
   return (
     <Layout
