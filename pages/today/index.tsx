@@ -27,7 +27,7 @@ export default function TodayPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const sub = client.models.DayPlan.observeQuery()
+    const sub = client.models.DayPlan.observeQuery({filter:{done:{not:{eq: true}}}})
       .subscribe({
         next: ({ items, isSynced }) => {
           setTodos([...items])
@@ -44,7 +44,7 @@ export default function TodayPage() {
         onClick: () => router.push("/tasks/new"),
       }}
     >
-      <div>{JSON.stringify(todos)}</div>
+      <div>{JSON.stringify(todos.map(({day, dayGoal, done}) => ({day, dayGoal, done})))}</div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
           id: `${id}`,
