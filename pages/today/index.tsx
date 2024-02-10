@@ -6,10 +6,11 @@ import { tasks } from "../../components/demo-data/today";
 import { useRouter } from "next/router";
 import { useAppContext } from "@/components/navigation-menu/AppContext";
 import { useEffect, useState } from "react";
-import { Schema } from "@/amplify/data/resource";
+import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 
 const client = generateClient<Schema>();
+type DayPlan = Schema["DayPlan"];
 
 export type Tasks = {
   id: number;
@@ -20,18 +21,20 @@ export type Tasks = {
 };
 
 export default function TodayPage() {
-  const [todos, setTodos] = useState<Schema["DayPlan"][]>([])
+  const [todos, setTodos] = useState<DayPlan[]>([])
   //const [errorMsg, setErrorMsg] = useState("")
   const { context } = useAppContext();
   const router = useRouter();
 
-  //useEffect(() => {
-  //  const sub = client.models.DayPlan.observeQuery({filter: {done: {eq: false}}})
-  //    .subscribe({ next: ({ items, isSynced }) => {
-  //      setTodos([...items])
-  //    }})
-  //  return () => sub.unsubscribe()
-  //}, [])
+  useEffect(() => {
+    const sub = client.models.DayPlan.observeQuery()
+      .subscribe({
+        next: ({ items, isSynced }) => {
+          setTodos([...items])
+        }
+      })
+    return () => sub.unsubscribe()
+  }, [])
 
   return (
     <Layout
