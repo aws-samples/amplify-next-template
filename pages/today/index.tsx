@@ -5,6 +5,11 @@ import styles from "./Today.module.css";
 import { tasks } from "../../components/demo-data/today";
 import { useRouter } from "next/router";
 import { useAppContext } from "@/components/navigation-menu/AppContext";
+import { useEffect, useState } from "react";
+import { Schema } from "@/amplify/data/resource";
+import { generateClient } from "aws-amplify/data";
+
+const client = generateClient<Schema>();
 
 export type Tasks = {
   id: number;
@@ -15,8 +20,14 @@ export type Tasks = {
 };
 
 export default function TodayPage() {
+  // const [tasks, setTasks] = useState<Schema["DayProjectTask"][]>([])
   const { context } = useAppContext();
   const router = useRouter();
+
+  // useEffect(() => {
+  //   const sub = client.models.DayProjectTask.observeQuery({filter: {pr}})
+  // }, [])
+
   return (
     <Layout
       title="Today's Tasks"
