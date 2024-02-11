@@ -30,14 +30,9 @@ export default function TodayPage() {
   useEffect(() => {
     const sub = client.models.DayPlan.observeQuery({
       filter: {
-        and: [
-          {day: {
-            ge: "2024-02-01"
-          }},
-          {done: {
-            eq: true
-          }}
-        ]
+        day: {
+          ge: "2024-02-01"
+        }
       }
     })
       .subscribe({
@@ -57,7 +52,7 @@ export default function TodayPage() {
       }}
     >
 filter done = true 
-      <div>{JSON.stringify(todos.map(({day, done}) => day))}</div>
+      <div>{todos.map(({day, done}) => day).join(",")}</div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
           id: `${id}`,
