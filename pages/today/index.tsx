@@ -51,12 +51,7 @@ export default function TodayPage() {
         onClick: () => router.push("/tasks/new"),
       }}
     >
-<div>
-  {flow(
-    map(get("day")),
-    JSON.stringify
-  )(todos)}
-</div>
+WIP again
       <div>{JSON.stringify(todos.map(({day, done}) => ({day, done})))}</div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
