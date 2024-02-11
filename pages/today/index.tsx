@@ -22,7 +22,7 @@ export type Tasks = {
 };
 
 export default function TodayPage() {
-  const [todos, setTodos] = useState<DayPlan[]>([])
+  const [todos, setTodos] = useState<DayPlan[]>([]);
   //const [errorMsg, setErrorMsg] = useState("")
   const { context } = useAppContext();
   const router = useRouter();
@@ -30,29 +30,29 @@ export default function TodayPage() {
   useEffect(() => {
     const sub = client.models.DayPlan.observeQuery({
       filter: {
-        day: {
-          ge: "2024-02-01"
-        }
-      }
-    })
-      .subscribe({
-        next: ({ items, isSynced }) => {
-          setTodos([...items])
-        }
-      })
-    return () => sub.unsubscribe()
-  }, [])
+        not: { done: { eq: "true " } },
+      },
+    }).subscribe({
+      next: ({ items, isSynced }) => {
+        setTodos([...items]);
+      },
+    });
+    return () => sub.unsubscribe();
+  }, []);
 
   return (
     <Layout
-      title="Today's Tasks v9"
+      title="Today's Tasks"
       addButton={{
         label: "New",
         onClick: () => router.push("/tasks/new"),
       }}
     >
-show a div
-      <div>{todos.map(({day, done}, idx) => <div key={idx}>{day}</div>)}</div>
+      <div>
+        {todos.map(({ day, done }, idx) => (
+          <div key={idx}>{day}</div>
+        ))}
+      </div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
           id: `${id}`,
