@@ -45,14 +45,17 @@ export default function TodayPage() {
 
   return (
     <Layout
-      title="Today's Tasks v5"
+      title="Today's Tasks v6"
       addButton={{
         label: "New",
         onClick: () => router.push("/tasks/new"),
       }}
     >
 <div>
-  WIP
+  flow(
+    map(get("day")),
+    JSON.stringify
+  )(todos)
 </div>
       <div>{JSON.stringify(todos.map(({day, done}) => ({day, done})))}</div>
       <ListView
