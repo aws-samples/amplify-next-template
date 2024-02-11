@@ -8,6 +8,7 @@ import { useAppContext } from "@/components/navigation-menu/AppContext";
 import { useEffect, useState } from "react";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import { flow, get, map } from "lodash/fp";
 
 const client = generateClient<Schema>();
 type DayPlan = Schema["DayPlan"];
@@ -50,11 +51,9 @@ export default function TodayPage() {
         onClick: () => router.push("/tasks/new"),
       }}
     >
-{todos.map((todo) => (
-<div key={todo.id}>
-  {todo.day} - {todo.dayGoal} - {today.done ? "Done" : "Open"}
+<div>
+  WIP
 </div>
-))}
       <div>{JSON.stringify(todos.map(({day, done}) => ({day, done})))}</div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
