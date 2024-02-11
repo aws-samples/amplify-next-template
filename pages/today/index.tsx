@@ -45,14 +45,14 @@ export default function TodayPage() {
 
   return (
     <Layout
-      title="Today's Tasks v8"
+      title="Today's Tasks v9"
       addButton={{
         label: "New",
         onClick: () => router.push("/tasks/new"),
       }}
     >
-filter done = true 
-      <div>{todos.map(({day, done}) => day).join(",")}</div>
+show a div
+      <div>{todos.map(({day, done}, idx) => <div key={idx}>{day}</div>)}</div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
           id: `${id}`,
