@@ -32,6 +32,9 @@ export default function TodayPage() {
       filter: {
         day: {
           ge: "2024-02-01"
+        },
+        done: {
+          eq: true
         }
       }
     })
@@ -45,13 +48,13 @@ export default function TodayPage() {
 
   return (
     <Layout
-      title="Today's Tasks v7"
+      title="Today's Tasks v8"
       addButton={{
         label: "New",
         onClick: () => router.push("/tasks/new"),
       }}
     >
-testing reducing to string 
+filter done = true 
       <div>{JSON.stringify(todos.map(({day, done}) => day))}</div>
       <ListView
         listItems={tasks.map(({ id, title, project, due, done }) => ({
