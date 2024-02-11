@@ -30,11 +30,13 @@ export default function TodayPage() {
   useEffect(() => {
     const sub = client.models.DayPlan.observeQuery({
       filter: {
-        day: {
-          ge: "2024-02-01"
-        },
-        done: {
-          eq: true
+        and: {
+          day: {
+            ge: "2024-02-01"
+          },
+          done: {
+            eq: true
+          }
         }
       }
     })
