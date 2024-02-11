@@ -52,10 +52,10 @@ export default function TodayPage() {
       }}
     >
 <div>
-  flow(
+  {flow(
     map(get("day")),
     JSON.stringify
-  )(todos)
+  )(todos)}
 </div>
       <div>{JSON.stringify(todos.map(({day, done}) => ({day, done})))}</div>
       <ListView
