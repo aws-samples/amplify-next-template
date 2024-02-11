@@ -30,7 +30,7 @@ export default function TodayPage() {
   useEffect(() => {
     const sub = client.models.DayPlan.observeQuery({
       filter: {
-        not: { done: { eq: "true " } },
+        not: { done: { eq: "true" } },
       },
     }).subscribe({
       next: ({ items, isSynced }) => {
