@@ -27,7 +27,13 @@ export default function TodayPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const sub = client.models.DayPlan.observeQuery()
+    const sub = client.models.DayPlan.observeQuery({
+      filter: {
+        day: {
+          ge: "2024-02-01"
+        }
+      }
+    })
       .subscribe({
         next: ({ items, isSynced }) => {
           setTodos([...items])
@@ -38,7 +44,7 @@ export default function TodayPage() {
 
   return (
     <Layout
-      title="Today's Tasks v3"
+      title="Today's Tasks v4"
       addButton={{
         label: "New",
         onClick: () => router.push("/tasks/new"),
