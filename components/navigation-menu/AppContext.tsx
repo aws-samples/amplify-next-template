@@ -14,7 +14,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppContextProvider: FC<AppContextProviderProps> = ({
   children,
 }) => {
-  const [context, setContext] = useState<Context>("family");
+  const [context, setContext] = useState<Context>("work");
 
   return (
     <AppContext.Provider value={{ context, setContext }}>

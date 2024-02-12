@@ -1,75 +1,105 @@
 import Layout from "@/components/layouts/Layout";
-import ListView from "@/components/lists/ListView";
-import { IoSquareOutline, IoCheckboxSharp } from "react-icons/io5";
 import styles from "./Today.module.css";
-import { tasks } from "../../components/demo-data/today";
-import { useRouter } from "next/router";
-import { useAppContext } from "@/components/navigation-menu/AppContext";
 import { useEffect, useState } from "react";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import DayPlanForm from "@/components/forms/dayplan";
+import { Nullable } from "@/helpers/types";
+import Tasks from "@/components/dayplan/tasks";
+import { sortByDate } from "@/helpers/functional";
 import { flow, get, map } from "lodash/fp";
 
 const client = generateClient<Schema>();
-type DayPlan = Schema["DayPlan"];
 
-export type Tasks = {
-  id: number;
-  title: string;
-  project: string;
-  due: Date;
-  done: boolean;
+type DayPlanTasks = {
+  id: string;
+  day: string;
+  dayGoal: string;
+  done?: Nullable<boolean>;
+  // tasks: NonProjectTask[];
+  // projectTasks: ProjectTask[];
 };
 
 export default function TodayPage() {
-  const [todos, setTodos] = useState<DayPlan[]>([]);
-  //const [errorMsg, setErrorMsg] = useState("")
-  const { context } = useAppContext();
-  const router = useRouter();
+  const [dayplans, setDayplans] = useState<DayPlanTasks[]>([]);
+  const [showCreateDayPlan, setShowCreateDayPlan] = useState(false);
+  const [errorsDayPlanCreation, setErrorDayPlanCreation] = useState<string[]>(
+    []
+  );
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    const sub = client.models.DayPlan.observeQuery({
+    const query = {
       filter: {
-        not: { done: { eq: "true" } },
+        done: { ne: "true" },
       },
-    }).subscribe({
+      selectionSet: [
+        "id",
+        "day",
+        "dayGoal",
+        "done",
+        // "tasks.task",
+        // "tasks.context",
+      ],
+    };
+    const subscription = client.models.DayPlan.observeQuery(query).subscribe({
       next: ({ items, isSynced }) => {
-        setTodos([...items]);
+        setDayplans([...items]);
       },
     });
-    return () => sub.unsubscribe();
+    return () => subscription.unsubscribe();
   }, []);
+
+  const createDayPlan = async (goal: string, date: string) => {
+    const { data, errors } = await client.models.DayPlan.create({
+      day: date,
+      dayGoal: goal,
+    });
+    if (errors) {
+      setErrorDayPlanCreation(
+        errors.map(({ errorType, message }) => `${errorType}: ${message}`)
+      );
+      return;
+    }
+    setErrorDayPlanCreation([]);
+    setSuccessMessage("Day plan successfully created");
+    setShowCreateDayPlan(false);
+  };
 
   return (
     <Layout
       title="Today's Tasks"
       addButton={{
         label: "New",
-        onClick: () => router.push("/tasks/new"),
+        onClick: () => setShowCreateDayPlan(true),
       }}
     >
-      <div>
-        {todos.map(({ day, dayGoal }, idx) => (
-          <div key={idx}>
-<h2>{dayGoal}</h2>
-<h5>{(new Date(day)).toLocalDateString()}</h5>
-</div>
+      {successMessage && <div>{successMessage}</div>}
+
+      {showCreateDayPlan && (
+        <div>
+          <DayPlanForm onSubmit={createDayPlan} />
+          {errorsDayPlanCreation &&
+            errorsDayPlanCreation.map((msg, idx) => <div key={idx}>{msg}</div>)}
+        </div>
+      )}
+
+      {dayplans
+        .sort((a, b) => flow(map(get("day")), sortByDate(true))([a, b]))
+        .map(({ id, day, dayGoal }) => (
+          <div key={id}>
+            <h2>
+              {dayGoal} - {new Date(day).toLocaleDateString()}
+            </h2>
+            <Tasks day={day} dayPlanId={id} />
+
+            {/* <div>Other tasks: {JSON.stringify(tasks)}</div> */}
+
+            <div>
+              <button>Complete Day Plan</button>
+            </div>
+          </div>
         ))}
-      </div>
-      <ListView
-        listItems={tasks.map(({ id, title, project, due, done }) => ({
-          id: `${id}`,
-          title,
-          description: `${project}; Due: ${due.toLocaleDateString()}`,
-          detailOnClick: () => router.push(`/tasks/${id}`),
-          iconOnClick: () => alert(done ? "open again" : "is done now"),
-          Icon: done ? (
-            <IoCheckboxSharp className={styles.isDone} />
-          ) : (
-            <IoSquareOutline className={styles.isOpen} />
-          ),
-        }))}
-      />
     </Layout>
   );
 }

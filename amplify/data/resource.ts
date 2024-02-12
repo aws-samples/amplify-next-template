@@ -13,9 +13,9 @@ const schema = a.schema({
   DayPlan: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
-      day: a.date(),
-      dayGoal: a.string(),
+      notionId: a.integer(),
+      day: a.date().required(),
+      dayGoal: a.string().required(),
       done: a.boolean(),
       tasks: a.hasMany("NonProjectTask"),
       projectTasks: a.hasMany("DayProjectTask"),
@@ -24,7 +24,7 @@ const schema = a.schema({
   DayProjectTask: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      task: a.string(),
+      task: a.string().required(),
       done: a.boolean(),
       timeInvested: a.integer(),
       dayPlan: a.belongsTo("DayPlan"),
@@ -34,17 +34,17 @@ const schema = a.schema({
   NonProjectTask: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       dayPlan: a.belongsTo("DayPlan"),
-      task: a.string(),
-      context: a.ref("Context"),
+      task: a.string().required(),
+      context: a.ref("Context").required(),
       done: a.boolean(),
     })
     .authorization([a.allow.owner()]),
   Activity: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       notes: a.string(),
       forProjects: a.manyToMany("Projects", {
         relationName: "ProjectActivity",
@@ -56,7 +56,7 @@ const schema = a.schema({
   Meeting: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       topic: a.string(),
       meetingOn: a.datetime(),
       participants: a.manyToMany("Person", {
@@ -73,7 +73,7 @@ const schema = a.schema({
   Person: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       name: a.string(),
       howToSay: a.string(),
       birthday: a.date(),
@@ -85,7 +85,7 @@ const schema = a.schema({
   Account: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
+      notionId: a.integer(),
       name: a.string().required(),
       introduction: a.string(),
       subsidiaries: a.hasMany("Account"),
@@ -104,8 +104,8 @@ const schema = a.schema({
   SixWeekBatch: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
-      idea: a.string(),
+      notionId: a.integer(),
+      idea: a.string().required(),
       status: a.enum([
         "idea",
         "appetite",
@@ -131,8 +131,8 @@ const schema = a.schema({
   Projects: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer().required(),
-      project: a.string(),
+      notionId: a.integer(),
+      project: a.string().required(),
       done: a.boolean(),
       doneOn: a.date(),
       dueOn: a.date(),
@@ -140,7 +140,7 @@ const schema = a.schema({
       createdOnDay: a.date(),
       myNextActions: a.string(),
       othersNextActions: a.string(),
-      context: a.ref("Context"),
+      context: a.ref("Context").required(),
       accounts: a.manyToMany("Account", { relationName: "AccountProjects" }),
       batches: a.manyToMany("SixWeekBatch", {
         relationName: "SixWeekBatchProjects",

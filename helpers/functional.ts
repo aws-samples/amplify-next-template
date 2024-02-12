@@ -1,4 +1,8 @@
+import { flow } from "lodash/fp";
+import { SixWeekBatch } from "./types";
+
 export const getCurrentDate = () => new Date();
+export const makeDate = (str: string) => new Date(str);
 export const addDaysToDate = (days: number) => (date: Date) =>
   new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
 export const toLocaleDateString = (date: Date) => date.toLocaleDateString();
@@ -19,3 +23,30 @@ export const logger =
     }
     console.log(new Date().toTimeString(), ...args);
   };
+export const isToday = (date: string | Date): boolean =>
+  new Date().toISOString().substring(0, 10) ===
+  (typeof date === "string" ? new Date(date) : date)
+    .toISOString()
+    .substring(0, 10);
+export const isTodayOrFuture = (date: string | Date): boolean => {
+  const inputDate = typeof date === "string" ? new Date(date) : date;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return inputDate.getTime() >= today.getTime();
+};
+export const isBeforeToday = (date: string | Date): boolean =>
+  !isTodayOrFuture(date);
+export const sortByDate =
+  (desc?: boolean) =>
+  (dates: string[]): number => {
+    const aDate = new Date(dates[0]).getTime();
+    const bDate = new Date(dates[1]).getTime();
+
+    return (aDate - bDate) * (!desc ? 1 : -1);
+  };
+export const validBatches = ({
+  sixWeekBatch: {
+    sixWeekCycle: { startDate },
+  },
+}: SixWeekBatch) =>
+  flow(makeDate, addDaysToDate(8 * 7), isTodayOrFuture)(startDate);
