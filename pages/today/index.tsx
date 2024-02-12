@@ -49,8 +49,11 @@ export default function TodayPage() {
       }}
     >
       <div>
-        {todos.map(({ day, done }, idx) => (
-          <div key={idx}>{day}</div>
+        {todos.map(({ day, dayGoal }, idx) => (
+          <div key={idx}>
+<h2>{dayGoal}</h2>
+<h5>{(new Date(day)).toLocalDateString()}</h5>
+</div>
         ))}
       </div>
       <ListView
