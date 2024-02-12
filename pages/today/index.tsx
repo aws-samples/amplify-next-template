@@ -4,21 +4,12 @@ import { useEffect, useState } from "react";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import DayPlanForm from "@/components/forms/dayplan";
-import { Nullable } from "@/helpers/types";
+import { DayPlanTasks, SubNextFunctionParam } from "@/helpers/types";
 import Tasks from "@/components/dayplan/tasks";
 import { sortByDate } from "@/helpers/functional";
 import { flow, get, map } from "lodash/fp";
 
 const client = generateClient<Schema>();
-
-type DayPlanTasks = {
-  id: string;
-  day: string;
-  dayGoal: string;
-  done?: Nullable<boolean>;
-  // tasks: NonProjectTask[];
-  // projectTasks: ProjectTask[];
-};
 
 export default function TodayPage() {
   const [dayplans, setDayplans] = useState<DayPlanTasks[]>([]);
@@ -42,8 +33,9 @@ export default function TodayPage() {
         // "tasks.context",
       ],
     };
+    // @ts-expect-error
     const subscription = client.models.DayPlan.observeQuery(query).subscribe({
-      next: ({ items, isSynced }) => {
+      next: ({ items, isSynced }: SubNextFunctionParam<DayPlanTasks>) => {
         setDayplans([...items]);
       },
     });
@@ -95,8 +87,10 @@ export default function TodayPage() {
 
             {/* <div>Other tasks: {JSON.stringify(tasks)}</div> */}
 
-            <div>
-              <button>Complete Day Plan</button>
+            <div className={styles.fullWidth}>
+              <button className={`${styles.fullWidth} ${styles.mainBtn}`}>
+                Complete Day Plan
+              </button>
             </div>
           </div>
         ))}

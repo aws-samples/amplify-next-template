@@ -20,3 +20,15 @@ export type Project = {
   batches: SixWeekBatch[];
   accounts: { account: MappedAccount }[];
 };
+export type DayPlanTasks = {
+  id: string;
+  day: string;
+  dayGoal: string;
+  done?: Nullable<boolean>;
+  // tasks: NonProjectTask[];
+  // projectTasks: ProjectTask[];
+};
+export type SubNextFunctionParam<T> = {
+  items: T[];
+  isSynced: boolean;
+};

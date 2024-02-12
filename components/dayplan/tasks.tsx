@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { IoCheckboxSharp, IoSquareOutline } from "react-icons/io5";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { Nullable, Project } from "@/helpers/types";
+import { Nullable, Project, SubNextFunctionParam } from "@/helpers/types";
 import { useAppContext } from "../navigation-menu/AppContext";
 import TaskForm from "../forms/task";
 import ListView from "../lists/ListView";
@@ -164,12 +164,12 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
         "projects.batches.sixWeekBatch.sixWeekCycle.startDate",
       ],
     };
+    // @ts-expect-error
     const subProjectTasks = client.models.DayProjectTask.observeQuery(
+      // @ts-expect-error
       projectTasksQuery
     ).subscribe({
-      next: ({ items, isSynced }) => {
-        console.log("New sync triggered...");
-        // console.log(items);
+      next: ({ items, isSynced }: SubNextFunctionParam<ProjectTask>) => {
         setProjectTasks([...items]);
       },
     });

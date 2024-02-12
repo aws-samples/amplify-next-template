@@ -3,7 +3,7 @@ import { useAppContext } from "../navigation-menu/AppContext";
 import Select from "react-select";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { Project } from "@/helpers/types";
+import { Project, SubNextFunctionParam } from "@/helpers/types";
 import { filter, flow, get, join, map, uniqBy } from "lodash/fp";
 import { validBatches } from "@/helpers/functional";
 
@@ -20,7 +20,7 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
   const [task, setTask] = useState("");
 
   useEffect(() => {
-    const sub = client.models.Projects.observeQuery({
+    const query = {
       filter: {
         context: { eq: context },
         done: { ne: "true" },
@@ -35,8 +35,10 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
         "batches.sixWeekBatch.sixWeekCycle.name",
         "batches.sixWeekBatch.sixWeekCycle.startDate",
       ],
-    }).subscribe({
-      next: ({ items, isSynced }) => {
+    };
+    // @ts-expect-error
+    const sub = client.models.Projects.observeQuery(query).subscribe({
+      next: ({ items, isSynced }: SubNextFunctionParam<Project>) => {
         setProjects([...items]);
       },
     });
@@ -113,7 +115,7 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
               <div key={idx}>
                 <h4>Batch: {batch}</h4>
                 <ul>
-                  {projects.map((project: Project, idx) => (
+                  {projects.map((project: string, idx) => (
                     <li key={idx}>{project}</li>
                   ))}
                 </ul>

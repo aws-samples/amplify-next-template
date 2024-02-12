@@ -5,3 +5,16 @@
 .isOpen {
   color: var(--color-btn);
 }
+
+.fullWidth {
+  width: 100%;
+}
+
+.mainBtn {
+  background-color: var(--color-btn);
+  margin-top: 1rem;
+  font-size: var(--font-size-large);
+  border: none;
+  border-radius: 3rem;
+  cursor: pointer;
+}
