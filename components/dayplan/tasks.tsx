@@ -72,7 +72,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       }
       const { data, errors } = await client.models.DayProjectTask.update({
         id,
-        done: !done ? true : false,
+        done: `${!done}`,
       });
 
       return;
@@ -115,9 +115,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   };
 
   const createProjectTask = async (task: string, project: Project) => {
-    const id = crypto.randomUUID();
     const { data, errors } = await client.models.DayProjectTask.create({
-      id,
       task,
       dayPlanProjectTasksId: dayPlanId,
       projectsDayTasksId: project.id,
@@ -128,7 +126,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       setProjectTasks([
         ...projectTasks,
         {
-          id,
+          id: crypto.randomUUID(),
           task,
           projects: project,
           createdAt: new Date().toISOString(),
