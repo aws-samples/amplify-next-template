@@ -59,6 +59,7 @@ export default function TodayPage() {
   };
 
   const completeDayPlan = async (dayplanId: string) => {
+    // @ts-expect-error
     const { data, errors } = await client.models.DayPlan.update({
       id: dayplanId,
       done: true,

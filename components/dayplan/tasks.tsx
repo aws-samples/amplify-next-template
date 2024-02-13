@@ -66,6 +66,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       if (!projects) {
         return;
       }
+      // @ts-expect-error
       const { data, errors } = await client.models.DayProjectTask.update({
         id,
         done: !done,
