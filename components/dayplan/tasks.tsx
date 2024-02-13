@@ -122,9 +122,10 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       filter: { dayPlanProjectTasksId: { eq: dayPlanId } },
       selectionSet: projectTasksSelectionSet,
     };
+
     // @ts-expect-error
     const subProjectTasks = client.models.DayProjectTask.observeQuery(
-      // @ts-expect-error
+      // @ts-ignore
       projectTasksQuery
     ).subscribe({
       next: ({ items, isSynced }: SubNextFunctionParam<ProjectTask>) => {
