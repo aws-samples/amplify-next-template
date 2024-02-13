@@ -1,5 +1,5 @@
-import { flow } from "lodash/fp";
-import { Project, SixWeekBatch } from "./types";
+import { filter, flow, map, get, join } from "lodash/fp";
+import { Project, ProjectActivity, SixWeekBatch } from "./types";
 
 export const getCurrentDate = () => new Date();
 export const makeDate = (str: string) => new Date(str);
@@ -50,11 +50,40 @@ export const validBatches = ({
   },
 }: SixWeekBatch) =>
   flow(makeDate, addDaysToDate(8 * 7), isTodayOrFuture)(startDate);
-export const makeProjectName = (project: Project) => {
-  if (project.accounts.length === 0) return project.project;
-  const accounts = project.accounts
+const makeAccountNames = (project: Project) => {
+  if (project.accounts.length === 0) return "";
+  return `${project.accounts
     .map(({ account: { name } }) => name)
-    .join(", ");
-  if (project.project.includes("OLX")) console.log(project.accounts);
-  return `${accounts}: ${project.project}`;
+    .join(", ")}: `;
+};
+const makeBatchesNames = (project: Project) => {
+  const batch = flow(
+    filter(validBatches),
+    map(get("sixWeekBatch.idea")),
+    join(", ")
+  )(project.batches);
+  if (!batch) return "";
+  return `, Batch: ${batch}`;
+};
+export const makeProjectName = (project: Project) => {
+  return `${makeAccountNames(project)}${project.project}${makeBatchesNames(
+    project
+  )}`;
+};
+const getActivityDate = (activity: ProjectActivity) =>
+  get("activity.finishedOn")(activity) || get("activity.createdAt")(activity);
+export const sortActivities = (activities: ProjectActivity[]) =>
+  activities.sort((a, b) =>
+    flow(map(getActivityDate), sortByDate(true))([a, b])
+  );
+export type ApiErrorType = { errorType: string; message: string };
+export const handleApiErrors = (errors: ApiErrorType[], message?: string) => {
+  let errorText = flow(
+    map(({ errorType, message }: ApiErrorType) => `${errorType}: ${message}`),
+    join("; ")
+  )(errors);
+  if (message) {
+    errorText = `${message}: ${errorText}`;
+  }
+  alert(errorText);
 };

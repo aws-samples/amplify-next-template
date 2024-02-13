@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
+import DateSelector from "../ui-elements/date-selector";
 
 type DayPlanFormProps = {
   onSubmit: (goal: string, date: string) => void;
@@ -7,14 +7,10 @@ type DayPlanFormProps = {
 
 const DayPlanForm: FC<DayPlanFormProps> = ({ onSubmit: onConfirm }) => {
   const [goal, setGoal] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
+  const [date, setDate] = useState(
+    new Date(new Date().toISOString().split("T")[0])
+  );
 
-  const addDays = (add: number) => {
-    const d = new Date(date);
-    d.setDate(d.getDate() + add);
-    const newDate = d.toISOString().split("T")[0];
-    setDate(newDate);
-  };
   return (
     <div>
       <div>
@@ -24,13 +20,13 @@ const DayPlanForm: FC<DayPlanFormProps> = ({ onSubmit: onConfirm }) => {
           placeholder="Give the day a goal"
         />
       </div>
+      <DateSelector date={date} setDate={setDate} />
       <div>
-        <IoRemoveCircleOutline onClick={() => addDays(-1)} />
-        {` ${new Date(date).toDateString()} `}
-        <IoAddCircleOutline onClick={() => addDays(1)} />
-      </div>
-      <div>
-        <button onClick={() => onConfirm(goal, date)}>Confirm</button>
+        <button
+          onClick={() => onConfirm(goal, date.toISOString().split("T")[0])}
+        >
+          Confirm
+        </button>
       </div>
     </div>
   );

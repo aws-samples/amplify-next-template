@@ -6,7 +6,7 @@ import { generateClient } from "aws-amplify/data";
 import DayPlanForm from "@/components/forms/dayplan";
 import { DayPlan, SubNextFunctionParam } from "@/helpers/types";
 import Tasks from "@/components/dayplan/tasks";
-import { sortByDate } from "@/helpers/functional";
+import { handleApiErrors, sortByDate } from "@/helpers/functional";
 import { flow, get, map } from "lodash/fp";
 
 const client = generateClient<Schema>();
@@ -48,12 +48,9 @@ export default function TodayPage() {
       dayGoal: goal,
     });
     if (errors) {
-      setErrorDayPlanCreation(
-        errors.map(({ errorType, message }) => `${errorType}: ${message}`)
-      );
+      handleApiErrors(errors, "Error creating plan for the day");
       return;
     }
-    setErrorDayPlanCreation([]);
     setSuccessMessage("Day plan successfully created");
     setShowCreateDayPlan(false);
   };
@@ -64,12 +61,10 @@ export default function TodayPage() {
       id: dayplanId,
       done: true,
     });
-    if (errors)
-      alert(
-        `Error completing plan for the day: ${errors
-          .map(({ errorType, message }) => `${errorType}: ${message}`)
-          .join("; ")}`
-      );
+    if (errors) {
+      handleApiErrors(errors, "Error completing plan for the day");
+      return;
+    }
     await new Promise((resolve) => setTimeout(resolve, 500));
     setDayplans([...dayplans.filter(({ id }) => id !== dayplanId)]);
   };

@@ -12,10 +12,11 @@ import { useAppContext } from "../navigation-menu/AppContext";
 import TaskForm from "../forms/task";
 import ListView from "../lists/ListView";
 import {
+  ApiErrorType,
+  handleApiErrors,
   isTodayOrFuture,
   makeProjectName,
   sortByDate,
-  validBatches,
 } from "@/helpers/functional";
 import { filter, flow, get, join, map } from "lodash/fp";
 import { useRouter } from "next/router";
@@ -42,16 +43,6 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   const { context } = useAppContext();
   const router = useRouter();
 
-  const makeProjectDescription = (project: Project) => {
-    const batch = flow(
-      filter(validBatches),
-      map(get("sixWeekBatch.idea")),
-      join(", ")
-    )(project.batches);
-    if (!batch) return makeProjectName(project);
-    return `${makeProjectName(project)}, Batch: ${batch}`;
-  };
-
   const switchDone =
     (id: string, projects: Project, done?: Nullable<boolean>) => async () => {
       if (!projects) {
@@ -73,22 +64,17 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       .map(({ id, task, done, projects, createdAt }) => ({
         id,
         title: task,
-        description: makeProjectDescription(projects),
+        description: makeProjectName(projects),
         detailOnClick: () => router.push(`/tasks/${id}`),
         iconOnClick: switchDone(id, projects, done),
         Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
       }));
 
-  const handleResult = (
-    errors: { errorType: string; message: string }[] | undefined
-  ) => {
+  const handleResult = (errors: ApiErrorType[] | undefined) => {
     if (errors) {
-      setErrorTaskCreation(
-        errors.map(({ errorType, message }) => `${errorType}: ${message}`)
-      );
+      handleApiErrors(errors, "Error creating task");
       return;
     }
-    setErrorTaskCreation([]);
     setSuccessMessage("Task created");
     setShowAddTaskForm(false);
   };

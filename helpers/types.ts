@@ -13,6 +13,14 @@ export type SixWeekBatch = {
     sixWeekCycle: SixWeekCycle;
   };
 };
+export type ProjectActivity = {
+  activity: {
+    id: string;
+    finishedOn: Nullable<string>;
+    notes: Nullable<string>;
+    createdAt: string;
+  };
+};
 export type Project = {
   id: string;
   project: string;

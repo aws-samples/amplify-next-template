@@ -1,3 +1,9 @@
+export const activitiesSelectionSet = [
+  "activity.id",
+  "activity.finishedOn",
+  "activity.notes",
+  "activity.createdAt",
+];
 export const projectTasksSelectionSet = [
   "id",
   "task",
