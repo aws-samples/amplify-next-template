@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import DayPlanForm from "@/components/forms/dayplan";
-import { DayPlanTasks, SubNextFunctionParam } from "@/helpers/types";
+import { DayPlan, SubNextFunctionParam } from "@/helpers/types";
 import Tasks from "@/components/dayplan/tasks";
 import { sortByDate } from "@/helpers/functional";
 import { flow, get, map } from "lodash/fp";
@@ -12,7 +12,7 @@ import { flow, get, map } from "lodash/fp";
 const client = generateClient<Schema>();
 
 export default function TodayPage() {
-  const [dayplans, setDayplans] = useState<DayPlanTasks[]>([]);
+  const [dayplans, setDayplans] = useState<DayPlan[]>([]);
   const [showCreateDayPlan, setShowCreateDayPlan] = useState(false);
   const [errorsDayPlanCreation, setErrorDayPlanCreation] = useState<string[]>(
     []
@@ -35,7 +35,7 @@ export default function TodayPage() {
     };
     // @ts-expect-error
     const subscription = client.models.DayPlan.observeQuery(query).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<DayPlanTasks>) => {
+      next: ({ items, isSynced }: SubNextFunctionParam<DayPlan>) => {
         setDayplans([...items]);
       },
     });

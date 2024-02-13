@@ -2,7 +2,12 @@ import { FC, useEffect, useState } from "react";
 import { IoCheckboxSharp, IoSquareOutline } from "react-icons/io5";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { Nullable, Project, SubNextFunctionParam } from "@/helpers/types";
+import {
+  Nullable,
+  Project,
+  ProjectTask,
+  SubNextFunctionParam,
+} from "@/helpers/types";
 import { useAppContext } from "../navigation-menu/AppContext";
 import TaskForm from "../forms/task";
 import ListView from "../lists/ListView";
@@ -13,25 +18,10 @@ import {
   validBatches,
 } from "@/helpers/functional";
 import { filter, flow, get, join, map } from "lodash/fp";
+import { useRouter } from "next/router";
+import { projectTasksSelectionSet } from "@/helpers/selection-sets";
 
 const client = generateClient<Schema>();
-
-export type Tasks = {
-  id: number;
-  title: string;
-  project: string;
-  due: Date;
-  done: boolean;
-};
-
-type ProjectTask = {
-  id: string;
-  task: string;
-  done?: Nullable<boolean>;
-  projects: Project;
-  createdAt: string;
-  timeInvested?: Nullable<number>;
-};
 
 type NonProjectTask = {
   task: string;
@@ -50,6 +40,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   const [errorsTaskCreation, setErrorTaskCreation] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
   const { context } = useAppContext();
+  const router = useRouter();
 
   const makeProjectDescription = (project: Project) => {
     const batch = flow(
@@ -83,7 +74,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
         id,
         title: task,
         description: makeProjectDescription(projects),
-        detailOnClick: () => alert(task),
+        detailOnClick: () => router.push(`/tasks/${id}`),
         iconOnClick: switchDone(id, projects, done),
         Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
       }));
@@ -143,21 +134,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   useEffect(() => {
     const projectTasksQuery = {
       filter: { dayPlanProjectTasksId: { eq: dayPlanId } },
-      selectionSet: [
-        "id",
-        "task",
-        "done",
-        "timeInvested",
-        "createdAt",
-        "projects.id",
-        "projects.project",
-        "projects.context",
-        "projects.accounts.account.name",
-        "projects.batches.sixWeekBatch.idea",
-        "projects.batches.sixWeekBatch.context",
-        "projects.batches.sixWeekBatch.sixWeekCycle.name",
-        "projects.batches.sixWeekBatch.sixWeekCycle.startDate",
-      ],
+      selectionSet: projectTasksSelectionSet,
     };
     // @ts-expect-error
     const subProjectTasks = client.models.DayProjectTask.observeQuery(

@@ -9,7 +9,7 @@ type AddButtonProps = {
 };
 
 export type CategoryTitleProps = {
-  title: string;
+  title?: string;
   addButton?: AddButtonProps;
   drawBackBtn?: boolean;
   onTitleChange?: (newTitle: string) => void;
@@ -37,7 +37,7 @@ export default function CategoryTitle(props: CategoryTitleProps) {
 
   const handleBlur = () => {
     setIsEditing(false);
-    if (props.onTitleChange) {
+    if (props.onTitleChange && title) {
       props.onTitleChange(title);
     }
   };
@@ -49,28 +49,29 @@ export default function CategoryTitle(props: CategoryTitleProps) {
           <IoChevronBackOutline className={styles.backBtn} />
         </div>
       )}
-      {props.onTitleChange && isEditing ? (
-        <textarea
-          rows={1}
-          ref={textAreaRef}
-          value={title}
-          onChange={handleTitleChange}
-          onBlur={handleBlur}
-          className={`${styles.editableTitle} ${styles.alignCenterOnMedium} ${styles.flush}`}
-          autoFocus
-        />
-      ) : (
-        <h1
-          className={`${styles.alignCenterOnMedium} ${styles.flush} ${
-            props.onTitleChange ? styles.isEditable : ""
-          }`}
-          onClick={() => {
-            if (props.onTitleChange) setIsEditing(true);
-          }}
-        >
-          {title}
-        </h1>
-      )}
+      {title &&
+        (props.onTitleChange && isEditing ? (
+          <textarea
+            rows={1}
+            ref={textAreaRef}
+            value={title}
+            onChange={handleTitleChange}
+            onBlur={handleBlur}
+            className={`${styles.editableTitle} ${styles.alignCenterOnMedium} ${styles.flush}`}
+            autoFocus
+          />
+        ) : (
+          <h1
+            className={`${styles.alignCenterOnMedium} ${styles.flush} ${
+              props.onTitleChange ? styles.isEditable : ""
+            }`}
+            onClick={() => {
+              if (props.onTitleChange) setIsEditing(true);
+            }}
+          >
+            {title}
+          </h1>
+        ))}
       {props.addButton && (
         <div className={styles.action}>
           <a className={styles.actionBtn} onClick={props.addButton.onClick}>
