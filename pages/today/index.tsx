@@ -58,6 +58,21 @@ export default function TodayPage() {
     setShowCreateDayPlan(false);
   };
 
+  const completeDayPlan = async (dayplanId: string) => {
+    const { data, errors } = await client.models.DayPlan.update({
+      id: dayplanId,
+      done: true,
+    });
+    if (errors)
+      alert(
+        `Error completing plan for the day: ${errors
+          .map(({ errorType, message }) => `${errorType}: ${message}`)
+          .join("; ")}`
+      );
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    setDayplans([...dayplans.filter(({ id }) => id !== dayplanId)]);
+  };
+
   return (
     <Layout
       title="Today's Tasks"
@@ -88,7 +103,10 @@ export default function TodayPage() {
             {/* <div>Other tasks: {JSON.stringify(tasks)}</div> */}
 
             <div className={styles.fullWidth}>
-              <button className={`${styles.fullWidth} ${styles.mainBtn}`}>
+              <button
+                className={`${styles.fullWidth} ${styles.mainBtn}`}
+                onClick={() => completeDayPlan(id)}
+              >
                 Complete Day Plan
               </button>
             </div>

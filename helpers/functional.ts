@@ -1,5 +1,5 @@
 import { flow } from "lodash/fp";
-import { SixWeekBatch } from "./types";
+import { Project, SixWeekBatch } from "./types";
 
 export const getCurrentDate = () => new Date();
 export const makeDate = (str: string) => new Date(str);
@@ -50,3 +50,11 @@ export const validBatches = ({
   },
 }: SixWeekBatch) =>
   flow(makeDate, addDaysToDate(8 * 7), isTodayOrFuture)(startDate);
+export const makeProjectName = (project: Project) => {
+  if (project.accounts.length === 0) return project.project;
+  const accounts = project.accounts
+    .map(({ account: { name } }) => name)
+    .join(", ");
+  if (project.project.includes("OLX")) console.log(project.accounts);
+  return `${accounts}: ${project.project}`;
+};

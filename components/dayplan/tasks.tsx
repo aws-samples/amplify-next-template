@@ -8,6 +8,7 @@ import TaskForm from "../forms/task";
 import ListView from "../lists/ListView";
 import {
   isTodayOrFuture,
+  makeProjectName,
   sortByDate,
   validBatches,
 } from "@/helpers/functional";
@@ -50,11 +51,6 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const { context } = useAppContext();
 
-  const makeProjectName = (project: Project) =>
-    `${project.accounts.map(({ account: { name } }) => name).join(", ")}: ${
-      project.project
-    }`;
-
   const makeProjectDescription = (project: Project) => {
     const batch = flow(
       filter(validBatches),
@@ -72,7 +68,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       }
       const { data, errors } = await client.models.DayProjectTask.update({
         id,
-        done: `${!done}`,
+        done: !done,
       });
 
       return;

@@ -5,7 +5,7 @@ import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Project, SubNextFunctionParam } from "@/helpers/types";
 import { filter, flow, get, join, map, uniqBy } from "lodash/fp";
-import { validBatches } from "@/helpers/functional";
+import { makeProjectName, validBatches } from "@/helpers/functional";
 
 const client = generateClient<Schema>();
 
@@ -45,14 +45,10 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
     return () => sub.unsubscribe();
   }, [context]);
 
-  const mapOptions = ({ id, project, accounts }: Project) => {
+  const mapOptions = (project: Project) => {
     return {
-      value: id,
-      label: `${
-        !accounts
-          ? ""
-          : `${accounts.map(({ account: { name } }) => name).join(", ")}: `
-      }${project}`,
+      value: project.id,
+      label: makeProjectName(project),
     };
   };
 
@@ -98,13 +94,7 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
                   (b) => b.length > 0
                 )
               ),
-              map(
-                ({ accounts, project }) =>
-                  `${flow(
-                    map(get("account.name")),
-                    join(", ")
-                  )(accounts)}: ${project}`
-              )
+              map(makeProjectName)
             )(projects),
           })),
           map(
