@@ -39,7 +39,7 @@ export default function TaskDetailPage() {
   useEffect(() => {
     const loadProjectTask = async () => {
       if (!id) return;
-      // @ts-expect-error
+      // @ts-ignore
       const { data, errors } = await client.models.DayProjectTask.get(
         { id },
         // @ts-ignore
