@@ -42,7 +42,7 @@ export default function TaskDetailPage() {
       // @ts-expect-error
       const { data, errors } = await client.models.DayProjectTask.get(
         { id },
-        // @ts-expect-error
+        // @ts-ignore
         { selectionSet: projectTasksSelectionSet }
       );
       if (data) setProjectTask(data);
