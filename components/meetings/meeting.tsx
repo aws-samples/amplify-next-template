@@ -4,6 +4,7 @@ import styles from "./Meeting.module.css";
 import { flow, map } from "lodash/fp";
 import { sortActivities } from "@/helpers/functional";
 import ActivityComponent from "../activities/activity";
+import PersonName from "../ui-elements/person-name";
 
 export const getMeetingDate = ({ meetingOn, createdAt }: Meeting) =>
   new Date(meetingOn || createdAt);
@@ -21,10 +22,8 @@ const MeetingRecord: FC<MeetingRecordProps> = ({ meeting }) => {
         })} – ${meeting.topic}`}
       </h3>
       <div>
-        {meeting.participants.map(({ person: { id, name } }) => (
-          <span key={id} className={styles.token}>
-            {name}
-          </span>
+        {meeting.participants.map(({ person }) => (
+          <PersonName key={person.id} person={person} />
         ))}
       </div>
 

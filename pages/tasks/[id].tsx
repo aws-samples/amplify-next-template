@@ -17,6 +17,8 @@ import { flow, map } from "lodash/fp";
 import ActivityComponent from "@/components/activities/activity";
 import DateSelector from "@/components/ui-elements/date-selector";
 import styles from "./Tasks.module.css";
+import NotesWriter from "@/components/ui-elements/notes-writer";
+import SubmitButton from "@/components/ui-elements/submit-button";
 
 const client = generateClient<Schema>();
 
@@ -118,16 +120,8 @@ export default function TaskDetailPage() {
           <div>
             <h4>Log new activity</h4>
             <DateSelector date={date} setDate={setDate} selectHours />
-            <div className={styles.fullWidth}>
-              <textarea
-                className={styles.fullWidth}
-                value={newNote}
-                onChange={(event) => setNewNote(event.target.value)}
-              />
-            </div>
-            <div>
-              <button onClick={createActivity}>Submit</button>
-            </div>
+            <NotesWriter note={newNote} setNote={setNewNote} />
+            <SubmitButton onClick={createActivity}>Submit</SubmitButton>
           </div>
 
           {flow(

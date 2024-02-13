@@ -8,6 +8,7 @@ import { DayPlan, SubNextFunctionParam } from "@/helpers/types";
 import Tasks from "@/components/dayplan/tasks";
 import { handleApiErrors, sortByDate } from "@/helpers/functional";
 import { flow, get, map } from "lodash/fp";
+import { dayplanSelectionSet } from "@/helpers/selection-sets";
 
 const client = generateClient<Schema>();
 
@@ -24,14 +25,7 @@ export default function TodayPage() {
       filter: {
         done: { ne: "true" },
       },
-      selectionSet: [
-        "id",
-        "day",
-        "dayGoal",
-        "done",
-        // "tasks.task",
-        // "tasks.context",
-      ],
+      selectionSet: dayplanSelectionSet,
     };
     // @ts-expect-error
     const subscription = client.models.DayPlan.observeQuery(query).subscribe({

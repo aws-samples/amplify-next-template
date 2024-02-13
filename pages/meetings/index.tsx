@@ -8,6 +8,7 @@ import { Meeting, SubNextFunctionParam } from "@/helpers/types";
 import { generateClient } from "aws-amplify/data";
 import MeetingRecord, { getMeetingDate } from "@/components/meetings/meeting";
 import { getDayOfDate, sortDates } from "@/helpers/functional";
+import { meetingsSelectionSet } from "@/helpers/selection-sets";
 
 const client = generateClient<Schema>();
 
@@ -16,44 +17,11 @@ export default function MeetingsPage() {
   const router = useRouter();
 
   useEffect(() => {
+    const query = {
+      selectionSet: meetingsSelectionSet,
+    };
     // @ts-expect-error
-    const sub = client.models.Meeting.observeQuery({
-      selectionSet: [
-        "id",
-        "topic",
-        "meetingOn",
-        "createdAt",
-        "timeInvested",
-        "participants.person.id",
-        "participants.person.name",
-        "participants.person.accountRoles.role",
-        "participants.person.accountRoles.startDate",
-        "participants.person.accountRoles.endDate",
-        "participants.person.accountRoles.company.name",
-        "activities.id",
-        "activities.notes",
-        "activities.finishedOn",
-        "activities.createdAt",
-        // @ts-expect-error
-        "activities.forProjects.projects.id",
-        // @ts-expect-error
-        "activities.forProjects.projects.project",
-        // @ts-expect-error
-        "activities.forProjects.projects.context",
-        // @ts-expect-error
-        "activities.forProjects.projects.accounts.account.name",
-        // @ts-expect-error
-        "activities.forProjects.projects.batches.sixWeekBatch.id",
-        // @ts-expect-error
-        "activities.forProjects.projects.batches.sixWeekBatch.idea",
-        // @ts-expect-error
-        "activities.forProjects.projects.batches.sixWeekBatch.context",
-        // @ts-expect-error
-        "activities.forProjects.projects.batches.sixWeekBatch.sixWeekCycle.name",
-        // @ts-expect-error
-        "activities.forProjects.projects.batches.sixWeekBatch.sixWeekCycle.startDate",
-      ],
-    }).subscribe({
+    const sub = client.models.Meeting.observeQuery(query).subscribe({
       next: ({ items, isSynced }: SubNextFunctionParam<Meeting>) => {
         setMeetings([...items]);
       },

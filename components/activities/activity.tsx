@@ -3,6 +3,7 @@ import { Activity, Project } from "@/helpers/types";
 import { flow, map, get } from "lodash/fp";
 import { FC } from "react";
 import styles from "./Activity.module.css";
+import ProjectName from "../ui-elements/project-name";
 
 type ActivityProps = {
   activity: Activity;
@@ -24,7 +25,7 @@ const ActivityComponent: FC<ActivityProps> = ({
           {flow(
             map(get("projects")),
             map((project: Project) => (
-              <div className={styles.project}>{makeProjectName(project)}</div>
+              <ProjectName key={project.id} project={project} />
             ))
           )(forProjects)}
         </div>

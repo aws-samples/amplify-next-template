@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import styles from "./DateSelector.module.css";
 
 type DateSelectorProps = {
@@ -28,8 +28,9 @@ const DateSelector: FC<DateSelectorProps> = ({
           -Hour
         </button>
       )}
-
-      {` ${new Date(date).toLocaleString()} `}
+      <span className={styles.date}>
+        {` ${new Date(date).toLocaleString()} `}
+      </span>
 
       {selectHours && (
         <button className={styles.dateChanger} onClick={() => addHours(1)}>

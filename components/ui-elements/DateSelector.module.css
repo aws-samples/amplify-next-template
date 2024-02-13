@@ -1,3 +1,17 @@
 .dateChanger {
   cursor: pointer;
+  font-size: var(--font-size-small);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  width: 5rem;
+  border-radius: 1rem;
+  border: none;
+  margin-right: 0.4rem;
+  background-color: var(--color-btn);
+}
+.date {
+  border: 1px solid var(--color-btn);
+  margin-right: 0.4rem;
+  padding: 0.6rem;
+  border-radius: 1rem;
 }
