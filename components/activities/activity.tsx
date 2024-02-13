@@ -1,20 +1,37 @@
-import { ProjectActivity } from "@/helpers/types";
+import { makeProjectName } from "@/helpers/functional";
+import { Activity, Project } from "@/helpers/types";
+import { flow, map, get } from "lodash/fp";
 import { FC } from "react";
+import styles from "./Activity.module.css";
 
 type ActivityProps = {
-  activity: ProjectActivity;
+  activity: Activity;
+  showDates?: boolean;
+  showProjects?: boolean;
 };
-const Activity: FC<ActivityProps> = ({
-  activity: {
-    activity: { finishedOn, createdAt, notes },
-  },
+const ActivityComponent: FC<ActivityProps> = ({
+  activity: { finishedOn, createdAt, notes, forProjects },
+  showDates,
+  showProjects,
 }) => {
   return (
     <div>
-      <h4>{new Date(finishedOn || createdAt).toLocaleString()}</h4>
+      {showDates && (
+        <h4>{new Date(finishedOn || createdAt).toLocaleString()}</h4>
+      )}
+      {showProjects && (
+        <div>
+          {flow(
+            map(get("projects")),
+            map((project: Project) => (
+              <div className={styles.project}>{makeProjectName(project)}</div>
+            ))
+          )(forProjects)}
+        </div>
+      )}
       <div>{notes}</div>
     </div>
   );
 };
 
-export default Activity;
+export default ActivityComponent;

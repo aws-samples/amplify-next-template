@@ -57,7 +57,7 @@ const schema = a.schema({
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       notionId: a.integer(),
-      topic: a.string(),
+      topic: a.string().required(),
       meetingOn: a.datetime(),
       participants: a.manyToMany("Person", {
         relationName: "MeetingParticipant",
@@ -74,12 +74,23 @@ const schema = a.schema({
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       notionId: a.integer(),
-      name: a.string(),
+      name: a.string().required(),
       howToSay: a.string(),
       birthday: a.date(),
       dateOfDeath: a.date(),
       createdOn: a.date(),
       meetings: a.manyToMany("Meeting", { relationName: "MeetingParticipant" }),
+      accountRoles: a.hasMany("PersonAccount"),
+    })
+    .authorization([a.allow.owner()]),
+  PersonAccount: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      role: a.string(),
+      startDate: a.date(),
+      endDate: a.date(),
+      person: a.belongsTo("Person"),
+      company: a.belongsTo("Account"),
     })
     .authorization([a.allow.owner()]),
   Account: a
@@ -91,6 +102,7 @@ const schema = a.schema({
       subsidiaries: a.hasMany("Account"),
       projects: a.manyToMany("Projects", { relationName: "AccountProjects" }),
       controller: a.belongsTo("Account"),
+      employees: a.hasMany("PersonAccount"),
     })
     .authorization([a.allow.owner()]),
   SixWeekCycle: a

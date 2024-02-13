@@ -14,6 +14,7 @@ export const projectTasksSelectionSet = [
   "projects.project",
   "projects.context",
   "projects.accounts.account.name",
+  "projects.batches.sixWeekBatch.id",
   "projects.batches.sixWeekBatch.idea",
   "projects.batches.sixWeekBatch.context",
   "projects.batches.sixWeekBatch.sixWeekCycle.name",

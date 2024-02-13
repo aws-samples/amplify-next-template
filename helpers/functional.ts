@@ -1,6 +1,7 @@
 import { filter, flow, map, get, join } from "lodash/fp";
-import { Project, ProjectActivity, SixWeekBatch } from "./types";
+import { Project, Activity, SixWeekBatch } from "./types";
 
+export const getDayOfDate = (date: Date) => date.toISOString().split("T")[0];
 export const getCurrentDate = () => new Date();
 export const makeDate = (str: string) => new Date(str);
 export const addDaysToDate = (days: number) => (date: Date) =>
@@ -36,6 +37,11 @@ export const isTodayOrFuture = (date: string | Date): boolean => {
 };
 export const isBeforeToday = (date: string | Date): boolean =>
   !isTodayOrFuture(date);
+export const sortDates = (desc?: boolean) => (arr: string[]) =>
+  arr.sort(
+    (a, b) => (new Date(a).getTime() - new Date(b).getTime()) * (!desc ? 1 : -1)
+  );
+export const makeDateFromStr = (str: string) => new Date(str);
 export const sortByDate =
   (desc?: boolean) =>
   (dates: string[]): number => {
@@ -44,11 +50,7 @@ export const sortByDate =
 
     return (aDate - bDate) * (!desc ? 1 : -1);
   };
-export const validBatches = ({
-  sixWeekBatch: {
-    sixWeekCycle: { startDate },
-  },
-}: SixWeekBatch) =>
+export const validBatches = ({ sixWeekCycle: { startDate } }: SixWeekBatch) =>
   flow(makeDate, addDaysToDate(8 * 7), isTodayOrFuture)(startDate);
 const makeAccountNames = (project: Project) => {
   if (project.accounts.length === 0) return "";
@@ -58,7 +60,7 @@ const makeAccountNames = (project: Project) => {
 };
 const makeBatchesNames = (project: Project) => {
   const batch = flow(
-    filter(validBatches),
+    filter(flow(get("sixWeekBatch"), validBatches)),
     map(get("sixWeekBatch.idea")),
     join(", ")
   )(project.batches);
@@ -70,9 +72,9 @@ export const makeProjectName = (project: Project) => {
     project
   )}`;
 };
-const getActivityDate = (activity: ProjectActivity) =>
-  get("activity.finishedOn")(activity) || get("activity.createdAt")(activity);
-export const sortActivities = (activities: ProjectActivity[]) =>
+const getActivityDate = (activity: Activity) =>
+  activity.finishedOn || activity.createdAt;
+export const sortActivities = (activities: Activity[]) =>
   activities.sort((a, b) =>
     flow(map(getActivityDate), sortByDate(true))([a, b])
   );

@@ -1,0 +1,9 @@
+.token {
+  border-radius: 1rem;
+  background-color: var(--color-btn);
+  padding: 0.1rem 2rem;
+  white-space: nowrap;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+  display: inline-block;
+}

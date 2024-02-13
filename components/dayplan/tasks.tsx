@@ -18,7 +18,7 @@ import {
   makeProjectName,
   sortByDate,
 } from "@/helpers/functional";
-import { filter, flow, get, join, map } from "lodash/fp";
+import { flow, get, map } from "lodash/fp";
 import { useRouter } from "next/router";
 import { projectTasksSelectionSet } from "@/helpers/selection-sets";
 

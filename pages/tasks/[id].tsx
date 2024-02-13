@@ -3,11 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import {
-  ProjectActivity,
-  ProjectTask,
-  SubNextFunctionParam,
-} from "@/helpers/types";
+import { Activity, ProjectTask, SubNextFunctionParam } from "@/helpers/types";
 import {
   activitiesSelectionSet,
   projectTasksSelectionSet,
@@ -18,7 +14,7 @@ import {
   sortActivities,
 } from "@/helpers/functional";
 import { flow, map } from "lodash/fp";
-import Activity from "@/components/activities/activity";
+import ActivityComponent from "@/components/activities/activity";
 import DateSelector from "@/components/ui-elements/date-selector";
 import styles from "./Tasks.module.css";
 
@@ -26,7 +22,7 @@ const client = generateClient<Schema>();
 
 export default function TaskDetailPage() {
   const [projectTask, setProjectTask] = useState<ProjectTask | null>(null);
-  const [activities, setActivities] = useState<ProjectActivity[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [nonProjectTask, setNonProjectTask] = useState<
     Schema["NonProjectTask"] | null
   >(null);
@@ -59,8 +55,11 @@ export default function TaskDetailPage() {
       // @ts-expect-error
       selectionSet: activitiesSelectionSet,
     }).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<ProjectActivity>) => {
-        setActivities([...items]);
+      next: ({
+        items,
+        isSynced,
+      }: SubNextFunctionParam<{ activity: Activity }>) => {
+        setActivities([...items.map(({ activity }) => activity)]);
       },
     });
     return () => {
@@ -100,12 +99,10 @@ export default function TaskDetailPage() {
     setActivities([
       ...activities,
       {
-        activity: {
-          id: activityId,
-          createdAt: finishedOn,
-          finishedOn,
-          notes,
-        },
+        id: activityId,
+        createdAt: finishedOn,
+        finishedOn,
+        notes,
       },
     ]);
   };
@@ -136,7 +133,11 @@ export default function TaskDetailPage() {
           {flow(
             sortActivities,
             map((activity) => (
-              <Activity key={activity.activity.id} activity={activity} />
+              <ActivityComponent
+                key={activity.id}
+                activity={activity}
+                showDates
+              />
             ))
           )(activities)}
         </div>

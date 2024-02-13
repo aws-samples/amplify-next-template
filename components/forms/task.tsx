@@ -3,9 +3,10 @@ import { useAppContext } from "../navigation-menu/AppContext";
 import Select from "react-select";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { Project, SubNextFunctionParam } from "@/helpers/types";
+import { Project, SixWeekBatch, SubNextFunctionParam } from "@/helpers/types";
 import { filter, flow, get, join, map, uniqBy } from "lodash/fp";
 import { makeProjectName, validBatches } from "@/helpers/functional";
+import Batch, { getUniqueBatches } from "../batches/batches";
 
 const client = generateClient<Schema>();
 
@@ -30,6 +31,7 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
         "project",
         "context",
         "accounts.account.name",
+        "batches.sixWeekBatch.id",
         "batches.sixWeekBatch.idea",
         "batches.sixWeekBatch.context",
         "batches.sixWeekBatch.sixWeekCycle.name",
@@ -77,41 +79,10 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
       <div>
         <h3>Important Six-Week Batches and Projects</h3>
         {flow(
-          filter(
-            flow(get("batches"), filter(validBatches), (b) => b.length > 0)
-          ),
-          map(({ batches }) => ({ batch: batches[0].sixWeekBatch.idea })),
-          uniqBy("batch"),
-          map(({ batch }: { batch: string }) => ({
-            batch,
-            projects: flow(
-              filter(
-                flow(
-                  get("batches"),
-                  filter(
-                    flow(get("sixWeekBatch"), get("idea"), (i) => i === batch)
-                  ),
-                  (b) => b.length > 0
-                )
-              ),
-              map(makeProjectName)
-            )(projects),
-          })),
-          map(
-            (
-              { batch, projects }: { batch: string; projects: string[] },
-              idx: number
-            ) => (
-              <div key={idx}>
-                <h4>Batch: {batch}</h4>
-                <ul>
-                  {projects.map((project: string, idx) => (
-                    <li key={idx}>{project}</li>
-                  ))}
-                </ul>
-              </div>
-            )
-          )
+          getUniqueBatches,
+          map((batch: SixWeekBatch) => (
+            <Batch key={batch.id} batch={batch} projects={projects} />
+          ))
         )(projects)}
       </div>
     </div>
