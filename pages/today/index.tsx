@@ -62,7 +62,7 @@ export default function TodayPage() {
 
   const sortedDayPlans = useMemo(
     () =>
-      [...dayplans].sort(
+      dayplans.sort(
         (a, b) => new Date(b.day).getTime() - new Date(a.day).getTime()
       ),
     [dayplans]
