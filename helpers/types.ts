@@ -28,12 +28,17 @@ export type Project = {
   batches: { sixWeekBatch: SixWeekBatch }[];
   accounts: { account: MappedAccount }[];
 };
-export type ProjectTask = {
+type TaskBase = {
   id: string;
   task: string;
   done?: Nullable<boolean>;
-  projects: Project;
   createdAt: string;
+};
+export type NonProjectTask = TaskBase & {
+  context: string;
+};
+export type ProjectTask = TaskBase & {
+  projects: Project;
   timeInvested?: Nullable<number>;
 };
 export type DayPlan = {

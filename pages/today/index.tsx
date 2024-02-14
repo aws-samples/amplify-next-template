@@ -1,23 +1,20 @@
 import Layout from "@/components/layouts/Layout";
 import styles from "./Today.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import DayPlanForm from "@/components/forms/dayplan";
 import { DayPlan, SubNextFunctionParam } from "@/helpers/types";
 import Tasks from "@/components/dayplan/tasks";
-import { handleApiErrors, sortByDate } from "@/helpers/functional";
-import { flow, get, map } from "lodash/fp";
+import { handleApiErrors } from "@/helpers/functional";
 import { dayplanSelectionSet } from "@/helpers/selection-sets";
+import Notification from "@/components/ui-elements/notification";
 
 const client = generateClient<Schema>();
 
 export default function TodayPage() {
   const [dayplans, setDayplans] = useState<DayPlan[]>([]);
   const [showCreateDayPlan, setShowCreateDayPlan] = useState(false);
-  const [errorsDayPlanCreation, setErrorDayPlanCreation] = useState<string[]>(
-    []
-  );
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
@@ -30,7 +27,7 @@ export default function TodayPage() {
     // @ts-expect-error
     const subscription = client.models.DayPlan.observeQuery(query).subscribe({
       next: ({ items, isSynced }: SubNextFunctionParam<DayPlan>) => {
-        setDayplans([...items]);
+        setDayplans([...(items || [])]);
       },
     });
     return () => subscription.unsubscribe();
@@ -60,8 +57,16 @@ export default function TodayPage() {
       return;
     }
     await new Promise((resolve) => setTimeout(resolve, 500));
-    setDayplans([...dayplans.filter(({ id }) => id !== dayplanId)]);
+    setDayplans(dayplans.filter(({ id }) => id !== dayplanId));
   };
+
+  const sortedDayPlans = useMemo(
+    () =>
+      [...dayplans].sort(
+        (a, b) => new Date(b.day).getTime() - new Date(a.day).getTime()
+      ),
+    [dayplans]
+  );
 
   return (
     <Layout
@@ -71,37 +76,31 @@ export default function TodayPage() {
         onClick: () => setShowCreateDayPlan(true),
       }}
     >
-      {successMessage && <div>{successMessage}</div>}
+      <Notification message={successMessage} />
 
       {showCreateDayPlan && (
         <div>
           <DayPlanForm onSubmit={createDayPlan} />
-          {errorsDayPlanCreation &&
-            errorsDayPlanCreation.map((msg, idx) => <div key={idx}>{msg}</div>)}
         </div>
       )}
 
-      {dayplans
-        .sort((a, b) => flow(map(get("day")), sortByDate(true))([a, b]))
-        .map(({ id, day, dayGoal }) => (
-          <div key={id}>
-            <h2>
-              {dayGoal} - {new Date(day).toLocaleDateString()}
-            </h2>
-            <Tasks day={day} dayPlanId={id} />
+      {sortedDayPlans.map(({ id, day, dayGoal }) => (
+        <div key={id}>
+          <h2>
+            {dayGoal} - {new Date(day).toLocaleDateString()}
+          </h2>
+          <Tasks day={day} dayPlanId={id} />
 
-            {/* <div>Other tasks: {JSON.stringify(tasks)}</div> */}
-
-            <div className={styles.fullWidth}>
-              <button
-                className={`${styles.fullWidth} ${styles.mainBtn}`}
-                onClick={() => completeDayPlan(id)}
-              >
-                Complete Day Plan
-              </button>
-            </div>
+          <div className={styles.fullWidth}>
+            <button
+              className={`${styles.fullWidth} ${styles.mainBtn}`}
+              onClick={() => completeDayPlan(id)}
+            >
+              Complete Day Plan
+            </button>
           </div>
-        ))}
+        </div>
+      ))}
     </Layout>
   );
 }

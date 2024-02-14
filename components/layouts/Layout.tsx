@@ -66,7 +66,7 @@ export default function Layout({
               className={`${styles.sheet} ${styles.sheetVh} ${styles.sheetContent}`}
             >
               <div className={styles.categoryWrapper}>
-                <CategoryTitle {...categoryTitleProps} />
+                <CategoryTitle {...(categoryTitleProps || {})} />
                 <div className={styles.categoryContent}>{children}</div>
               </div>
             </div>

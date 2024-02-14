@@ -32,7 +32,7 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
     // @ts-expect-error
     const sub = client.models.Projects.observeQuery(query).subscribe({
       next: ({ items, isSynced }: SubNextFunctionParam<Project>) => {
-        setProjects([...items]);
+        setProjects([...(items || [])]);
       },
     });
     return () => sub.unsubscribe();

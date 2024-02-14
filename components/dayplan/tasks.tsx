@@ -1,8 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { IoCheckboxSharp, IoSquareOutline } from "react-icons/io5";
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import {
+  NonProjectTask,
   Nullable,
   Project,
   ProjectTask,
@@ -16,19 +17,14 @@ import {
   handleApiErrors,
   isTodayOrFuture,
   makeProjectName,
-  sortByDate,
 } from "@/helpers/functional";
-import { flow, get, map } from "lodash/fp";
 import { useRouter } from "next/router";
-import { projectTasksSelectionSet } from "@/helpers/selection-sets";
+import {
+  otherTasksSelectionSet,
+  projectTasksSelectionSet,
+} from "@/helpers/selection-sets";
 
 const client = generateClient<Schema>();
-
-type NonProjectTask = {
-  task: string;
-  // done?: Nullable<boolean>;
-  // context: string;
-};
 
 type TasksProps = {
   day: string;
@@ -37,15 +33,21 @@ type TasksProps = {
 
 const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   const [projectTasks, setProjectTasks] = useState<ProjectTask[]>([]);
+  const [nonProjectTasks, setNonProjectTasks] = useState<NonProjectTask[]>([]);
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
-  const [errorsTaskCreation, setErrorTaskCreation] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
   const { context } = useAppContext();
   const router = useRouter();
 
   const switchDone =
-    (id: string, projects: Project, done?: Nullable<boolean>) => async () => {
+    (id: string, projects: Project | undefined, done?: Nullable<boolean>) =>
+    async () => {
       if (!projects) {
+        // @ts-expect-error
+        const { data, errors } = await client.models.NonProjectTask.update({
+          id,
+          done: !done,
+        });
         return;
       }
       // @ts-expect-error
@@ -57,18 +59,38 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       return;
     };
 
-  const mapTaskItems = () =>
-    projectTasks
-      .filter(({ projects }) => projects.context === context)
-      .sort((a, b) => flow(map(get("createdAt")), sortByDate())([a, b]))
-      .map(({ id, task, done, projects, createdAt }) => ({
-        id,
-        title: task,
-        description: makeProjectName(projects),
-        detailOnClick: () => router.push(`/tasks/${id}`),
-        iconOnClick: switchDone(id, projects, done),
-        Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
-      }));
+  const mappedTaskItems = useMemo(
+    () => [
+      ...projectTasks
+        .filter(({ projects }) => projects.context === context)
+        .sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        )
+        .map(({ id, task, done, projects }) => ({
+          id,
+          title: task,
+          description: makeProjectName(projects),
+          detailOnClick: () => router.push(`/tasks/${id}`),
+          iconOnClick: switchDone(id, projects, done),
+          Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
+        })),
+      ...nonProjectTasks
+        .sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        )
+        .map(({ id, task, done }) => ({
+          id,
+          title: task,
+          description: "",
+          detailOnClick: () => {},
+          iconOnClick: switchDone(id, undefined, done),
+          Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
+        })),
+    ],
+    [projectTasks, nonProjectTasks, context, router]
+  );
 
   const handleResult = (errors: ApiErrorType[] | undefined) => {
     if (errors) {
@@ -98,9 +120,9 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
     if (data) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       setProjectTasks([
-        ...projectTasks,
+        ...(projectTasks || []),
         {
-          id: crypto.randomUUID(),
+          id: data.id,
           task,
           projects: project,
           createdAt: new Date().toISOString(),
@@ -122,29 +144,39 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       filter: { dayPlanProjectTasksId: { eq: dayPlanId } },
       selectionSet: projectTasksSelectionSet,
     };
-
+    const observeDayProjectTask = client.models.DayProjectTask.observeQuery;
     // @ts-expect-error
-    const subProjectTasks = client.models.DayProjectTask.observeQuery(
-      // @ts-ignore
-      projectTasksQuery
-    ).subscribe({
+    const subProjectTasks = observeDayProjectTask(projectTasksQuery).subscribe({
       next: ({ items, isSynced }: SubNextFunctionParam<ProjectTask>) => {
-        setProjectTasks([...items]);
+        setProjectTasks([...(items || [])]);
       },
     });
+
+    const otherTasksQuery = {
+      filter: { dayPlanTasksId: { eq: dayPlanId }, context: { eq: context } },
+      selectionSet: otherTasksSelectionSet,
+    };
+    const observeOtherTask = client.models.NonProjectTask.observeQuery;
+    // @ts-expect-error
+    const subOtherTasks = observeOtherTask(otherTasksQuery).subscribe({
+      next: ({ items, isSynced }: SubNextFunctionParam<NonProjectTask>) => {
+        setNonProjectTasks([...(items || [])]);
+      },
+    });
+
     return () => {
       subProjectTasks.unsubscribe();
+      subOtherTasks.unsubscribe();
     };
-  }, [dayPlanId]);
+  }, [dayPlanId, context]);
 
   return (
     <div>
-      {projectTasks && <ListView listItems={mapTaskItems()} />}
+      <ListView listItems={mappedTaskItems} />
+
       {isTodayOrFuture(day) && showAddTaskForm && (
         <div>
           <TaskForm onSubmit={createTask} />
-          {errorsTaskCreation &&
-            errorsTaskCreation.map((msg, idx) => <div key={idx}>{msg}</div>)}
         </div>
       )}
       {successMessage && <div>{successMessage}</div>}

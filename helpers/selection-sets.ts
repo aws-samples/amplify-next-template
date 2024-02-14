@@ -15,12 +15,11 @@ export const projectsSelectionSet = [
   "batches.sixWeekBatch.sixWeekCycle.name",
   "batches.sixWeekBatch.sixWeekCycle.startDate",
 ];
+const taskBaseSelectionSet = ["id", "task", "done", "createdAt"];
+export const otherTasksSelectionSet = [...taskBaseSelectionSet, "context"];
 export const projectTasksSelectionSet = [
-  "id",
-  "task",
-  "done",
+  ...taskBaseSelectionSet,
   "timeInvested",
-  "createdAt",
   ...projectsSelectionSet.map((p) => `projects.${p}`),
 ];
 export const personSelectionSet = [

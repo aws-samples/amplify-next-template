@@ -23,7 +23,7 @@ export default function MeetingsPage() {
     // @ts-expect-error
     const sub = client.models.Meeting.observeQuery(query).subscribe({
       next: ({ items, isSynced }: SubNextFunctionParam<Meeting>) => {
-        setMeetings([...items]);
+        setMeetings([...(items || [])]);
       },
     });
     return () => sub.unsubscribe();

@@ -38,7 +38,7 @@ const PeopleSelector: FC<PeopleSelectorProps> = ({
     // @ts-expect-error
     const sub = client.models.Person.observeQuery(query).subscribe({
       next: ({ items, isSynced }: SubNextFunctionParam<Participant>) => {
-        setPeople([...items]);
+        setPeople([...(items || [])]);
       },
     });
     return () => sub.unsubscribe();
