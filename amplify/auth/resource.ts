@@ -9,7 +9,7 @@ export const auth = defineAuth({
   loginWith: {
     email: true,
     // add social providers
-    externalProviders: {
+    //externalProviders: {
       /**
        * first, create your secrets using `amplify sandbox secret`
        * then, import `secret` from `@aws-amplify/backend`
@@ -19,7 +19,7 @@ export const auth = defineAuth({
       //   clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
       //   clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
       // }
-    },
+    //},
   },
   /**
    * enable multifactor authentication
