@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "shashlickoperator",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "S3DeploymentBucket": "amplify-shashlickoperator-dev-101039-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/3ecb484f3bf8569858321d132c08632b687e3595"
+}

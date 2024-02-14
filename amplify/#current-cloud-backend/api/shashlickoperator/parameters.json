@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "shashlickoperator",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}

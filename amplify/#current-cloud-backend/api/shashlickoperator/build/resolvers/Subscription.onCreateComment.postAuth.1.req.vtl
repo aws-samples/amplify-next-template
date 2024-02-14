@@ -1,0 +1,8 @@
+## [Start] Sandbox Mode Enabled. **
+#if( !$ctx.stash.get("hasAuth") )
+  #if( $util.authType() != "API Key Authorization" )
+    $util.unauthorized()
+  #end
+#end
+$util.toJson({})
+## [End] Sandbox Mode Enabled. **

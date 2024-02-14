@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-shashlickoperator-dev-101039-authRole",
+      "UnauthRoleArn": "arn:aws:iam::091337506908:role/amplify-shashlickoperator-dev-101039-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::091337506908:role/amplify-shashlickoperator-dev-101039-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-shashlickoperator-dev-101039-deployment",
+      "UnauthRoleName": "amplify-shashlickoperator-dev-101039-unauthRole",
+      "StackName": "amplify-shashlickoperator-dev-101039",
+      "StackId": "arn:aws:cloudformation:us-east-1:091337506908:stack/amplify-shashlickoperator-dev-101039/335f6810-c5e4-11ee-b44d-0ea159c178c7",
+      "AmplifyAppId": "dendts3cv9o53"
+    },
+    "categories": {
+      "api": {
+        "shashlickoperator": {}
+      }
+    }
+  }
+}
