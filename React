@@ -1,0 +1,2 @@
+npx create-react-app@latest myapp
+cd myapp
