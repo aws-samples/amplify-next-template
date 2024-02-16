@@ -30,18 +30,30 @@ const ProjectName: FC<ProjectNameProps> = ({
   project: { project, id, accounts, batches },
 }) => (
   <div className={styles.wrapper}>
-    <div className={`${styles.token} ${styles.project}`}>{project}</div>
+    <div className={`${styles.token} ${styles.project}`}>
+      <a href={`/projects/${id}`} className={styles.project}>
+        {project}
+      </a>
+    </div>
     {Array.isArray(accounts) &&
       accounts.map(({ account: { id, name } }) => (
-        <span key={id} className={`${styles.token} ${styles.account}`}>
+        <a
+          href={`/accounts/${id}`}
+          key={id}
+          className={`${styles.token} ${styles.account}`}
+        >
           {name}
-        </span>
+        </a>
       ))}
     {Array.isArray(batches) &&
       batches.map(({ sixWeekBatch: { id, idea } }) => (
-        <span key={id} className={`${styles.token} ${styles.batches}`}>
+        <a
+          href={`/commitments/${id}`}
+          key={id}
+          className={`${styles.token} ${styles.batches}`}
+        >
           {idea}
-        </span>
+        </a>
       ))}
   </div>
 );
