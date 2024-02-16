@@ -1,33 +1,25 @@
 import Layout from "@/components/layouts/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { type Schema } from "@/amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
-import { Activity, ProjectTask, SubNextFunctionParam } from "@/helpers/types";
-import {
-  activitiesSelectionSet,
-  projectTasksSelectionSet,
-} from "@/helpers/selection-sets";
-import {
-  handleApiErrors,
-  makeProjectName,
-  sortActivities,
-} from "@/helpers/functional";
+import { Activity, NonProjectTask, ProjectTask } from "@/helpers/types/data";
+import { sortActivities } from "@/helpers/functional";
 import { flow, map } from "lodash/fp";
 import ActivityComponent from "@/components/activities/activity";
 import DateSelector from "@/components/ui-elements/date-selector";
 import styles from "./Tasks.module.css";
 import NotesWriter from "@/components/ui-elements/notes-writer";
 import SubmitButton from "@/components/ui-elements/submit-button";
-
-const client = generateClient<Schema>();
+import { getTask } from "@/helpers/api-operations/get";
+import { projectActivitySubscription } from "@/helpers/api-operations/subscriptions";
+import { createActivity as createActivityApi } from "@/helpers/api-operations/create";
+import { makeProjectName } from "@/components/ui-elements/project-name";
 
 export default function TaskDetailPage() {
   const [projectTask, setProjectTask] = useState<ProjectTask | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [nonProjectTask, setNonProjectTask] = useState<
-    Schema["NonProjectTask"] | null
-  >(null);
+  const [nonProjectTask, setNonProjectTask] = useState<NonProjectTask | null>(
+    null
+  );
   const [newNote, setNewNote] = useState("");
   const [date, setDate] = useState(new Date());
 
@@ -35,38 +27,17 @@ export default function TaskDetailPage() {
   const id = router.query.id as string;
 
   useEffect(() => {
-    const loadProjectTask = async () => {
-      if (!id) return;
-      // @ts-ignore
-      const { data, errors } = await client.models.DayProjectTask.get(
-        { id },
-        // @ts-ignore
-        { selectionSet: projectTasksSelectionSet }
-      );
-      if (data) setProjectTask(data);
-    };
     if (!projectTask) {
-      loadProjectTask();
+      getTask(id, setProjectTask);
       return;
     }
-    // @ts-expect-error
-    const subProjectTasks = client.models.ProjectActivity.observeQuery({
-      filter: {
-        projectsId: { eq: projectTask.projects.id },
-      },
-      // @ts-expect-error
-      selectionSet: activitiesSelectionSet,
-    }).subscribe({
-      next: ({
-        items,
-        isSynced,
-      }: SubNextFunctionParam<{ activity: Activity }>) => {
-        setActivities([...items.map(({ activity }) => activity)]);
-      },
-    });
-    return () => {
-      subProjectTasks.unsubscribe();
+    const filter = {
+      projectsId: { eq: projectTask.projects.id },
     };
+    const subscription = projectActivitySubscription(({ items, isSynced }) => {
+      setActivities([...items.map(({ activity }) => activity)]);
+    }, filter);
+    return () => subscription.unsubscribe();
   }, [id, projectTask]);
 
   const createActivity = async () => {
@@ -74,25 +45,12 @@ export default function TaskDetailPage() {
       alert("Please add a note and a date");
       return;
     }
-    const { data: newActivity, errors: activityErrors } =
-      await client.models.Activity.create({
-        finishedOn: date.toISOString(),
-        notes: newNote,
-      });
-    if (activityErrors) {
-      handleApiErrors(activityErrors, "Error creating activity");
-      return;
-    }
-    const activityId = newActivity.id;
-    const { data: newLink, errors: linkErrors } =
-      await client.models.ProjectActivity.create({
-        activityId,
-        projectsId: projectTask.projects.id,
-      });
-    if (linkErrors) {
-      handleApiErrors(linkErrors, "Error linking activitiy to project");
-      return;
-    }
+    const data = await createActivityApi(
+      date,
+      newNote,
+      projectTask.projects.id
+    );
+    if (!data?.activityData.id) return;
     const finishedOn = date.toISOString();
     const notes = newNote;
     setNewNote("");
@@ -101,7 +59,7 @@ export default function TaskDetailPage() {
     setActivities([
       ...activities,
       {
-        id: activityId,
+        id: data.activityData.id,
         createdAt: finishedOn,
         finishedOn,
         notes,

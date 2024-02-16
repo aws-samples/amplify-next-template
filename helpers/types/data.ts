@@ -1,5 +1,3 @@
-import { Schema } from "@/amplify/data/resource";
-
 export type Nullable<T> = T | null;
 export type MappedAccount = {
   name: string;
@@ -46,10 +44,6 @@ export type DayPlan = {
   day: string;
   dayGoal: string;
   done?: Nullable<boolean>;
-};
-export type SubNextFunctionParam<T> = {
-  items: T[];
-  isSynced: boolean;
 };
 export type AccountRole = {
   role?: Nullable<string>;

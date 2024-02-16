@@ -1,5 +1,5 @@
 import { validBatches } from "@/helpers/functional";
-import { Project, SixWeekBatch } from "@/helpers/types";
+import { Project, SixWeekBatch } from "@/helpers/types/data";
 import { filter, flow, get, map, uniqBy } from "lodash/fp";
 import { FC } from "react";
 

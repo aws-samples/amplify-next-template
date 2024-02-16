@@ -1,10 +1,10 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import styles from "./DateSelector.module.css";
 
 type DateSelectorProps = {
   selectHours?: boolean;
   date: Date;
-  setDate: Dispatch<SetStateAction<Date>>;
+  setDate: (date: Date) => void;
 };
 const DateSelector: FC<DateSelectorProps> = ({
   date,

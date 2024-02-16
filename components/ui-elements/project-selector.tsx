@@ -1,67 +1,76 @@
-import { Project, SubNextFunctionParam } from "@/helpers/types";
+import { Project } from "@/helpers/types/data";
 import { FC, useState, useEffect } from "react";
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { useAppContext } from "../navigation-menu/AppContext";
-import { makeProjectName } from "@/helpers/functional";
-import { projectsSelectionSet } from "@/helpers/selection-sets";
-import { type Schema } from "@/amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
-
-const client = generateClient<Schema>();
+import { makeProjectName } from "./project-name";
+import { projectsSubscription } from "@/helpers/api-operations/subscriptions";
 
 type ProjectSelectorProps = {
   onChange: (selected: Project | null) => void;
   clearAfterSelection?: boolean;
+  onCreateProject?: (projectName: string) => void;
 };
 
 const ProjectSelector: FC<ProjectSelectorProps> = ({
   onChange,
   clearAfterSelection,
+  onCreateProject: createProject,
 }) => {
   const { context } = useAppContext();
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedOption, setSelectedOption] = useState<any>(null);
 
-  const mapOptions = (projects: Project[]) =>
+  const mapOptions = () =>
     projects.map((project) => ({
       value: project.id,
       label: makeProjectName(project),
     }));
 
   const selectProject = (selectedOption: any) => {
-    const project = projects.find((p) => p.id === selectedOption.value);
-    onChange(project || null);
-    if (!clearAfterSelection) return;
-    setSelectedOption(null);
+    if (!(createProject && selectedOption.__isNew__)) {
+      const project = projects.find((p) => p.id === selectedOption.value);
+      onChange(project || null);
+      if (clearAfterSelection) setSelectedOption(null);
+      return;
+    }
+    createProject(selectedOption.label);
+    if (clearAfterSelection) setSelectedOption(null);
   };
 
   useEffect(() => {
-    const query = {
-      filter: {
-        context: { eq: context },
-        done: { ne: "true" },
-      },
-      selectionSet: projectsSelectionSet,
+    const filter = {
+      context: { eq: context },
+      done: { ne: "true" },
     };
-    // @ts-expect-error
-    const sub = client.models.Projects.observeQuery(query).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<Project>) => {
-        setProjects([...(items || [])]);
-      },
-    });
-    return () => sub.unsubscribe();
+    const subscription = projectsSubscription(({ items, isSynced }) => {
+      setProjects([...(items || [])]);
+    }, filter);
+    return () => subscription.unsubscribe();
   }, [context]);
 
   return (
     <div>
-      <Select
-        options={mapOptions(projects)}
-        onChange={selectProject}
-        isClearable
-        isSearchable
-        placeholder="Select project..."
-        value={selectedOption}
-      />
+      {!createProject ? (
+        <Select
+          options={mapOptions()}
+          onChange={selectProject}
+          isClearable
+          isSearchable
+          placeholder="Add project..."
+          value={selectedOption}
+        />
+      ) : (
+        <CreatableSelect
+          options={mapOptions()}
+          onChange={selectProject}
+          isClearable
+          isSearchable
+          placeholder="Add project..."
+          value={selectedOption}
+          formatCreateLabel={(input) => `Create "${input}"`}
+        />
+      )}
     </div>
   );
 };

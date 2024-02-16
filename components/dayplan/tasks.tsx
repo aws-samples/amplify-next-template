@@ -1,30 +1,20 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { IoCheckboxSharp, IoSquareOutline } from "react-icons/io5";
-import { type Schema } from "@/amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
 import {
   NonProjectTask,
   Nullable,
   Project,
   ProjectTask,
-  SubNextFunctionParam,
-} from "@/helpers/types";
+} from "@/helpers/types/data";
 import { useAppContext } from "../navigation-menu/AppContext";
-import TaskForm from "../forms/task";
+import TaskForm from "./task-form";
 import ListView from "../lists/ListView";
-import {
-  ApiErrorType,
-  handleApiErrors,
-  isTodayOrFuture,
-  makeProjectName,
-} from "@/helpers/functional";
+import { isTodayOrFuture } from "@/helpers/functional";
 import { useRouter } from "next/router";
-import {
-  otherTasksSelectionSet,
-  projectTasksSelectionSet,
-} from "@/helpers/selection-sets";
-
-const client = generateClient<Schema>();
+import { tasksSubscription } from "@/helpers/api-operations/subscriptions";
+import { createTask as createTaskApi } from "@/helpers/api-operations/create";
+import { switchDoneTask } from "@/helpers/api-operations/update";
+import { makeProjectName } from "../ui-elements/project-name";
 
 type TasksProps = {
   day: string;
@@ -41,23 +31,8 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
 
   const switchDone =
     (id: string, projects: Project | undefined, done?: Nullable<boolean>) =>
-    async () => {
-      if (!projects) {
-        // @ts-expect-error
-        const { data, errors } = await client.models.NonProjectTask.update({
-          id,
-          done: !done,
-        });
-        return;
-      }
-      // @ts-expect-error
-      const { data, errors } = await client.models.DayProjectTask.update({
-        id,
-        done: !done,
-      });
-
-      return;
-    };
+    async () =>
+      await switchDoneTask(id, !!projects, done);
 
   const mappedTaskItems = useMemo(
     () => [
@@ -92,82 +67,21 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
     [projectTasks, nonProjectTasks, context, router]
   );
 
-  const handleResult = (errors: ApiErrorType[] | undefined) => {
-    if (errors) {
-      handleApiErrors(errors, "Error creating task");
-      return;
-    }
+  const createTask = async (task: string, selectedProject: Project | null) => {
+    const data = await createTaskApi(context, dayPlanId, task, selectedProject);
+    if (!data) return;
     setSuccessMessage("Task created");
     setShowAddTaskForm(false);
   };
 
-  const createNonProjectTask = async (task: string) => {
-    const { data, errors } = await client.models.NonProjectTask.create({
-      task,
-      context,
-      dayPlanTasksId: dayPlanId,
-    });
-    handleResult(errors);
-  };
-
-  const createProjectTask = async (task: string, project: Project) => {
-    const { data, errors } = await client.models.DayProjectTask.create({
-      task,
-      dayPlanProjectTasksId: dayPlanId,
-      projectsDayTasksId: project.id,
-    });
-    handleResult(errors);
-    if (data) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setProjectTasks([
-        ...(projectTasks || []),
-        {
-          id: data.id,
-          task,
-          projects: project,
-          createdAt: new Date().toISOString(),
-        },
-      ]);
-    }
-  };
-
-  const createTask = async (task: string, selectedProject: Project | null) => {
-    if (selectedProject === null) {
-      createNonProjectTask(task);
-      return;
-    }
-    createProjectTask(task, selectedProject);
-  };
-
   useEffect(() => {
-    const projectTasksQuery = {
-      filter: { dayPlanProjectTasksId: { eq: dayPlanId } },
-      selectionSet: projectTasksSelectionSet,
-    };
-    const observeDayProjectTask = client.models.DayProjectTask.observeQuery;
-    // @ts-expect-error
-    const subProjectTasks = observeDayProjectTask(projectTasksQuery).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<ProjectTask>) => {
-        setProjectTasks([...(items || [])]);
-      },
-    });
-
-    const otherTasksQuery = {
-      filter: { dayPlanTasksId: { eq: dayPlanId }, context: { eq: context } },
-      selectionSet: otherTasksSelectionSet,
-    };
-    const observeOtherTask = client.models.NonProjectTask.observeQuery;
-    // @ts-expect-error
-    const subOtherTasks = observeOtherTask(otherTasksQuery).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<NonProjectTask>) => {
-        setNonProjectTasks([...(items || [])]);
-      },
-    });
-
-    return () => {
-      subProjectTasks.unsubscribe();
-      subOtherTasks.unsubscribe();
-    };
+    const subscriptions = tasksSubscription(
+      dayPlanId,
+      context,
+      setProjectTasks,
+      setNonProjectTasks
+    );
+    return () => subscriptions.unsubscribe();
   }, [dayPlanId, context]);
 
   return (

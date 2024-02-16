@@ -3,30 +3,20 @@ import styles from "./Meetings.module.css";
 import { useRouter } from "next/router";
 import { flow, map, uniq } from "lodash/fp";
 import { useEffect, useMemo, useState } from "react";
-import { Schema } from "@/amplify/data/resource";
-import { Meeting, SubNextFunctionParam } from "@/helpers/types";
-import { generateClient } from "aws-amplify/data";
+import { Meeting } from "@/helpers/types/data";
 import MeetingRecord, { getMeetingDate } from "@/components/meetings/meeting";
 import { getDayOfDate } from "@/helpers/functional";
-import { meetingsSelectionSet } from "@/helpers/selection-sets";
-
-const client = generateClient<Schema>();
+import { meetingsSubscription } from "@/helpers/api-operations/subscriptions";
 
 export default function MeetingsPage() {
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    const query = {
-      selectionSet: meetingsSelectionSet,
-    };
-    // @ts-expect-error
-    const sub = client.models.Meeting.observeQuery(query).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<Meeting>) => {
-        setMeetings([...(items || [])]);
-      },
+    const subscription = meetingsSubscription(({ items, isSynced }) => {
+      setMeetings([...(items || [])]);
     });
-    return () => sub.unsubscribe();
+    return () => subscription.unsubscribe();
   }, []);
 
   const sortedMeetings = useMemo(

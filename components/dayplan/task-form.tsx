@@ -1,15 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import { useAppContext } from "../navigation-menu/AppContext";
-import { type Schema } from "@/amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
-import { Project, SixWeekBatch, SubNextFunctionParam } from "@/helpers/types";
+import { Project, SixWeekBatch } from "@/helpers/types/data";
 import { flow, map } from "lodash/fp";
 import Batch, { getUniqueBatches } from "../batches/batches";
-import SubmitButton from "../ui-elements/submit-button";
 import ProjectSelector from "../ui-elements/project-selector";
-import { projectsSelectionSet } from "@/helpers/selection-sets";
-
-const client = generateClient<Schema>();
+import { projectsSubscription } from "@/helpers/api-operations/subscriptions";
+import SubmitButton from "../ui-elements/submit-button";
 
 type TaskFormProps = {
   onSubmit: (task: string, selectedProject: Project | null) => void;
@@ -22,20 +18,14 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
   const [task, setTask] = useState("");
 
   useEffect(() => {
-    const query = {
-      filter: {
-        context: { eq: context },
-        done: { ne: "true" },
-      },
-      selectionSet: projectsSelectionSet,
+    const filter = {
+      context: { eq: context },
+      done: { ne: "true" },
     };
-    // @ts-expect-error
-    const sub = client.models.Projects.observeQuery(query).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<Project>) => {
-        setProjects([...(items || [])]);
-      },
-    });
-    return () => sub.unsubscribe();
+    const subscription = projectsSubscription(({ items, isSynced }) => {
+      setProjects([...(items || [])]);
+    }, filter);
+    return () => subscription.unsubscribe();
   }, [context]);
 
   const handleChange = (selectedOption: any) => {

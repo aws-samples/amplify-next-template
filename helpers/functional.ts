@@ -1,5 +1,5 @@
-import { filter, flow, map, get, join } from "lodash/fp";
-import { Project, Activity, SixWeekBatch } from "./types";
+import { flow, map } from "lodash/fp";
+import { Activity, SixWeekBatch } from "./types/data";
 
 export const getDayOfDate = (date: Date) => date.toISOString().split("T")[0];
 export const getCurrentDate = () => new Date();
@@ -24,6 +24,8 @@ export const logger =
     }
     console.log(new Date().toTimeString(), ...args);
   };
+export const makeISOString = (date: string | Date) =>
+  typeof date === "string" ? date : date.toISOString();
 export const isToday = (date: string | Date): boolean =>
   new Date().toISOString().substring(0, 10) ===
   (typeof date === "string" ? new Date(date) : date)
@@ -52,40 +54,9 @@ export const sortByDate =
   };
 export const validBatches = ({ sixWeekCycle: { startDate } }: SixWeekBatch) =>
   flow(makeDate, addDaysToDate(8 * 7), isTodayOrFuture)(startDate);
-const makeAccountNames = (project: Project) => {
-  if (project.accounts.length === 0) return "";
-  return `${project.accounts
-    .map(({ account: { name } }) => name)
-    .join(", ")}: `;
-};
-const makeBatchesNames = (project: Project) => {
-  const batch = flow(
-    filter(flow(get("sixWeekBatch"), validBatches)),
-    map(get("sixWeekBatch.idea")),
-    join(", ")
-  )(project.batches);
-  if (!batch) return "";
-  return `, Batch: ${batch}`;
-};
-export const makeProjectName = (project: Project) => {
-  return `${makeAccountNames(project)}${project.project}${makeBatchesNames(
-    project
-  )}`;
-};
 const getActivityDate = (activity: Activity) =>
   activity.finishedOn || activity.createdAt;
 export const sortActivities = (activities: Activity[]) =>
   activities.sort((a, b) =>
     flow(map(getActivityDate), sortByDate(true))([a, b])
   );
-export type ApiErrorType = { errorType: string; message: string };
-export const handleApiErrors = (errors: ApiErrorType[], message?: string) => {
-  let errorText = flow(
-    map(({ errorType, message }: ApiErrorType) => `${errorType}: ${message}`),
-    join("; ")
-  )(errors);
-  if (message) {
-    errorText = `${message}: ${errorText}`;
-  }
-  alert(errorText);
-};

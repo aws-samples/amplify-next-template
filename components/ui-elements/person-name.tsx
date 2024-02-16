@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styles from "./PersonName.module.css";
-import { Participant } from "@/helpers/types";
+import { Participant } from "@/helpers/types/data";
 
 type PersonNameProps = {
   person: Participant;

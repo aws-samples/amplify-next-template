@@ -1,9 +1,9 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import styles from "./NotesWriter.module.css";
 
 type NotesWriterProps = {
   note: string;
-  setNote: Dispatch<SetStateAction<string>>;
+  setNote: (newNote: string) => void;
 };
 const NotesWriter: FC<NotesWriterProps> = ({ note, setNote }) => {
   return (
@@ -12,6 +12,7 @@ const NotesWriter: FC<NotesWriterProps> = ({ note, setNote }) => {
         className={styles.fullWidth}
         value={note}
         onChange={(event) => setNote(event.target.value)}
+        autoFocus
       />
     </div>
   );

@@ -14,7 +14,7 @@
   --logo-image-url: url("/images/app-logo-transparent.png");
 
   /* Fonts */
-  --font-family: "Nunito", sans-serif;
+  --font-family: "Inter", sans-serif;
   --font-size-base: "10px";
   --font-size-xxxx-small: 0.9rem;
   --font-size-xxx-small: 1rem;
@@ -59,23 +59,23 @@
 }
 
 @font-face {
-  font-family: "Nunito";
-  src: url("/fonts/Nunito/Nunito-VariableFont_wght.ttf") format("truetype");
+  font-family: "Inter";
+  src: url("/fonts/Inter-VariableFont_slnt,wght.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Nunito";
-  src: url("/fonts/Nunito/Nunito-Italic-VariableFont_wght.ttf")
+  font-family: "Inter";
+  src: url("/fonts/RobotoCondensed-Italic-VariableFont_wght.ttf")
     format("truetype");
   font-weight: normal;
   font-style: italic;
 }
 
 @font-face {
-  font-family: "Nunito";
-  src: url("/fonts/Nunito/static/Nunito-Black.ttf") format("truetype");
+  font-family: "Inter";
+  src: url("/fonts/Fredoka_SemiCondensed-SemiBold.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
 }

@@ -12,6 +12,7 @@ export type CategoryTitleProps = {
   title?: string;
   addButton?: AddButtonProps;
   drawBackBtn?: boolean;
+  onBackBtnClick?: () => void;
   onTitleChange?: (newTitle: string) => void;
 };
 
@@ -23,9 +24,6 @@ export default function CategoryTitle(props: CategoryTitleProps) {
 
   const handleTitleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(event.target.value);
-    if (props.onTitleChange) {
-      props.onTitleChange(event.target.value);
-    }
   };
 
   useEffect(() => {
@@ -34,6 +32,8 @@ export default function CategoryTitle(props: CategoryTitleProps) {
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
   }, [title, isEditing]);
+
+  useEffect(() => setTitle(props.title), [props.title]);
 
   const handleBlur = () => {
     setIsEditing(false);
@@ -44,8 +44,13 @@ export default function CategoryTitle(props: CategoryTitleProps) {
 
   return (
     <header className={styles.content}>
-      {props.drawBackBtn && (
-        <div className={styles.backAction} onClick={() => router.back()}>
+      {(props.drawBackBtn || props.onBackBtnClick) && (
+        <div
+          className={styles.backAction}
+          onClick={
+            props.onBackBtnClick ? props.onBackBtnClick : () => router.back()
+          }
+        >
           <IoChevronBackOutline className={styles.backBtn} />
         </div>
       )}

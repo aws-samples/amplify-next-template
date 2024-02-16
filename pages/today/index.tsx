@@ -1,16 +1,13 @@
 import Layout from "@/components/layouts/Layout";
 import styles from "./Today.module.css";
 import { useEffect, useMemo, useState } from "react";
-import { type Schema } from "@/amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
-import DayPlanForm from "@/components/forms/dayplan";
-import { DayPlan, SubNextFunctionParam } from "@/helpers/types";
+import DayPlanForm from "@/components/dayplan/dayplan-form";
+import { DayPlan } from "@/helpers/types/data";
 import Tasks from "@/components/dayplan/tasks";
-import { handleApiErrors } from "@/helpers/functional";
-import { dayplanSelectionSet } from "@/helpers/selection-sets";
 import Notification from "@/components/ui-elements/notification";
-
-const client = generateClient<Schema>();
+import { dayplansSubscription } from "@/helpers/api-operations/subscriptions";
+import { createDayPlan as createDayPlanApi } from "@/helpers/api-operations/create";
+import { completeDayPlan as completeDayPlanApi } from "@/helpers/api-operations/update";
 
 export default function TodayPage() {
   const [dayplans, setDayplans] = useState<DayPlan[]>([]);
@@ -18,44 +15,23 @@ export default function TodayPage() {
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    const query = {
-      filter: {
-        done: { ne: "true" },
-      },
-      selectionSet: dayplanSelectionSet,
-    };
-    // @ts-expect-error
-    const subscription = client.models.DayPlan.observeQuery(query).subscribe({
-      next: ({ items, isSynced }: SubNextFunctionParam<DayPlan>) => {
-        setDayplans([...(items || [])]);
-      },
-    });
+    const filter = { done: { ne: "true" } };
+    const subscription = dayplansSubscription(({ items, isSynced }) => {
+      setDayplans([...(items || [])]);
+    }, filter);
     return () => subscription.unsubscribe();
   }, []);
 
   const createDayPlan = async (goal: string, date: string) => {
-    const { data, errors } = await client.models.DayPlan.create({
-      day: date,
-      dayGoal: goal,
-    });
-    if (errors) {
-      handleApiErrors(errors, "Error creating plan for the day");
-      return;
-    }
+    const data = await createDayPlanApi(date, goal);
+    if (!data) return;
     setSuccessMessage("Day plan successfully created");
     setShowCreateDayPlan(false);
   };
 
   const completeDayPlan = async (dayplanId: string) => {
-    // @ts-expect-error
-    const { data, errors } = await client.models.DayPlan.update({
-      id: dayplanId,
-      done: true,
-    });
-    if (errors) {
-      handleApiErrors(errors, "Error completing plan for the day");
-      return;
-    }
+    const data = await completeDayPlanApi(dayplanId);
+    if (!data) return;
     await new Promise((resolve) => setTimeout(resolve, 500));
     setDayplans(dayplans.filter(({ id }) => id !== dayplanId));
   };

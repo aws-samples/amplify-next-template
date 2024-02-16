@@ -1,5 +1,4 @@
-import { makeProjectName } from "@/helpers/functional";
-import { Activity, Project } from "@/helpers/types";
+import { Activity, Project } from "@/helpers/types/data";
 import { flow, map, get } from "lodash/fp";
 import { FC } from "react";
 import styles from "./Activity.module.css";

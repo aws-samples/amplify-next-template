@@ -1,10 +1,11 @@
 import { FC } from "react";
-import { Meeting } from "@/helpers/types";
+import { Meeting } from "@/helpers/types/data";
 import styles from "./Meeting.module.css";
 import { flow, map } from "lodash/fp";
 import { sortActivities } from "@/helpers/functional";
 import ActivityComponent from "../activities/activity";
 import PersonName from "../ui-elements/person-name";
+import { useRouter } from "next/router";
 
 export const getMeetingDate = ({ meetingOn, createdAt }: Meeting) =>
   new Date(meetingOn || createdAt);
@@ -13,9 +14,14 @@ type MeetingRecordProps = {
   meeting: Meeting;
 };
 const MeetingRecord: FC<MeetingRecordProps> = ({ meeting }) => {
+  const router = useRouter();
+
   return (
     <div>
-      <h3>
+      <h3
+        className={styles.title}
+        onClick={() => router.push(`/meetings/${meeting.id}`)}
+      >
         {`${new Date(getMeetingDate(meeting)).toLocaleTimeString(undefined, {
           hour: "2-digit",
           minute: "2-digit",
