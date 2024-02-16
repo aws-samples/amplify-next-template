@@ -11,7 +11,7 @@ import SubmitButton from "@/components/ui-elements/submit-button";
 import { getTask } from "@/helpers/api-operations/get";
 import { projectActivitySubscription } from "@/helpers/api-operations/subscriptions";
 import { createActivity as createActivityApi } from "@/helpers/api-operations/create";
-import { makeProjectName } from "@/components/ui-elements/project-name";
+import ProjectName from "@/components/ui-elements/project-name";
 import { useAppContext } from "@/components/navigation-menu/AppContext";
 import { filterBySearch } from "@/components/tasks/helpers/tasks";
 
@@ -85,7 +85,9 @@ export default function TaskDetailPage() {
       ) : (
         <div>
           <h1>{projectTask.task}</h1>
-          <h3>{makeProjectName(projectTask.projects)}</h3>
+          <h3>
+            <ProjectName project={projectTask.projects} />
+          </h3>
           <div>
             <h4>Log new activity</h4>
             <DateSelector date={date} setDate={setDate} selectHours />

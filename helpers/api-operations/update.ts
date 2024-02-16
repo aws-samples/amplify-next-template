@@ -1,6 +1,6 @@
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { Activity, Nullable } from "../types/data";
+import { Nullable } from "../types/data";
 import { handleApiErrors } from "./globals";
 import { makeISOString } from "../functional";
 

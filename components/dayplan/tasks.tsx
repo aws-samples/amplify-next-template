@@ -10,7 +10,6 @@ import { useAppContext } from "../navigation-menu/AppContext";
 import TaskForm from "./task-form";
 import ListView from "../lists/ListView";
 import { isTodayOrFuture, wait } from "@/helpers/functional";
-import { useRouter } from "next/router";
 import { tasksSubscription } from "@/helpers/api-operations/subscriptions";
 import { createTask as createTaskApi } from "@/helpers/api-operations/create";
 import { switchDoneTask } from "@/helpers/api-operations/update";
@@ -28,12 +27,11 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { context } = useAppContext();
-  const router = useRouter();
 
   const switchDone =
     (id: string, projects: Project | undefined, done?: Nullable<boolean>) =>
-    async () =>
-      await switchDoneTask(id, !!projects, done);
+    () =>
+      switchDoneTask(id, !!projects, done);
 
   const mappedTaskItems = useMemo(
     () => [
@@ -65,7 +63,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
           Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
         })),
     ],
-    [projectTasks, nonProjectTasks, context, router]
+    [projectTasks, nonProjectTasks, context]
   );
 
   const createTask = async (task: string, selectedProject: Project | null) => {
