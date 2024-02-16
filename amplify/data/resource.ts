@@ -10,6 +10,12 @@ authenticated via an API key, can only "read" records.
 
 const schema = a.schema({
   Context: a.enum(["family", "hobby", "work"]),
+  CurrentContext: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      context: a.ref("Context").required(),
+    })
+    .authorization([a.allow.owner()]),
   DayPlan: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
