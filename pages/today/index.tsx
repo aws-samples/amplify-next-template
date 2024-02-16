@@ -8,6 +8,7 @@ import Notification from "@/components/ui-elements/notification";
 import { dayplansSubscription } from "@/helpers/api-operations/subscriptions";
 import { createDayPlan as createDayPlanApi } from "@/helpers/api-operations/create";
 import { completeDayPlan as completeDayPlanApi } from "@/helpers/api-operations/update";
+import { wait } from "@/helpers/functional";
 
 export default function TodayPage() {
   const [dayplans, setDayplans] = useState<DayPlan[]>([]);
@@ -32,7 +33,7 @@ export default function TodayPage() {
   const completeDayPlan = async (dayplanId: string) => {
     const data = await completeDayPlanApi(dayplanId);
     if (!data) return;
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await wait(500);
     setDayplans(dayplans.filter(({ id }) => id !== dayplanId));
   };
 

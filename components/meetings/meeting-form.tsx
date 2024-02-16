@@ -144,7 +144,6 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
       batches: [],
       accounts: [],
     };
-    console.log("CREATE PROJECT", newProject);
     addProjectToSelection(newProject);
   };
 

@@ -1,14 +1,24 @@
-import { Dispatch, FC, ReactNode, SetStateAction } from "react";
+import { FC, ReactNode } from "react";
 import styles from "./SubmitButton.module.css";
 
-type SubmitButtonProps = {
-  children: ReactNode;
+type OnClickType = {
   onClick: () => void;
+  type?: never;
 };
-const SubmitButton: FC<SubmitButtonProps> = ({ children, onClick }) => {
+
+type BtnType = {
+  onClick?: never;
+  type: "submit";
+};
+
+type SubmitButtonProps = (OnClickType | BtnType) & {
+  children: ReactNode;
+};
+
+const SubmitButton: FC<SubmitButtonProps> = ({ children, onClick, type }) => {
   return (
     <div>
-      <button className={styles.button} onClick={onClick}>
+      <button className={styles.button} type={type} onClick={onClick}>
         {children}
       </button>
     </div>

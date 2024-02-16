@@ -2,7 +2,7 @@ import Layout from "@/components/layouts/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Activity, NonProjectTask, ProjectTask } from "@/helpers/types/data";
-import { sortActivities } from "@/helpers/functional";
+import { sortActivities, wait } from "@/helpers/functional";
 import { flow, map } from "lodash/fp";
 import ActivityComponent from "@/components/activities/activity";
 import DateSelector from "@/components/ui-elements/date-selector";
@@ -55,7 +55,7 @@ export default function TaskDetailPage() {
     const notes = newNote;
     setNewNote("");
     setDate(new Date());
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await wait(500);
     setActivities([
       ...activities,
       {

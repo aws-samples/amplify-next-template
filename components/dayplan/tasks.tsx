@@ -9,12 +9,13 @@ import {
 import { useAppContext } from "../navigation-menu/AppContext";
 import TaskForm from "./task-form";
 import ListView from "../lists/ListView";
-import { isTodayOrFuture } from "@/helpers/functional";
+import { isTodayOrFuture, wait } from "@/helpers/functional";
 import { useRouter } from "next/router";
 import { tasksSubscription } from "@/helpers/api-operations/subscriptions";
 import { createTask as createTaskApi } from "@/helpers/api-operations/create";
 import { switchDoneTask } from "@/helpers/api-operations/update";
 import { makeProjectName } from "../ui-elements/project-name";
+import SubmitButton from "../ui-elements/submit-button";
 
 type TasksProps = {
   day: string;
@@ -72,6 +73,29 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
     if (!data) return;
     setSuccessMessage("Task created");
     setShowAddTaskForm(false);
+    await wait(500);
+    if (!selectedProject)
+      setNonProjectTasks([
+        ...nonProjectTasks,
+        {
+          id: data.id,
+          context: context,
+          task: data.task,
+          done: data.done,
+          createdAt: data.createdAt,
+        },
+      ]);
+    else
+      setProjectTasks([
+        ...projectTasks,
+        {
+          id: data.id,
+          task: data.task,
+          done: data.done,
+          createdAt: data.createdAt,
+          projects: selectedProject,
+        },
+      ]);
   };
 
   useEffect(() => {
@@ -95,9 +119,9 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
       )}
       {successMessage && <div>{successMessage}</div>}
       {isTodayOrFuture(day) && !showAddTaskForm && (
-        <div>
-          <button onClick={() => setShowAddTaskForm(true)}>Add task</button>
-        </div>
+        <SubmitButton onClick={() => setShowAddTaskForm(true)}>
+          Add task
+        </SubmitButton>
       )}
     </div>
   );

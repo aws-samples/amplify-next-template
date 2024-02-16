@@ -25,9 +25,7 @@ const PeopleSelector: FC<PeopleSelectorProps> = ({
     }));
 
   const selectPerson = (selectedOption: any) => {
-    console.log("selectPerson", !createPerson, selectedOption);
     if (!(createPerson && selectedOption.__isNew__)) {
-      console.log("add participant");
       const person = people.find((p) => p.id === selectedOption.value);
       onChange(person || null);
       if (clearAfterSelection) setSelectedOption(null);

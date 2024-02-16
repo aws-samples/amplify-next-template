@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, FormEvent, useEffect, useState } from "react";
 import { useAppContext } from "../navigation-menu/AppContext";
 import { Project, SixWeekBatch } from "@/helpers/types/data";
 import { flow, map } from "lodash/fp";
@@ -6,6 +6,7 @@ import Batch, { getUniqueBatches } from "../batches/batches";
 import ProjectSelector from "../ui-elements/project-selector";
 import { projectsSubscription } from "@/helpers/api-operations/subscriptions";
 import SubmitButton from "../ui-elements/submit-button";
+import ProjectName from "../ui-elements/project-name";
 
 type TaskFormProps = {
   onSubmit: (task: string, selectedProject: Project | null) => void;
@@ -28,22 +29,28 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
     return () => subscription.unsubscribe();
   }, [context]);
 
-  const handleChange = (selectedOption: any) => {
-    const project = projects.find((p) => p.id === selectedOption.value);
-    setSelectedProject(project || null);
+  const handleChange = (selectedOption: Project | null) => {
+    setSelectedProject(selectedOption);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit(task, selectedProject);
   };
 
   return (
     <div>
-      <input
-        value={task}
-        onChange={(event) => setTask(event.target.value)}
-        placeholder="Describe task"
-      />
-      <ProjectSelector onChange={handleChange} />
-      <SubmitButton onClick={() => onSubmit(task, selectedProject)}>
-        Create Task
-      </SubmitButton>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={task}
+          onChange={(event) => setTask(event.target.value)}
+          placeholder="Describe task"
+        />
+        {selectedProject && <ProjectName project={selectedProject} />}
+        <ProjectSelector onChange={handleChange} />
+        <SubmitButton type="submit">Create Task</SubmitButton>
+      </form>
       <div>
         <h3>Important Six-Week Batches and Projects</h3>
         {flow(

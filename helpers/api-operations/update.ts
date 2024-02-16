@@ -62,7 +62,6 @@ const updateMeeting = async (
   },
   errorMsg?: string
 ) => {
-  console.log("UPDATING MEETING", param);
   const meetingApi = client.models.Meeting.update;
   const { data, errors } = await meetingApi(param);
   if (errors) {

@@ -60,3 +60,5 @@ export const sortActivities = (activities: Activity[]) =>
   activities.sort((a, b) =>
     flow(map(getActivityDate), sortByDate(true))([a, b])
   );
+export const wait = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
