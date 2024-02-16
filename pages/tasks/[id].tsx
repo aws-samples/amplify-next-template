@@ -1,9 +1,8 @@
 import Layout from "@/components/layouts/Layout";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Activity, NonProjectTask, ProjectTask } from "@/helpers/types/data";
-import { sortActivities, wait } from "@/helpers/functional";
-import { flow, map } from "lodash/fp";
+import { activitySorter, wait } from "@/helpers/functional";
 import ActivityComponent from "@/components/activities/activity";
 import DateSelector from "@/components/ui-elements/date-selector";
 import styles from "./Tasks.module.css";
@@ -13,6 +12,8 @@ import { getTask } from "@/helpers/api-operations/get";
 import { projectActivitySubscription } from "@/helpers/api-operations/subscriptions";
 import { createActivity as createActivityApi } from "@/helpers/api-operations/create";
 import { makeProjectName } from "@/components/ui-elements/project-name";
+import { useAppContext } from "@/components/navigation-menu/AppContext";
+import { filterBySearch } from "@/components/tasks/helpers/tasks";
 
 export default function TaskDetailPage() {
   const [projectTask, setProjectTask] = useState<ProjectTask | null>(null);
@@ -22,6 +23,7 @@ export default function TaskDetailPage() {
   );
   const [newNote, setNewNote] = useState("");
   const [date, setDate] = useState(new Date());
+  const { searchTextUpperCase } = useAppContext();
 
   const router = useRouter();
   const id = router.query.id as string;
@@ -68,6 +70,14 @@ export default function TaskDetailPage() {
     ]);
   };
 
+  const sortedActivities: Activity[] = useMemo(
+    () =>
+      activities
+        .filter(filterBySearch(searchTextUpperCase))
+        .sort(activitySorter),
+    [activities, searchTextUpperCase]
+  );
+
   return (
     <Layout onBackBtnClick={() => router.push("/today")}>
       {!projectTask ? (
@@ -83,16 +93,13 @@ export default function TaskDetailPage() {
             <SubmitButton onClick={createActivity}>Submit</SubmitButton>
           </div>
 
-          {flow(
-            sortActivities,
-            map((activity) => (
-              <ActivityComponent
-                key={activity.id}
-                activity={activity}
-                showDates
-              />
-            ))
-          )(activities)}
+          {sortedActivities.map((activity) => (
+            <ActivityComponent
+              key={activity.id}
+              activity={activity}
+              showDates
+            />
+          ))}
         </div>
       )}
     </Layout>

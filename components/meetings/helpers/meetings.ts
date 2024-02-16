@@ -18,6 +18,19 @@ export const isDuplicate = (
     .find((a) => a.id === editNoteId)
     ?.forProjects?.some((proj) => proj.projects.id === project.id);
 
+export const filterBySearchText =
+  (searchText: string) =>
+  ({ topic, activities }: Meeting) =>
+    topic.toUpperCase().includes(searchText) ||
+    activities.filter(
+      ({ notes, forProjects }) =>
+        notes?.toUpperCase().includes(searchText) ||
+        (forProjects &&
+          forProjects.filter(({ projects: { project } }) =>
+            project.toUpperCase().includes(searchText)
+          ).length > 0)
+    ).length > 0;
+
 export const addProjectToNewNote = async (
   newNote: string,
   project: Project,

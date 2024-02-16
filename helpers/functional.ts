@@ -56,9 +56,9 @@ export const validBatches = ({ sixWeekCycle: { startDate } }: SixWeekBatch) =>
   flow(makeDate, addDaysToDate(8 * 7), isTodayOrFuture)(startDate);
 const getActivityDate = (activity: Activity) =>
   activity.finishedOn || activity.createdAt;
+export const activitySorter = (a: Activity, b: Activity) =>
+  flow(map(getActivityDate), sortByDate(true))([a, b]);
 export const sortActivities = (activities: Activity[]) =>
-  activities.sort((a, b) =>
-    flow(map(getActivityDate), sortByDate(true))([a, b])
-  );
+  activities.sort(activitySorter);
 export const wait = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));

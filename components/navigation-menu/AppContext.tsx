@@ -4,6 +4,9 @@ export type Context = "family" | "hobby" | "work";
 interface AppContextType {
   context: Context;
   setContext: (context: Context) => void;
+  searchTextUpperCase: string;
+  searchText: string;
+  setSearchText: (search: string) => void;
 }
 
 interface AppContextProviderProps {
@@ -15,9 +18,18 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({
   children,
 }) => {
   const [context, setContext] = useState<Context>("work");
+  const [searchText, setSearchText] = useState("");
 
   return (
-    <AppContext.Provider value={{ context, setContext }}>
+    <AppContext.Provider
+      value={{
+        context,
+        setContext,
+        searchTextUpperCase: searchText.toUpperCase(),
+        searchText,
+        setSearchText,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
