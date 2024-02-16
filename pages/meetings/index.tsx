@@ -1,5 +1,5 @@
 import Layout from "@/components/layouts/Layout";
-import styles from "./Meetings.module.css";
+import styles from "../../components/meetings/Meetings.module.css";
 import { useRouter } from "next/router";
 import { flow, map, uniq } from "lodash/fp";
 import { useEffect, useMemo, useState } from "react";
@@ -46,7 +46,9 @@ export default function MeetingsPage() {
         ? "Loading..."
         : meetingDates.map((date: string, idx: number) => (
             <div key={idx}>
-              <h2>{new Date(date).toLocaleDateString()}</h2>
+              <h1 className={styles.date}>
+                {new Date(date).toLocaleDateString()}
+              </h1>
               {sortedMeetings
                 .filter(
                   flow(

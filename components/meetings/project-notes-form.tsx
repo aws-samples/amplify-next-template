@@ -4,6 +4,7 @@ import { Nullable, Project } from "@/helpers/types/data";
 import ProjectName from "../ui-elements/project-name";
 import ProjectSelector from "../ui-elements/project-selector";
 import NotesWriter from "../ui-elements/notes-writer";
+import NotesViewer from "../activities/notes-viewer";
 
 type ProjectNotesFormProps = {
   className?: string;
@@ -36,7 +37,7 @@ const ProjectNotesForm: FC<ProjectNotesFormProps> = ({
         {isEditing || isNew ? (
           <NotesWriter note={notes || ""} setNote={onNoteChange} />
         ) : (
-          <div>{notes}</div>
+          <NotesViewer notes={notes} />
         )}
       </div>
 

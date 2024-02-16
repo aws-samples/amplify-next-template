@@ -4,16 +4,20 @@ export const activitiesSelectionSet = [
   "activity.notes",
   "activity.createdAt",
 ];
+export const accountsSelectionSet = ["id", "name"];
+export const batchesSelectionSet = [
+  "id",
+  "idea",
+  "context",
+  "sixWeekCycle.name",
+  "sixWeekCycle.startDate",
+];
 export const projectsSelectionSet = [
   "id",
   "project",
   "context",
-  "accounts.account.name",
-  "batches.sixWeekBatch.id",
-  "batches.sixWeekBatch.idea",
-  "batches.sixWeekBatch.context",
-  "batches.sixWeekBatch.sixWeekCycle.name",
-  "batches.sixWeekBatch.sixWeekCycle.startDate",
+  ...accountsSelectionSet.map((a) => `accounts.account.${a}`),
+  ...batchesSelectionSet.map((b) => `batches.sixWeekBatch.${b}`),
 ];
 const taskBaseSelectionSet = ["id", "task", "done", "createdAt"];
 export const otherTasksSelectionSet = [...taskBaseSelectionSet, "context"];

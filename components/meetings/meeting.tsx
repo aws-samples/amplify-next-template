@@ -18,15 +18,14 @@ const MeetingRecord: FC<MeetingRecordProps> = ({ meeting }) => {
 
   return (
     <div>
-      <h3
-        className={styles.title}
-        onClick={() => router.push(`/meetings/${meeting.id}`)}
-      >
-        {`${new Date(getMeetingDate(meeting)).toLocaleTimeString(undefined, {
-          hour: "2-digit",
-          minute: "2-digit",
-        })} – ${meeting.topic}`}
-      </h3>
+      <h2>
+        <a href={`/meetings/${meeting.id}`} className={styles.title}>
+          {`${new Date(getMeetingDate(meeting)).toLocaleTimeString(undefined, {
+            hour: "2-digit",
+            minute: "2-digit",
+          })} – ${meeting.topic}`}
+        </a>
+      </h2>
       <div>
         {meeting.participants.map(({ person }) => (
           <PersonName key={person.id} person={person} />

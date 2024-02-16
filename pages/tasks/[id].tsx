@@ -27,6 +27,7 @@ export default function TaskDetailPage() {
   const id = router.query.id as string;
 
   useEffect(() => {
+    if (!id) return;
     if (!projectTask) {
       getTask(id, setProjectTask);
       return;
@@ -68,7 +69,7 @@ export default function TaskDetailPage() {
   };
 
   return (
-    <Layout drawBackBtn>
+    <Layout onBackBtnClick={() => router.push("/today")}>
       {!projectTask ? (
         <h1>Loading...</h1>
       ) : (

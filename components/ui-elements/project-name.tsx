@@ -26,8 +26,24 @@ export const makeProjectName = (project: Project) =>
 type ProjectNameProps = {
   project: Project;
 };
-const ProjectName: FC<ProjectNameProps> = ({ project }) => (
-  <div className={styles.project}>{makeProjectName(project)}</div>
+const ProjectName: FC<ProjectNameProps> = ({
+  project: { project, id, accounts, batches },
+}) => (
+  <div className={styles.wrapper}>
+    <div className={`${styles.token} ${styles.project}`}>{project}</div>
+    {Array.isArray(accounts) &&
+      accounts.map(({ account: { id, name } }) => (
+        <span key={id} className={`${styles.token} ${styles.account}`}>
+          {name}
+        </span>
+      ))}
+    {Array.isArray(batches) &&
+      batches.map(({ sixWeekBatch: { id, idea } }) => (
+        <span key={id} className={`${styles.token} ${styles.batches}`}>
+          {idea}
+        </span>
+      ))}
+  </div>
 );
 
 export default ProjectName;

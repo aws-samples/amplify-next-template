@@ -3,6 +3,7 @@ import { flow, map, get } from "lodash/fp";
 import { FC } from "react";
 import styles from "./Activity.module.css";
 import ProjectName from "../ui-elements/project-name";
+import NotesViewer from "./notes-viewer";
 
 type ActivityProps = {
   activity: Activity;
@@ -29,7 +30,7 @@ const ActivityComponent: FC<ActivityProps> = ({
           )(forProjects)}
         </div>
       )}
-      <div>{notes}</div>
+      <NotesViewer notes={notes} />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 export type Nullable<T> = T | null;
 export type MappedAccount = {
+  id: string;
   name: string;
 };
 export type SixWeekCycle = {

@@ -47,7 +47,7 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
           id,
           title: task,
           description: makeProjectName(projects),
-          detailOnClick: () => router.push(`/tasks/${id}`),
+          href: `/tasks/${id}`,
           iconOnClick: switchDone(id, projects, done),
           Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
         })),

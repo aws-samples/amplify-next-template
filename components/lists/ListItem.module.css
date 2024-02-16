@@ -44,6 +44,7 @@
 
 .postBody {
   display: flex;
+  color: var(--color-text);
   cursor: pointer;
   flex-direction: column;
   justify-content: stretch;
