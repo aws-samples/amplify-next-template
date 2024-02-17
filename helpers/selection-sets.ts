@@ -5,6 +5,7 @@ export const activitiesSelectionSet = [
   "activity.createdAt",
 ];
 export const currentContextSelectionSet = [
+  "id",
   "context",
 ];
 export const accountsSelectionSet = ["id", "name"];
