@@ -1,4 +1,13 @@
-import { FC, ReactNode, createContext, useContext, useState } from "react";
+import { getCurrentContext } from "@/helpers/api-operations/get";
+import { updateCurrentContext } from "@/helpers/api-operations/update";
+import {
+  FC,
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 export type Context = "family" | "hobby" | "work";
 interface AppContextType {
@@ -13,6 +22,18 @@ interface AppContextProviderProps {
   children: ReactNode;
 }
 
+const apiGetContext = async (setContext: (context: Context) => void) => {
+  const context = await getCurrentContext("work");
+  setContext(context);
+};
+const apiSetContext = async (
+  context: Context,
+  setContext: (context: Context) => void
+) => {
+  const newContext = await updateCurrentContext(context);
+  setContext(newContext);
+};
+
 const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppContextProvider: FC<AppContextProviderProps> = ({
   children,
@@ -20,11 +41,18 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({
   const [context, setContext] = useState<Context>("work");
   const [searchText, setSearchText] = useState("");
 
+  useEffect(() => {
+    apiGetContext(setContext);
+  }, []);
+
+  const handleContextChange = (context: Context) =>
+    apiSetContext(context, setContext);
+
   return (
     <AppContext.Provider
       value={{
         context,
-        setContext,
+        setContext: handleContextChange,
         searchTextUpperCase: searchText.toUpperCase(),
         searchText,
         setSearchText,

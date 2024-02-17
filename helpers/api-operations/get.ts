@@ -36,8 +36,8 @@ export const getCurrentContext = async (fallbackContext: Context) => {
   };
   const getApi = client.models.CurrentContext.list;
   const { data, errors } = await getApi(options);
-  if (errors) return;
-  if (data) return data[0].context;
+  if (errors) return fallbackContext;
+  if (data && data.length > 0) return data[0].context;
   const newContext = await createCurrentContext(fallbackContext);
   if (!newContext) return fallbackContext;
   return newContext;
