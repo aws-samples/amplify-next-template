@@ -3,6 +3,8 @@ import { generateClient } from "aws-amplify/data";
 import { Nullable } from "../types/data";
 import { handleApiErrors } from "./globals";
 import { makeISOString } from "../functional";
+import { Context } from "@/components/navigation-menu/AppContext";
+import { createCurrentContext } from "./create";
 
 const client = generateClient<Schema>();
 
@@ -78,6 +80,27 @@ export const updateMeetingDateTime = (
   meetingId: string,
   dateTime: Date | string
 ) => updateMeeting({ id: meetingId, meetingOn: makeISOString(dateTime) });
+
+export const updateCurrentContext: (context: Context) => Promise<Context> = async (context) => {
+  const options = { limit: 1 };
+  const getApi = client.models.CurrentContext.list;
+  const { data, errors } = await getApi(options);
+  if (errors) return context;
+  if (data) {
+    // we found a record for the current context
+    // so, let's update it
+    const id = data.id;
+    const updateApi = client.models.CurrentContext.update;
+    const { data: updated, errors } = await updateApi({
+      id,
+      context,
+    });
+    return context;
+  }
+  // we didn't find a record for the current context
+  // so, let's create one
+  return createCurrentContext(context);
+};
 
 export const updateActivity = async (id: string, notes: string) => {
   const updateApi = client.models.Activity.update;
