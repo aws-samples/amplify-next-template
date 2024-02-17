@@ -1,12 +1,16 @@
+import { Schema } from "@/amplify/data/resource";
+import { SelectionSet } from "aws-amplify/data";
+import { currentContextSelectionSet } from "../selection-sets";
+
 export type Nullable<T> = T | null;
 export type MappedAccount = {
   id: string;
   name: string;
 };
-export type CurrentContext = {
-  id: string;
-  context: string;
-};
+export type CurrentContext = SelectionSet<
+  Schema["CurrentContext"],
+  typeof currentContextSelectionSet
+>;
 export type SixWeekCycle = {
   name: string;
   startDate: string;

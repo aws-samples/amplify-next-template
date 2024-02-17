@@ -81,7 +81,9 @@ export const updateMeetingDateTime = (
   dateTime: Date | string
 ) => updateMeeting({ id: meetingId, meetingOn: makeISOString(dateTime) });
 
-export const updateCurrentContext: (context: Context) => Promise<Context> = async (context) => {
+export const updateCurrentContext: (
+  context: Context
+) => Promise<Context> = async (context) => {
   const options = { limit: 1 };
   const getApi = client.models.CurrentContext.list;
   const { data, errors } = await getApi(options);
@@ -89,7 +91,7 @@ export const updateCurrentContext: (context: Context) => Promise<Context> = asyn
   if (data) {
     // we found a record for the current context
     // so, let's update it
-    const id = data.id;
+    const id = data[0].id;
     const updateApi = client.models.CurrentContext.update;
     const { data: updated, errors } = await updateApi({
       id,

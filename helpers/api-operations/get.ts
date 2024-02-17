@@ -35,7 +35,6 @@ export const getCurrentContext = async (fallbackContext: Context) => {
     selectionSet: currentContextSelectionSet,
   };
   const getApi = client.models.CurrentContext.list;
-  // @ts-expect-error
   const { data, errors } = await getApi(options);
   if (errors) return;
   if (data) return data[0].context;
