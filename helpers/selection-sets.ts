@@ -4,6 +4,9 @@ export const activitiesSelectionSet = [
   "activity.notes",
   "activity.createdAt",
 ];
+export const currentContextSelectionSet = [
+  "context",
+];
 export const accountsSelectionSet = ["id", "name"];
 export const batchesSelectionSet = [
   "id",
