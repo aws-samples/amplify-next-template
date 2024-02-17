@@ -3,6 +3,9 @@ export type MappedAccount = {
   id: string;
   name: string;
 };
+export type CurrentContext = {
+  context: string;
+};
 export type SixWeekCycle = {
   name: string;
   startDate: string;
