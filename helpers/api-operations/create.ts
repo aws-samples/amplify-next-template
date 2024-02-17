@@ -131,6 +131,19 @@ export const createProject = async (name: string, context: Context) => {
   return data;
 };
 
+export const createCurrentContext = async (context: Context) => {
+  const createApi = client.models.CurrentContext.create;
+  const param = {
+    context,
+  };
+  const { data, errors } = await createApi(param);
+  if (errors) {
+    handleApiErrors(errors, "Error creating current context");
+    return;
+  }
+  return data;
+};
+
 export const createMeeting = async () => {
   const createMeetingApi = client.models.Meeting.create;
   const { data, errors } = await createMeetingApi({ topic: "Meeting Topic" });
