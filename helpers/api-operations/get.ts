@@ -3,9 +3,9 @@ import { generateClient } from "aws-amplify/data";
 import { handleApiErrors } from "./globals";
 import { createCurrentContext } from "./create";
 import {
+  currentContextSelectionSet,
   meetingsSelectionSet,
   projectTasksSelectionSet,
-  currentContextSelectionSet,
 } from "../selection-sets";
 import { Meeting, NonProjectTask, ProjectTask } from "../types/data";
 import { Context } from "@/components/navigation-menu/AppContext";
@@ -30,14 +30,18 @@ export const getMeeting = async (
 };
 
 export const getCurrentContext = async (fallbackContext: Context) => {
-  const options = { limit: 1, selectionSet: currentContextSelectionSet };
+  const options = {
+    limit: 1,
+    selectionSet: currentContextSelectionSet,
+  };
   const getApi = client.models.CurrentContext.list;
+  // @ts-expect-error
   const { data, errors } = await getApi(options);
   if (errors) return;
   if (data) return data[0].context;
   const newContext = await createCurrentContext(fallbackContext);
   if (!newContext) return fallbackContext;
-  return newContext.context;
+  return newContext;
 };
 
 export const getTask = async (
