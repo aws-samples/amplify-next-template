@@ -1,4 +1,4 @@
-import ConfigureAmplifyClientSide from "@/components/ConfigureAmplify";
+import ConfigureAmplifyClientSide from "@/app/components/configure-amplify";
 export const metadata = {
   title: '2One.tech',
   description: 'Artificial Intelligence Services for SMEs',

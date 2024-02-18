@@ -1,5 +1,5 @@
 import { Menu, MenuItem, View } from '@aws-amplify/ui-react';
-import ConfigureAmplifyClientSide from "@/components/ConfigureAmplify";
+import ConfigureAmplifyClientSide from "@/app/components/configure-amplify";
 export const metadata = {
   title: '2One.tech',
   description: 'Signup for 2One.tech',
