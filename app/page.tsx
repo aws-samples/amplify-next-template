@@ -1,7 +1,12 @@
+"use client";
+
+import Hero from "@/app/components/hero"
+import { Card, Divider, Flex, Heading } from "@aws-amplify/ui-react";
+
 export default function Home() {
   return (
     <div>
-      <h1>Hello World</h1>
+      <Hero headerText="Serving SMB's" callToAction="Explore More!"/>
     </div>
   );
 }
