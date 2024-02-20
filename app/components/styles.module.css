@@ -1,14 +1,51 @@
-
-
 .hero {
-  background-image: url("https://source.unsplash.com/random");
-  background-size: cover;
-  background-position: center;
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-  font-size: 2rem;
+    background-image: linear-gradient(60deg, black, #514e4e);
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.hero_text {
+    @media (max-width: 576px) {
+        /* xs breakpoint */
+        font-size: 48px !important;    
+    }
+
+    @media (min-width: 577px) and (max-width: 768px) {
+        /* sm breakpoint */
+        font-size: 48px !important;
+    }
+
+    @media (min-width: 769px){
+        /* md breakpoint */
+        font-size: 72px !important;
+    }
+}
+
+.hero_subtext {
+    @media (max-width: 576px) {
+        /* xs breakpoint */
+        font-size: 24px !important;    
+    }
+
+    @media (min-width: 577px) and (max-width: 768px) {
+        /* sm breakpoint */
+        font-size: 24px !important;
+    }
+
+    @media (min-width: 769px){
+        /* md breakpoint */
+        font-size: 36px !important;
+    }
+}
+
+.grid_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
