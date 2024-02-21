@@ -11,37 +11,31 @@
 }
 
 .hero_text {
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
         /* xs breakpoint */
-        font-size: 48px !important;    
-    }
-
-    @media (min-width: 577px) and (max-width: 768px) {
-        /* sm breakpoint */
         font-size: 48px !important;
     }
 
-    @media (min-width: 769px){
+    @media (min-width: 769px) {
         /* md breakpoint */
         font-size: 72px !important;
     }
 }
 
 .hero_subtext {
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
         /* xs breakpoint */
-        font-size: 24px !important;    
-    }
-
-    @media (min-width: 577px) and (max-width: 768px) {
-        /* sm breakpoint */
         font-size: 24px !important;
     }
 
-    @media (min-width: 769px){
+    @media (min-width: 769px) {
         /* md breakpoint */
         font-size: 36px !important;
     }
+}
+
+.appbar_menuButton {
+    margin-right: 2;
 }
 
 .grid_container {

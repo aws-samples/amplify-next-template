@@ -2,6 +2,7 @@ import ConfigureAmplifyClientSide from "@/app/components/configure-amplify";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/app/styles/theme';
+import ButtonAppBar from "./components/navigation";
 
 export const metadata = {
   title: '2One.tech',
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <ButtonAppBar/>
         <ConfigureAmplifyClientSide />
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>

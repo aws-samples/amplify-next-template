@@ -11,17 +11,16 @@ export default function Home() {
       <Hero text="Serving SMB's" subText='Adaptable Consultants for AI Solutions' actionText="Explore More!" />
       <Divider />
       <Grid container
-        spacing={0}
         alignItems="center"
         justifyContent="center">
-        <Grid xs={12} md={4}>
-          <MultiActionAreaCard image='/hero.webp' />
+        <Grid xs={12} md={4} className={styles.grid_basic}>
+          <MultiActionAreaCard image='/hero.webp'/>
         </Grid>
-        <Grid xs={12} md={4}>
-          <MultiActionAreaCard image='/hero.webp' />
+        <Grid xs={12} md={4} className={styles.grid_basic}>
+          <MultiActionAreaCard image='/hero.webp'/>
         </Grid>
-        <Grid xs={12} md={4}>
-          <MultiActionAreaCard image='/hero.webp' />
+        <Grid xs={12} md={4} className={styles.grid_basic}>
+          <MultiActionAreaCard image='/hero.webp'/>
         </Grid>
       </Grid>
     </div>
