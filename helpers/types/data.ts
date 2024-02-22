@@ -1,4 +1,4 @@
-import { Schema } from "@/amplify/data/resource";
+import { type Schema } from "@/amplify/data/resource";
 import { SelectionSet } from "aws-amplify/data";
 import { currentContextSelectionSet } from "../selection-sets";
 

@@ -22,6 +22,7 @@ const schema = a.schema({
       notionId: a.integer(),
       day: a.date().required(),
       dayGoal: a.string().required(),
+      context: a.ref("Context"),
       done: a.boolean(),
       tasks: a.hasMany("NonProjectTask"),
       projectTasks: a.hasMany("DayProjectTask"),
