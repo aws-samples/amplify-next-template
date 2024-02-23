@@ -41,9 +41,7 @@ type TaskBase = {
   done?: Nullable<boolean>;
   createdAt: string;
 };
-export type NonProjectTask = TaskBase & {
-  context: string;
-};
+export type NonProjectTask = TaskBase;
 export type ProjectTask = TaskBase & {
   projects: Project;
   timeInvested?: Nullable<number>;

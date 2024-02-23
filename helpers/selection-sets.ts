@@ -21,7 +21,7 @@ export const projectsSelectionSet = [
   ...batchesSelectionSet.map((b) => `batches.sixWeekBatch.${b}`),
 ];
 const taskBaseSelectionSet = ["id", "task", "done", "createdAt"];
-export const otherTasksSelectionSet = [...taskBaseSelectionSet, "context"];
+export const otherTasksSelectionSet = taskBaseSelectionSet;
 export const projectTasksSelectionSet = [
   ...taskBaseSelectionSet,
   "timeInvested",

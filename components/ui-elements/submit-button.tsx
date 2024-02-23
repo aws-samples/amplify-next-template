@@ -13,12 +13,24 @@ type BtnType = {
 
 type SubmitButtonProps = (OnClickType | BtnType) & {
   children: ReactNode;
+  wrapperClassName?: string;
+  btnClassName?: string;
 };
 
-const SubmitButton: FC<SubmitButtonProps> = ({ children, onClick, type }) => {
+const SubmitButton: FC<SubmitButtonProps> = ({
+  children,
+  onClick,
+  type,
+  wrapperClassName,
+  btnClassName,
+}) => {
   return (
-    <div>
-      <button className={styles.button} type={type} onClick={onClick}>
+    <div className={wrapperClassName}>
+      <button
+        className={`${btnClassName} ${styles.button}`}
+        type={type}
+        onClick={onClick}
+      >
         {children}
       </button>
     </div>

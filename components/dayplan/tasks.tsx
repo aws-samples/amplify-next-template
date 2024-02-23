@@ -6,7 +6,6 @@ import {
   Project,
   ProjectTask,
 } from "@/helpers/types/data";
-import { useAppContext } from "../navigation-menu/AppContext";
 import TaskForm from "./task-form";
 import ListView from "../lists/ListView";
 import { isTodayOrFuture, wait } from "@/helpers/functional";
@@ -26,7 +25,6 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   const [nonProjectTasks, setNonProjectTasks] = useState<NonProjectTask[]>([]);
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const { context } = useAppContext();
 
   const switchDone =
     (id: string, projects: Project | undefined, done?: Nullable<boolean>) =>
@@ -36,7 +34,6 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   const mappedTaskItems = useMemo(
     () => [
       ...projectTasks
-        .filter(({ projects }) => projects.context === context)
         .sort(
           (a, b) =>
             new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -63,11 +60,11 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
           Icon: !done ? <IoSquareOutline /> : <IoCheckboxSharp />,
         })),
     ],
-    [projectTasks, nonProjectTasks, context]
+    [projectTasks, nonProjectTasks]
   );
 
   const createTask = async (task: string, selectedProject: Project | null) => {
-    const data = await createTaskApi(context, dayPlanId, task, selectedProject);
+    const data = await createTaskApi(dayPlanId, task, selectedProject);
     if (!data) return;
     setSuccessMessage("Task created");
     setShowAddTaskForm(false);
@@ -77,7 +74,6 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
         ...nonProjectTasks,
         {
           id: data.id,
-          context: context,
           task: data.task,
           done: data.done,
           createdAt: data.createdAt,
@@ -99,12 +95,11 @@ const Tasks: FC<TasksProps> = ({ day, dayPlanId }) => {
   useEffect(() => {
     const subscriptions = tasksSubscription(
       dayPlanId,
-      context,
       setProjectTasks,
       setNonProjectTasks
     );
     return () => subscriptions.unsubscribe();
-  }, [dayPlanId, context]);
+  }, [dayPlanId]);
 
   return (
     <div>

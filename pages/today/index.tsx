@@ -9,22 +9,26 @@ import { dayplansSubscription } from "@/helpers/api-operations/subscriptions";
 import { createDayPlan as createDayPlanApi } from "@/helpers/api-operations/create";
 import { completeDayPlan as completeDayPlanApi } from "@/helpers/api-operations/update";
 import { wait } from "@/helpers/functional";
+import { useAppContext } from "@/components/navigation-menu/AppContext";
+import SubmitButton from "@/components/ui-elements/submit-button";
 
 export default function TodayPage() {
   const [dayplans, setDayplans] = useState<DayPlan[]>([]);
   const [showCreateDayPlan, setShowCreateDayPlan] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const { context } = useAppContext();
 
   useEffect(() => {
-    const filter = { done: { ne: "true" } };
+    const filter = { done: { ne: "true" }, context: { eq: context } };
     const subscription = dayplansSubscription(({ items, isSynced }) => {
       setDayplans([...(items || [])]);
     }, filter);
     return () => subscription.unsubscribe();
-  }, []);
+  }, [context]);
 
   const createDayPlan = async (goal: string, date: string) => {
-    const data = await createDayPlanApi(date, goal);
+    if (!context) return;
+    const data = await createDayPlanApi(date, goal, context);
     if (!data) return;
     setSuccessMessage("Day plan successfully created");
     setShowCreateDayPlan(false);
@@ -68,14 +72,13 @@ export default function TodayPage() {
           </h2>
           <Tasks day={day} dayPlanId={id} />
 
-          <div className={styles.fullWidth}>
-            <button
-              className={`${styles.fullWidth} ${styles.mainBtn}`}
-              onClick={() => completeDayPlan(id)}
-            >
-              Complete Day Plan
-            </button>
-          </div>
+          <SubmitButton
+            onClick={() => completeDayPlan(id)}
+            wrapperClassName={styles.fullWidth}
+            btnClassName={styles.fullWidth}
+          >
+            Complete Day Plan
+          </SubmitButton>
         </div>
       ))}
     </Layout>

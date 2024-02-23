@@ -81,7 +81,6 @@ export const projectActivitySubscription: SubscriptionFilter<
 
 export const tasksSubscription = (
   dayPlanId: string,
-  context: Context,
   setProjectTasks: (items: ProjectTask[]) => void,
   setNonProjectTasks: (items: NonProjectTask[]) => void
 ) => {
@@ -98,7 +97,7 @@ export const tasksSubscription = (
   });
 
   const otherTasksQuery = {
-    filter: { dayPlanTasksId: { eq: dayPlanId }, context: { eq: context } },
+    filter: { dayPlanTasksId: { eq: dayPlanId } },
     selectionSet: otherTasksSelectionSet,
   };
   const observeOtherTask = client.models.NonProjectTask.observeQuery;

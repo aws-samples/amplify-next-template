@@ -44,7 +44,7 @@ const schema = a.schema({
       notionId: a.integer(),
       dayPlan: a.belongsTo("DayPlan"),
       task: a.string().required(),
-      context: a.ref("Context").required(),
+      context: a.ref("Context"),
       done: a.boolean(),
     })
     .authorization([a.allow.owner()]),

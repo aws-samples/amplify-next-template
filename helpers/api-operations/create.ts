@@ -40,14 +40,9 @@ export const createActivity = async (
   };
 };
 
-const createNonProjectTask = (
-  context: Context,
-  dayPlanId: string,
-  task: string
-) =>
+const createNonProjectTask = (dayPlanId: string, task: string) =>
   client.models.NonProjectTask.create({
     task,
-    context,
     dayPlanTasksId: dayPlanId,
   });
 
@@ -59,13 +54,12 @@ const createProjectTask = (dayPlanId: string, task: string, project: Project) =>
   });
 
 export const createTask = async (
-  context: Context,
   dayPlanId: string,
   task: string,
   project: Project | null
 ) => {
   const { data, errors } = await (!project
-    ? createNonProjectTask(context, dayPlanId, task)
+    ? createNonProjectTask(dayPlanId, task)
     : createProjectTask(dayPlanId, task, project));
   if (errors) {
     handleApiErrors(errors, "Error creating task");
@@ -153,9 +147,13 @@ export const createMeeting = async () => {
   return data;
 };
 
-export const createDayPlan = async (day: string, dayGoal: string) => {
+export const createDayPlan = async (
+  day: string,
+  dayGoal: string,
+  context: Context
+) => {
   const createDayPlanApi = client.models.DayPlan.create;
-  const param = { day, dayGoal };
+  const param = { day, dayGoal, context };
   const { data, errors } = await createDayPlanApi(param);
   if (errors) {
     handleApiErrors(errors, "Error creating day plan");
