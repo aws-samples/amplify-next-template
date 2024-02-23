@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const { exec, execSync } = require("child_process");
 
-const commitMsgFilePath = process.argv[2];
 const docsDir = path.join(__dirname, "..", "docs", "releases");
 const templateFilePath = path.join(docsDir, "template.md");
 const releaseNotesFilePath = path.join(docsDir, "next.md");
@@ -18,17 +17,19 @@ const typeMappings = {
   chore: "Miscellaneous",
 };
 
-const getCurrentCommitHash = () => {
+const getLatestCommitInfo = () => {
   try {
     const hash = execSync("git rev-parse HEAD").toString().trim();
-    return hash;
+    const message = execSync("git log -1 --pretty=%B").toString().trim();
+    return { hash, message };
   } catch (error) {
     console.error("Error obtaining current commit hash:", error);
-    return "";
+    return { hash: "", message: "" };
   }
 };
 
-const formatCommitMessage = (commitMsg) => {
+const formatCommitMessage = () => {
+  const { hash, message: commitMsg } = getLatestCommitInfo();
   const regex = /^(feat|fix|docs|style|refactor|test|chore)\(?(.*?)\)?\: (.*)$/;
   const match = commitMsg.trim().match(regex);
   if (!match) return null; // If the commit message doesn't match, return null
@@ -36,7 +37,6 @@ const formatCommitMessage = (commitMsg) => {
   const type = typeMappings[match[1]] || match[1];
   const scope = match[2];
   const message = match[3];
-  const hash = getCurrentCommitHash();
   const commitLink = hash
     ? `[${hash.substring(0, 7)}](${repoUrl}/${hash})`
     : "";
@@ -104,12 +104,7 @@ fs.access(releaseNotesFilePath, fs.constants.F_OK, (err) => {
       console.info("Created next.md from template.md.");
     });
   }
-  fs.readFile(commitMsgFilePath, "utf8", (err, commitMsg) => {
-    if (err) {
-      console.error("Error reading commit message file", err);
-      process.exit(1);
-    }
-    const formattedCommitMsg = formatCommitMessage(commitMsg);
-    if (formattedCommitMsg) appendToSection(formattedCommitMsg);
-  });
+
+  const formattedCommitMsg = formatCommitMessage();
+  if (formattedCommitMsg) appendToSection(formattedCommitMsg);
 });
