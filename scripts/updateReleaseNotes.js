@@ -50,35 +50,37 @@ const appendToSection = ({ type, scope, message, commitLink }) => {
       process.exit(1);
     }
 
-    let newData = data;
-    const sectionHeader = `### ${type}\n\n`;
-    const scopeHeader = scope ? `#### ${scope}\n\n` : "";
+    const sectionHeader = `### ${type}\n`;
+    const scopeHeader = scope ? `#### ${scope}\n` : "";
     const listItem = `- ${message} ${commitLink}\n`;
 
-    if (!data.includes(sectionHeader)) {
+    let newData = data;
+    if (!newData.includes(sectionHeader)) {
+      // Add new type section at the end
       newData += `\n${sectionHeader}`;
     }
-
-    if (scope && !data.includes(scopeHeader)) {
-      const insertIndex = newData.indexOf(sectionHeader) + sectionHeader.length;
-      newData =
-        newData.slice(0, insertIndex) +
-        scopeHeader +
-        newData.slice(insertIndex);
+    if (scope && !newData.includes(scopeHeader)) {
+      // Add new scope under type at the end
+      if (!newData.includes(sectionHeader)) {
+        newData += scopeHeader;
+      } else {
+        const pattern = new RegExp(`${sectionHeader}(?:.|\\n)*?(?=###|$)`, "g");
+        newData = newData.replace(pattern, (match) => `${match}${scopeHeader}`);
+      }
     }
 
-    const insertPoint = scope
-      ? newData.indexOf(scopeHeader) + scopeHeader.length
-      : newData.indexOf(sectionHeader) + sectionHeader.length;
-    newData =
-      newData.slice(0, insertPoint) + listItem + newData.slice(insertPoint);
+    // Append listItem at the end of the section or scope
+    const insertPattern = scope
+      ? new RegExp(`#### ${scope}\\n(?:.|\\n)*?(?=####|$)`, "g")
+      : new RegExp(`### ${type}\\n(?:.|\\n)*?(?=###|$)`, "g");
+    newData = newData.replace(insertPattern, (match) => `${match}${listItem}`);
 
     fs.writeFile(releaseNotesFilePath, newData, "utf8", (err) => {
       if (err) {
         console.error("Error updating next.md:", err);
         process.exit(1);
       }
-      console.info("next.md updated with commit message");
+      console.log("next.md updated with commit message.");
       stageReleaseNotes();
     });
   });
