@@ -36,9 +36,10 @@ export const addProjectToNewNote = async (
   project: Project,
   meeting: Meeting,
   setNewNote: (newNote: string) => void,
-  setMeeting: (meeting: Meeting) => void,
-  setEditNoteId: (noteId: string) => void
+  setEditNoteId: (noteId: string) => void,
+  setSaved: (saved: boolean) => void
 ) => {
+  setSaved(false);
   const data = await createActivity(
     new Date(),
     newNote,
@@ -46,6 +47,7 @@ export const addProjectToNewNote = async (
     meeting.id
   );
   if (!data) return;
+  setSaved(true);
   setNewNote("");
   const activityId = data.activityData.id;
   setEditNoteId(activityId);
@@ -55,11 +57,14 @@ export const addProjectToMeetingActivity = async (
   meeting: Meeting,
   editNoteId: string,
   project: Project,
-  setMeeting: (meeting: Meeting) => void
+  setMeeting: (meeting: Meeting) => void,
+  setSaved: (saved: boolean) => void
 ) => {
   if (isDuplicate(meeting, editNoteId, project)) return;
+  setSaved(false);
   const data = await createProjectActivity(editNoteId, project.id);
   if (!data) return;
+  setSaved(true);
   setMeeting({
     ...meeting,
     activities: meeting.activities.map((activity) =>
@@ -77,12 +82,27 @@ export const addProjectToMeetingActivity = async (
 };
 
 export const debouncedSaveActivityNotes = debounce(
-  (activity: Activity, notes: string) => updateActivity(activity.id, notes),
+  async (
+    activity: Activity,
+    notes: string,
+    setSaved: (saved: boolean) => void
+  ) => {
+    const data = await updateActivity(activity.id, notes);
+    if (!data) return;
+    setSaved(true);
+  },
   1000
 );
 
 export const debouncedSaveMeetingDateTime = debounce(
-  (meetingId: string, meetingOn: Date | string) =>
-    updateMeetingDateTime(meetingId, meetingOn),
+  async (
+    meetingId: string,
+    meetingOn: Date | string,
+    setSaved: (saved: boolean) => void
+  ) => {
+    const data = await updateMeetingDateTime(meetingId, meetingOn);
+    if (!data) return;
+    setSaved(true);
+  },
   1500
 );

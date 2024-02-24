@@ -25,6 +25,7 @@ import {
   debouncedSaveActivityNotes,
   debouncedSaveMeetingDateTime,
 } from "./helpers/meetings";
+import SavedState from "../ui-elements/saved-state";
 
 type MeetingFormProps = {
   meetingId: string;
@@ -34,20 +35,29 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
   const [meeting, setMeeting] = useState<Meeting | null>(null);
   const [editNoteId, setEditNoteId] = useState<string | null>(null);
   const [newNote, setNewNote] = useState("");
+  const [dateTitleSaved, setDateTitleSaved] = useState(false);
+  const [notesSaved, setNotesSaved] = useState(true);
+  const [participantsSaved, setParticipantsSaved] = useState(true);
+  const [allSaved, setAllSaved] = useState(false);
   const router = useRouter();
   const { context } = useAppContext();
+
+  useEffect(() => {
+    setAllSaved(dateTitleSaved && notesSaved && participantsSaved);
+  }, [dateTitleSaved, notesSaved, participantsSaved]);
 
   useEffect(() => {
     if (!props.meetingId) return;
     getMeeting(props.meetingId as string, setMeeting);
   }, [props.meetingId, editNoteId]);
 
-  const handleTitleChange = async (newTitle: string) => {
+  const saveNewMeetingTitle = async (newTitle: string) => {
     if (!meeting) return;
     if (newTitle === meeting?.topic) return;
     const data = await updateMeetingTitle(meeting.id, newTitle);
     if (!data) return;
     setMeeting({ ...meeting, topic: data.topic });
+    setDateTitleSaved(true);
   };
 
   const handleBackBtnClick = () => {
@@ -71,8 +81,10 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
   const addParticipant = async (person: Participant | null) => {
     if (!person) return;
     if (!meeting) return;
+    setParticipantsSaved(false);
     const data = await createMeetingParticipant(meeting.id, person.id);
     if (!data) return;
+    setParticipantsSaved(true);
     const newMeetingData: Meeting = {
       ...meeting,
       participants: [...(meeting.participants || []), { person }],
@@ -89,29 +101,41 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
           project,
           meeting,
           setNewNote,
-          setMeeting,
-          setEditNoteId
+          setEditNoteId,
+          setNotesSaved
         )
-      : addProjectToMeetingActivity(meeting, editNoteId, project, setMeeting);
+      : addProjectToMeetingActivity(
+          meeting,
+          editNoteId,
+          project,
+          setMeeting,
+          setNotesSaved
+        );
 
   const saveActivity = async () => {
     if (!meeting) return;
-    const editedActivity = meeting.activities.find((a) => a.id === editNoteId);
-    if (!editedActivity) {
-      alert("Please add at least one project before saving the note");
-      return;
+    if (!notesSaved) {
+      const editedActivity = meeting.activities.find(
+        (a) => a.id === editNoteId
+      );
+      if (!editedActivity) {
+        alert("Please add at least one project before saving the note");
+        return;
+      }
+      const activity = await updateActivity(
+        editedActivity.id,
+        editedActivity.notes || ""
+      );
+      if (!activity) return;
+      setNotesSaved(true);
     }
-    const activity = await updateActivity(
-      editedActivity.id,
-      editedActivity.notes || ""
-    );
-    if (!activity) return;
     setEditNoteId(null);
     setNewNote("");
   };
 
   const handleNoteEditing = (note: string) => {
     if (!meeting) return;
+    setNotesSaved(false);
     if (!editNoteId) {
       setNewNote(note);
       return;
@@ -124,7 +148,7 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
     });
     const activity = meeting.activities.find((a) => a.id === editNoteId);
     if (!activity) return;
-    debouncedSaveActivityNotes(activity, note);
+    debouncedSaveActivityNotes(activity, note, setNotesSaved);
   };
 
   const createPerson = async (personName: string) => {
@@ -135,6 +159,7 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
   };
 
   const createProject = async (projectName: string) => {
+    setNotesSaved(false);
     const data = await createProjectApi(projectName, context);
     if (!data) return;
     const newProject = {
@@ -157,12 +182,13 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
 
   const handleDateChange = (date: Date) => {
     if (!meeting) return;
+    setDateTitleSaved(false);
     const newMeeting: Meeting = {
       ...meeting,
       meetingOn: date.toISOString(),
     };
     setMeeting(newMeeting);
-    debouncedSaveMeetingDateTime(meeting.id, date);
+    debouncedSaveMeetingDateTime(meeting.id, date, setDateTitleSaved);
   };
 
   const handleEditNote = (noteId: string) => {
@@ -182,16 +208,20 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
   return (
     <Layout
       title={meeting?.topic || "Loading..."}
-      onTitleChange={handleTitleChange}
+      saveTitle={saveNewMeetingTitle}
+      onTitleChange={() => setDateTitleSaved(false)}
       onBackBtnClick={handleBackBtnClick}
     >
       {!meeting ? (
         <div>Loading...</div>
       ) : (
         <div>
-          <SubmitButton onClick={closeMeeting}>
-            <strong>Close Meeting</strong>
-          </SubmitButton>
+          <div className={styles.inOneLine}>
+            <SubmitButton onClick={closeMeeting}>
+              <strong>Close Meeting</strong>
+            </SubmitButton>
+            <SavedState saved={allSaved} className={styles.meetingSaved} />
+          </div>
           <DateSelector
             date={meetingOn}
             setDate={handleDateChange}
@@ -220,7 +250,14 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
               }
               onNoteChange={handleNoteEditing}
               onCreateProject={createProject}
-            />
+            >
+              {editNoteId === id && (
+                <SavedState
+                  saved={notesSaved}
+                  className={styles.saveStatusMsg}
+                />
+              )}
+            </ProjectNotesForm>
           ))}
           {!editNoteId && (
             <ProjectNotesForm
@@ -231,7 +268,9 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
               onSelectProject={addProjectToSelection}
               onNoteChange={handleNoteEditing}
               onCreateProject={createProject}
-            />
+            >
+              <SavedState saved={notesSaved} className={styles.saveStatusMsg} />
+            </ProjectNotesForm>
           )}
         </div>
       )}

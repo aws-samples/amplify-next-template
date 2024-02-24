@@ -13,6 +13,7 @@ export type CategoryTitleProps = {
   addButton?: AddButtonProps;
   drawBackBtn?: boolean;
   onBackBtnClick?: () => void;
+  saveTitle?: (newTitle: string) => void;
   onTitleChange?: (newTitle: string) => void;
 };
 
@@ -23,6 +24,7 @@ export default function CategoryTitle(props: CategoryTitleProps) {
   const router = useRouter();
 
   const handleTitleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (props.onTitleChange) props.onTitleChange(event.target.value);
     setTitle(event.target.value);
   };
 
@@ -37,8 +39,8 @@ export default function CategoryTitle(props: CategoryTitleProps) {
 
   const handleBlur = () => {
     setIsEditing(false);
-    if (props.onTitleChange && title) {
-      props.onTitleChange(title);
+    if (props.saveTitle && title) {
+      props.saveTitle(title);
     }
   };
 
@@ -55,7 +57,7 @@ export default function CategoryTitle(props: CategoryTitleProps) {
         </div>
       )}
       {title &&
-        (props.onTitleChange && isEditing ? (
+        (props.saveTitle && isEditing ? (
           <textarea
             rows={1}
             ref={textAreaRef}
@@ -68,10 +70,10 @@ export default function CategoryTitle(props: CategoryTitleProps) {
         ) : (
           <h1
             className={`${styles.alignCenterOnMedium} ${styles.flush} ${
-              props.onTitleChange ? styles.isEditable : ""
+              props.saveTitle ? styles.isEditable : ""
             }`}
             onClick={() => {
-              if (props.onTitleChange) setIsEditing(true);
+              if (props.saveTitle) setIsEditing(true);
             }}
           >
             {title}
