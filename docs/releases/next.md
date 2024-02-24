@@ -8,13 +8,14 @@
   - Meetings mit `Control+M`
   - Commitments mit `Control+C`
   - Suche mit `Control+K`
+- Der Titel der aktuellen Seite wird nun bestimmt durch die aktuelle Sektion (z.B. Today's Tasks) und dem aktuell ausgewählten Eintrag. Bearbeite ich zum Beispiel gerade das Meeting: "Lukas/Wilfried Vorbereitung ACME", dann wäre der Titel der Seite: "Impulso - Lukas/Wilfried Vorbereitung ACME - Meeting"
 
 Todos:
 
 - [x] Besser visualisieren, ob ein ein Eintrag gespeichert ist cabcookie/personal-crm#8
-- [ ] Tastaturbefehle einführen cabcookie/personal-crm#4
+- [x] Tastaturbefehle einführen cabcookie/personal-crm#4
+- [x] Aktuelle Seite soll den Titel der Website bestimmen
 - [ ] Markdown-fähiger Editor cabcookie/personal-crm#6
-- [ ] Aktuelle Seite soll den Titel der Website bestimmen
 - [ ] Beim Scrollen soll der Titel im Header übernommen werden
 
 ## Zukünftige Releases
@@ -27,6 +28,10 @@ Todos:
 ## Detailed changes
 
 ### Feature
+
+#### control
+
+- switch between app sections and open search bar with control keys [683a8c4](https://github.com/cabcookie/personal-crm/commit/683a8c4e8651b3acde8d58dabbe6a20c56eedfa0)
 
 #### ui
 

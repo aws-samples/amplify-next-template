@@ -20,11 +20,15 @@ const NewMeetingPage: FC = () => {
   }, []);
 
   if (isLoading) {
-    return <Layout title="Loading...">Creating new meeting...</Layout>;
+    return (
+      <Layout title="Loading..." recordName="Loading..." sectionName="Meeting">
+        Creating new meeting...
+      </Layout>
+    );
   }
   if (!meetingId) {
     return (
-      <Layout title="Error">
+      <Layout title="Error" sectionName="Meeting" recordName="Error">
         Error creating the meeting. Are you connected to the internet?
       </Layout>
     );

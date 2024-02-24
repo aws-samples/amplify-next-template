@@ -43,6 +43,7 @@ export default function MeetingsPage() {
   return (
     <Layout
       title="Meetings"
+      sectionName="Meetings"
       addButton={{
         label: "New",
         onClick: () => router.push("/meetings/new"),

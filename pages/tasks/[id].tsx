@@ -79,7 +79,11 @@ export default function TaskDetailPage() {
   );
 
   return (
-    <Layout onBackBtnClick={() => router.push("/today")}>
+    <Layout
+      onBackBtnClick={() => router.push("/today")}
+      recordName={projectTask?.task || "Loading..."}
+      sectionName="Task"
+    >
       {!projectTask ? (
         <h1>Loading...</h1>
       ) : (

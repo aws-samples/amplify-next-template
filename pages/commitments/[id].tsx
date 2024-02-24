@@ -6,6 +6,10 @@ type CommitmentDetailPageProps = {};
 const CommitmentDetailPage: FC<CommitmentDetailPageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
-  return <Layout title="Commitment">WIP {id as string}</Layout>;
+  return (
+    <Layout title="Commitment" sectionName="Commitment" recordName={undefined}>
+      WIP {id as string}
+    </Layout>
+  );
 };
 export default CommitmentDetailPage;

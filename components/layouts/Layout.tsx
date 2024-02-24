@@ -6,13 +6,18 @@ import styles from "./Layout.module.css";
 import NavigationMenu from "../navigation-menu/NavigationMenu";
 import { useAppContext } from "../navigation-menu/AppContext";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 type LayoutProps = CategoryTitleProps & {
+  recordName?: string;
+  sectionName: string;
   children: ReactNode;
 };
 
 export default function Layout({
   children,
+  recordName,
+  sectionName,
   ...categoryTitleProps
 }: LayoutProps) {
   const [isMenuVisible, setMenuVisibility] = useState(false);
@@ -78,6 +83,11 @@ export default function Layout({
 
   return (
     <PageWrapper>
+      <Head>
+        <title>{`Impulso ${
+          recordName ? `- ${recordName}` : ""
+        } · ${sectionName}`}</title>
+      </Head>
       <div
         className={
           {

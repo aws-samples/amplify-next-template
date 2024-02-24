@@ -208,6 +208,8 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
   return (
     <Layout
       title={meeting?.topic || "Loading..."}
+      recordName={meeting?.topic}
+      sectionName="Meeting"
       saveTitle={saveNewMeetingTitle}
       onTitleChange={() => setDateTitleSaved(false)}
       onBackBtnClick={handleBackBtnClick}

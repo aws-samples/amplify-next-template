@@ -22,6 +22,8 @@ export default function MeetingDetailPage() {
   return (
     <Layout
       title={meeting?.topic || "Loading..."}
+      recordName={meeting?.topic}
+      sectionName="Meeting"
       onBackBtnClick={() => router.push("/meetings")}
     >
       {!meeting ? (

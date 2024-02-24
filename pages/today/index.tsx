@@ -52,6 +52,7 @@ export default function TodayPage() {
   return (
     <Layout
       title="Today's Tasks"
+      sectionName="Today's Tasks"
       addButton={{
         label: "New",
         onClick: () => setShowCreateDayPlan(true),
