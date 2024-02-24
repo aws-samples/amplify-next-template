@@ -3,6 +3,11 @@
 ## Neue Funktionen und Änderungen
 
 - Es wird nun besser visualisiert, ob Einträge gespeichert sind oder noch nicht.
+- Mit der Tastatur kann man nun zwischen den App Sektionen wechseln:
+  - Today's Tasks mit `Control+T`
+  - Meetings mit `Control+M`
+  - Commitments mit `Control+C`
+  - Suche mit `Control+K`
 
 Todos:
 
@@ -20,6 +25,12 @@ Todos:
 - [ ] Die Schriftgrößen für das iPhone anpassen
 
 ## Detailed changes
+
+### Feature
+
+#### ui
+
+- show state of persisting changes [1f019c0](https://github.com/cabcookie/personal-crm/commit/1f019c05cc844cbd28bf3235c9d91d063f6f0061)
 
 ### Miscellaneous
 

@@ -2,8 +2,11 @@ import Link from "next/link";
 import styles from "./SearchBar.module.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { useAppContext } from "../navigation-menu/AppContext";
+import { forwardRef } from "react";
 
-export default function SearchBar() {
+type SearchBarProps = {};
+
+const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>((props, ref) => {
   const { searchText, setSearchText } = useAppContext();
   return (
     <>
@@ -16,6 +19,7 @@ export default function SearchBar() {
           <form className={styles.searchForm}>
             <IoSearchSharp className={styles.searchIcon} />
             <input
+              ref={ref}
               className={styles.searchInputField}
               value={searchText}
               onChange={(event) => setSearchText(event.target.value)}
@@ -29,4 +33,7 @@ export default function SearchBar() {
       </div>
     </>
   );
-}
+});
+
+SearchBar.displayName = "SearchBar";
+export default SearchBar;
