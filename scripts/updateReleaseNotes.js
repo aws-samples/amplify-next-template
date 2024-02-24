@@ -81,7 +81,7 @@ const appendToSection = ({ type, scope, message, commitLink }) => {
         process.exit(1);
       }
       console.log("next.md updated with commit message.");
-      stageReleaseNotes();
+      // stageReleaseNotes();
     });
   });
 };
