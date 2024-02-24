@@ -7,6 +7,7 @@ import ProjectSelector from "../ui-elements/project-selector";
 import { projectsSubscription } from "@/helpers/api-operations/subscriptions";
 import SubmitButton from "../ui-elements/submit-button";
 import ProjectName from "../ui-elements/project-name";
+import styles from "./Task.module.css";
 
 type TaskFormProps = {
   onSubmit: (task: string, selectedProject: Project | null) => void;
@@ -39,9 +40,10 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <div className={styles.fullWidth}>
       <form onSubmit={handleSubmit}>
         <input
+          className={`${styles.fullWidth} ${styles.taskInput}`}
           type="text"
           value={task}
           onChange={(event) => setTask(event.target.value)}
@@ -49,7 +51,9 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
         />
         {selectedProject && <ProjectName project={selectedProject} />}
         <ProjectSelector onChange={handleChange} />
-        <SubmitButton type="submit">Create Task</SubmitButton>
+        <SubmitButton type="submit" wrapperClassName={styles.confirmBtn}>
+          Create Task
+        </SubmitButton>
       </form>
       <div>
         <h3>Important Six-Week Batches and Projects</h3>

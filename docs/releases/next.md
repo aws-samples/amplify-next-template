@@ -9,6 +9,7 @@
   - Commitments mit `Control+C`
   - Suche mit `Control+K`
 - Der Titel der aktuellen Seite wird nun bestimmt durch die aktuelle Sektion (z.B. Today's Tasks) und dem aktuell ausgewählten Eintrag. Bearbeite ich zum Beispiel gerade das Meeting: "Lukas/Wilfried Vorbereitung ACME", dann wäre der Titel der Seite: "Impulso - Lukas/Wilfried Vorbereitung ACME - Meeting"
+- Die Editierfelder für neue Tagespläne und Aufgaben sind optimiert worden. In beiden Fällen wird die Eingabe mit der Enter-Taste bestätigt und gespeichert.
 
 Todos:
 
@@ -22,7 +23,7 @@ Todos:
 
 - [ ] DayProjectTask und NonProjectTask überführen in Task
 - [ ] Sicherstellen, dass die Daten durch das neue Release automatisch überführt werden
-- [ ] Auf dem iPhone soll es nicht den Header geben, sonders das Logo am unteren Rand des Bildschirms
+- [ ] Auf dem iPhone soll es nicht den Header geben, sondern das Logo am unteren Rand des Bildschirms
 - [ ] Die Schriftgrößen für das iPhone anpassen
 
 ## Detailed changes
@@ -36,6 +37,7 @@ Todos:
 #### ui
 
 - show state of persisting changes [1f019c0](https://github.com/cabcookie/personal-crm/commit/1f019c05cc844cbd28bf3235c9d91d063f6f0061)
+- title of page is defined by section and selected record [2af2fa6](https://github.com/cabcookie/personal-crm/commit/2af2fa68d5466c162eb266c00ccc52a342d20d15)
 
 ### Miscellaneous
 

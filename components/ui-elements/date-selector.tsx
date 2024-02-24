@@ -5,11 +5,13 @@ type DateSelectorProps = {
   selectHours?: boolean;
   date: Date;
   setDate: (date: Date) => void;
+  className?: string;
 };
 const DateSelector: FC<DateSelectorProps> = ({
   date,
   setDate,
   selectHours,
+  className,
 }) => {
   const addHours = (add: number) => {
     const d = new Date(date);
@@ -19,7 +21,7 @@ const DateSelector: FC<DateSelectorProps> = ({
   const addDays = (add: number) => addHours(add * 24);
 
   return (
-    <div>
+    <div className={className}>
       <button className={styles.dateChanger} onClick={() => addDays(-1)}>
         -Day
       </button>
@@ -29,7 +31,7 @@ const DateSelector: FC<DateSelectorProps> = ({
         </button>
       )}
       <span className={styles.date}>
-        {` ${new Date(date).toLocaleString()} `}
+        {` ${selectHours ? date.toLocaleString() : date.toLocaleDateString()} `}
       </span>
 
       {selectHours && (
