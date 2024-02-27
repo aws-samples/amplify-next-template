@@ -68,6 +68,7 @@
 - update release template and give release a name [cd77ca9](https://github.com/cabcookie/personal-crm/commit/cd77ca9bc7aff99e92da822ea6ca9ce88b782905)
 - automating steps in releasing a new version [a10aecf](https://github.com/cabcookie/personal-crm/commit/a10aecf71e4f764c2ca2d0ba46806386d25bad8d)
 - use newer versions in release workflow [b9841c1](https://github.com/cabcookie/personal-crm/commit/b9841c18c8d7f99bc0478e872466c83f5385916a)
+- remove "Tag Release" as this is done already by "Semantic Release" [ed67b69](https://github.com/cabcookie/personal-crm/commit/ed67b6918fd1cb0a786ac6f5432bb92555d9a05e)
 
 #### import
 

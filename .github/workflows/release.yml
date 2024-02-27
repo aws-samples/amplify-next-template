@@ -48,10 +48,3 @@ jobs:
           git add docs/releases/v*.md package.json
           git commit -m "chore(release): v${VERSION}" || echo "No changes to commit"
           git push
-
-      - name: Tag Release
-        if: success()
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          git tag -a v${VERSION} -m "Release v${VERSION}"
-          git push origin v${VERSION}
