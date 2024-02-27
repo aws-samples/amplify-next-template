@@ -54,6 +54,10 @@
 - better typing for serialize function [3780f31](https://github.com/cabcookie/personal-crm/commit/3780f318bfba3c66fc61207b844fd9ddaf8ea734)
 - typing issues with transforming notes to MD and backwards [e025fd2](https://github.com/cabcookie/personal-crm/commit/e025fd23487bdd02c96c3df6186a0065093b3f92)
 
+### Documentation
+
+- cleanup change documentation [50a82cb](https://github.com/cabcookie/personal-crm/commit/50a82cbd893bf1e82f46dda2b7f10334f91b7ab8)
+
 ### Miscellaneous
 
 #### ci
@@ -63,6 +67,7 @@
 - commits appended now [d5435b6](https://github.com/cabcookie/personal-crm/commit/d5435b60723d15df9447d155b435463035e01d5b)
 - update release template and give release a name [cd77ca9](https://github.com/cabcookie/personal-crm/commit/cd77ca9bc7aff99e92da822ea6ca9ce88b782905)
 - automating steps in releasing a new version [a10aecf](https://github.com/cabcookie/personal-crm/commit/a10aecf71e4f764c2ca2d0ba46806386d25bad8d)
+- use newer versions in release workflow [b9841c1](https://github.com/cabcookie/personal-crm/commit/b9841c18c8d7f99bc0478e872466c83f5385916a)
 
 #### import
 
