@@ -67,6 +67,7 @@
 - commits appended now [d5435b6](https://github.com/cabcookie/personal-crm/commit/d5435b60723d15df9447d155b435463035e01d5b)
 - update release template and give release a name [cd77ca9](https://github.com/cabcookie/personal-crm/commit/cd77ca9bc7aff99e92da822ea6ca9ce88b782905)
 - automating steps in releasing a new version [a10aecf](https://github.com/cabcookie/personal-crm/commit/a10aecf71e4f764c2ca2d0ba46806386d25bad8d)
+- use newer versions in release workflow [b9841c1](https://github.com/cabcookie/personal-crm/commit/b9841c18c8d7f99bc0478e872466c83f5385916a)
 
 #### import
 
