@@ -26,6 +26,11 @@ import {
   debouncedSaveMeetingDateTime,
 } from "./helpers/meetings";
 import SavedState from "../ui-elements/saved-state";
+import { Descendant } from "slate";
+import {
+  initialValue,
+  noteHasContent,
+} from "../ui-elements/notes-writer/helpers";
 
 type MeetingFormProps = {
   meetingId: string;
@@ -34,11 +39,13 @@ type MeetingFormProps = {
 const MeetingForm: FC<MeetingFormProps> = (props) => {
   const [meeting, setMeeting] = useState<Meeting | null>(null);
   const [editNoteId, setEditNoteId] = useState<string | null>(null);
-  const [newNote, setNewNote] = useState("");
-  const [dateTitleSaved, setDateTitleSaved] = useState(false);
+  const [newNote, setNewNote] = useState<Descendant[]>(initialValue);
+  const [dateTitleSaved, setDateTitleSaved] = useState(
+    Boolean(props.meetingId)
+  );
   const [notesSaved, setNotesSaved] = useState(true);
   const [participantsSaved, setParticipantsSaved] = useState(true);
-  const [allSaved, setAllSaved] = useState(false);
+  const [allSaved, setAllSaved] = useState(Boolean(props.meetingId));
   const router = useRouter();
   const { context } = useAppContext();
 
@@ -47,9 +54,10 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
   }, [dateTitleSaved, notesSaved, participantsSaved]);
 
   useEffect(() => {
+    setDateTitleSaved(Boolean(props.meetingId));
     if (!props.meetingId) return;
     getMeeting(props.meetingId as string, setMeeting);
-  }, [props.meetingId, editNoteId]);
+  }, [props.meetingId]);
 
   const saveNewMeetingTitle = async (newTitle: string) => {
     if (!meeting) return;
@@ -66,7 +74,7 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
 
   const closeMeeting = async () => {
     if (!meeting) return;
-    if (newNote.trim().length > 2) {
+    if (noteHasContent(newNote)) {
       alert(
         "You have not saved your latest note. Scroll down and add a project to save your note"
       );
@@ -124,16 +132,16 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
       }
       const activity = await updateActivity(
         editedActivity.id,
-        editedActivity.notes || ""
+        editedActivity.slateNotes
       );
       if (!activity) return;
       setNotesSaved(true);
     }
     setEditNoteId(null);
-    setNewNote("");
+    setNewNote(initialValue);
   };
 
-  const handleNoteEditing = (note: string) => {
+  const handleNoteEditing = (note: Descendant[]) => {
     if (!meeting) return;
     setNotesSaved(false);
     if (!editNoteId) {
@@ -143,7 +151,9 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
     setMeeting({
       ...meeting,
       activities: meeting.activities.map((activity) =>
-        activity.id !== editNoteId ? activity : { ...activity, notes: note }
+        activity.id !== editNoteId
+          ? activity
+          : { ...activity, slateNotes: note }
       ),
     });
     const activity = meeting.activities.find((a) => a.id === editNoteId);
@@ -194,9 +204,9 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
   const handleEditNote = (noteId: string) => {
     if (!!editNoteId) {
       saveActivity();
-      setNewNote("");
+      setNewNote(initialValue);
     }
-    if (newNote.trim().length !== 0) {
+    if (noteHasContent(newNote)) {
       alert(
         "Please first add at least one project to your new note, so it can be saved; or delete your notes, if you do not need them"
       );
@@ -240,13 +250,13 @@ const MeetingForm: FC<MeetingFormProps> = (props) => {
             clearAfterSelection
             onCreatePerson={createPerson}
           />
-          {meeting.activities.map(({ id, forProjects, notes }) => (
+          {meeting.activities.map(({ id, forProjects, slateNotes }) => (
             <ProjectNotesForm
               key={id}
               isEditing={editNoteId === id}
               forProjects={forProjects?.map(({ projects }) => projects)}
               onSelectProject={addProjectToSelection}
-              notes={notes}
+              notes={slateNotes}
               onSubmit={
                 editNoteId === id ? saveActivity : () => handleEditNote(id)
               }

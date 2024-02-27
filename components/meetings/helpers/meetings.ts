@@ -1,3 +1,4 @@
+import { initialValue } from "@/components/ui-elements/notes-writer/helpers";
 import {
   createActivity,
   createProjectActivity,
@@ -8,6 +9,7 @@ import {
 } from "@/helpers/api-operations/update";
 import { Activity, Meeting, Project } from "@/helpers/types/data";
 import { debounce } from "lodash";
+import { Descendant } from "slate";
 
 export const isDuplicate = (
   meeting: Meeting,
@@ -32,10 +34,10 @@ export const filterBySearchText =
     ).length > 0;
 
 export const addProjectToNewNote = async (
-  newNote: string,
+  newNote: Descendant[],
   project: Project,
   meeting: Meeting,
-  setNewNote: (newNote: string) => void,
+  setNewNote: (newNote: Descendant[]) => void,
   setEditNoteId: (noteId: string) => void,
   setSaved: (saved: boolean) => void
 ) => {
@@ -48,7 +50,7 @@ export const addProjectToNewNote = async (
   );
   if (!data) return;
   setSaved(true);
-  setNewNote("");
+  setNewNote(initialValue);
   const activityId = data.activityData.id;
   setEditNoteId(activityId);
 };
@@ -84,7 +86,7 @@ export const addProjectToMeetingActivity = async (
 export const debouncedSaveActivityNotes = debounce(
   async (
     activity: Activity,
-    notes: string,
+    notes: Descendant[],
     setSaved: (saved: boolean) => void
   ) => {
     const data = await updateActivity(activity.id, notes);

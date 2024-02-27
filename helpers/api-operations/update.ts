@@ -5,6 +5,8 @@ import { handleApiErrors } from "./globals";
 import { makeISOString } from "../functional";
 import { Context } from "@/components/navigation-menu/AppContext";
 import { createCurrentContext } from "./create";
+import { transformNotesToMd } from "@/components/ui-elements/notes-writer/helpers";
+import { Descendant } from "slate";
 
 const client = generateClient<Schema>();
 
@@ -104,12 +106,13 @@ export const updateCurrentContext: (
   return createCurrentContext(context);
 };
 
-export const updateActivity = async (id: string, notes: string) => {
+export const updateActivity = async (id: string, notes: Descendant[]) => {
   const updateApi = client.models.Activity.update;
-  const { data, errors } = await updateApi({
+  const params = {
     id,
-    notes,
-  });
+    notes: transformNotesToMd(notes),
+  };
+  const { data, errors } = await updateApi(params);
   if (errors) {
     handleApiErrors(errors, "Error updating notes");
     return;

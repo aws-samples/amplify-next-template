@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import styles from "../../components/meetings/Meetings.module.css";
 import ProjectName from "@/components/ui-elements/project-name";
 import { getMeeting } from "@/helpers/api-operations/get";
-import NotesViewer from "@/components/activities/notes-viewer";
+import NotesWriter from "@/components/ui-elements/notes-writer";
 
 export default function MeetingDetailPage() {
   const [meeting, setMeeting] = useState<Meeting | null>(null);
@@ -55,10 +55,10 @@ export default function MeetingDetailPage() {
             ))}
           </div>
 
-          {meeting.activities.map(({ id, forProjects, notes }) => (
+          {meeting.activities.map(({ id, forProjects, slateNotes }) => (
             <div key={id} className={styles.projectNote}>
               <h3>Notes</h3>
-              <NotesViewer notes={notes} />
+              <NotesWriter note={slateNotes} readonly />
               <h4>For Projects:</h4>
               {forProjects?.map(({ projects }) => (
                 <ProjectName key={projects.id} project={projects} />

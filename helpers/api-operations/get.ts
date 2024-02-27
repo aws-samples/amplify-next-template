@@ -7,8 +7,9 @@ import {
   meetingsSelectionSet,
   projectTasksSelectionSet,
 } from "../selection-sets";
-import { Meeting, NonProjectTask, ProjectTask } from "../types/data";
+import { Activity, Meeting, ProjectTask } from "../types/data";
 import { Context } from "@/components/navigation-menu/AppContext";
+import { transformMdToNotes } from "@/components/ui-elements/notes-writer/helpers";
 
 const client = generateClient<Schema>();
 
@@ -26,7 +27,15 @@ export const getMeeting = async (
     return;
   }
   if (!data) return;
-  setMeeting(data);
+
+  const meetingData = {
+    ...data,
+    activities: data.activities.map((activity: Activity) => ({
+      ...activity,
+      slateNotes: transformMdToNotes(activity.notes),
+    })),
+  };
+  setMeeting(meetingData);
 };
 
 export const getCurrentContext = async (fallbackContext: Context) => {

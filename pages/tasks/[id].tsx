@@ -14,6 +14,11 @@ import { createActivity as createActivityApi } from "@/helpers/api-operations/cr
 import ProjectName from "@/components/ui-elements/project-name";
 import { useAppContext } from "@/components/navigation-menu/AppContext";
 import { filterBySearch } from "@/components/tasks/helpers/tasks";
+import {
+  initialValue,
+  transformMdToNotes,
+} from "@/components/ui-elements/notes-writer/helpers";
+import { Descendant } from "slate";
 
 export default function TaskDetailPage() {
   const [projectTask, setProjectTask] = useState<ProjectTask | null>(null);
@@ -21,7 +26,7 @@ export default function TaskDetailPage() {
   const [nonProjectTask, setNonProjectTask] = useState<NonProjectTask | null>(
     null
   );
-  const [newNote, setNewNote] = useState("");
+  const [newNote, setNewNote] = useState<Descendant[]>(initialValue);
   const [date, setDate] = useState(new Date());
   const { searchTextUpperCase } = useAppContext();
 
@@ -38,7 +43,12 @@ export default function TaskDetailPage() {
       projectsId: { eq: projectTask.projects.id },
     };
     const subscription = projectActivitySubscription(({ items, isSynced }) => {
-      setActivities([...items.map(({ activity }) => activity)]);
+      setActivities([
+        ...items.map(({ activity }) => ({
+          ...activity,
+          slateNotes: transformMdToNotes(activity.notes),
+        })),
+      ]);
     }, filter);
     return () => subscription.unsubscribe();
   }, [id, projectTask]);
@@ -55,8 +65,7 @@ export default function TaskDetailPage() {
     );
     if (!data?.activityData.id) return;
     const finishedOn = date.toISOString();
-    const notes = newNote;
-    setNewNote("");
+    setNewNote(initialValue);
     setDate(new Date());
     await wait(500);
     setActivities([
@@ -65,7 +74,8 @@ export default function TaskDetailPage() {
         id: data.activityData.id,
         createdAt: finishedOn,
         finishedOn,
-        notes,
+        notes: "",
+        slateNotes: newNote,
       },
     ]);
   };

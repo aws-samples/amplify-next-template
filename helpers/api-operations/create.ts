@@ -3,12 +3,14 @@ import { generateClient } from "aws-amplify/data";
 import { Project } from "../types/data";
 import { Context } from "@/components/navigation-menu/AppContext";
 import { handleApiErrors } from "./globals";
+import { transformNotesToMd } from "@/components/ui-elements/notes-writer/helpers";
+import { Descendant } from "slate";
 
 const client = generateClient<Schema>();
 
 export const createActivity = async (
   finishedOn: Date | string,
-  notes: string,
+  notes: Descendant[],
   projectsId: string,
   meetingId?: string
 ) => {
@@ -16,7 +18,7 @@ export const createActivity = async (
   const { data: newActivity, errors } = await createActivityApi({
     finishedOn:
       typeof finishedOn === "string" ? finishedOn : finishedOn.toISOString(),
-    notes,
+    notes: transformNotesToMd(notes),
     meetingActivitiesId: meetingId,
   });
 
