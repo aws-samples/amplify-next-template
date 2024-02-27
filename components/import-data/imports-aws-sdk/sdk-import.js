@@ -5,7 +5,7 @@ const {
   searchValInArrayAndReturnObjKey,
   createAndRemapDayPlans,
 } = require("./import-handler");
-const env = "dev";
+const env = "newDev";
 const fs = require("fs");
 
 const importData = async () => {
@@ -189,6 +189,7 @@ const importData = async () => {
   // DayProjectTask
   // Meeting
   // MeetingParticipant
+  // NonProjectTask
   // Person
   // ProjectActivity
   // Projects
@@ -197,7 +198,6 @@ const importData = async () => {
   // SixWeekBatchProjects
 
   // WIP:
-  // NonProjectTask
 
   // TODO:
 
@@ -213,4 +213,4 @@ const applyContext = async () => {
 
 // importData();
 
-applyContext();
+// applyContext();

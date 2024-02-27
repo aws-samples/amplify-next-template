@@ -1,5 +1,5 @@
 const AWS = require("aws-sdk");
-const { tables, userPools } = require("./tables");
+const { getTable, userPools } = require("./tables");
 const uuid = require("./uuid");
 AWS.config.update({ region: "us-east-1" });
 const docClient = new AWS.DynamoDB.DocumentClient();
@@ -12,7 +12,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
  * @returns number of records in DynamoDB table
  */
 const _countRecords = async (env, tableName) => {
-  const TableName = tables[tableName][env];
+  const TableName = getTable(tableName, env);
 
   const existingRecords = await docClient
     .scan({
@@ -129,7 +129,7 @@ const createRelation = async (
   newFieldName,
   mapTargetNotionId
 ) => {
-  const TableName = tables[tableName][env];
+  const TableName = getTable(tableName, env);
   const findItemsParams = {
     TableName,
     FilterExpression: "attribute_exists(#targetField)",
@@ -198,11 +198,13 @@ const createRelation = async (
  * @param {"dev" | "prod"} env The environment in which the operation should be proceeded ('dev' or 'prod')
  */
 const createAndRemapDayPlans = async (env) => {
-  const dayPlans = await returnTableRecords(tables["DayPlan"][env]);
-  const projectTasks = await returnTableRecords(tables["DayProjectTask"][env]);
-  const projects = await returnTableRecords(tables["Projects"][env]);
+  const dayPlans = await returnTableRecords(getTable("DayPlan", env));
+  const projectTasks = await returnTableRecords(
+    getTable("DayProjectTask", env)
+  );
+  const projects = await returnTableRecords(getTable("Projects", env));
   const nonProjectTasks = await returnTableRecords(
-    tables["NonProjectTask"][env]
+    getTable("NonProjectTask", env)
   );
   for (let i = 0; i < dayPlans.length; i++) {
     const dayplan = dayPlans[i];
@@ -228,7 +230,7 @@ const createAndRemapDayPlans = async (env) => {
     if (contexts && contexts.length > 0) {
       // Update existing DayPlan with the first context
       const updateDayPlanParams = {
-        TableName: tables["DayPlan"][env],
+        TableName: getTable("DayPlan", env),
         Key: { id: dayplan.id },
         UpdateExpression: `set context = :context`,
         ExpressionAttributeValues: { ":context": contexts[0] },
@@ -259,7 +261,7 @@ const createAndRemapDayPlans = async (env) => {
         // Create a new DayPlan for this context
         const newDayPlanId = uuid();
         const createDayPlanParams = {
-          TableName: tables["DayPlan"][env],
+          TableName: getTable("DayPlan", env),
           Item: {
             id: newDayPlanId,
             day: dayplan.day,
@@ -278,7 +280,7 @@ const createAndRemapDayPlans = async (env) => {
           for (let i = 0; i < contextProjectTasks.length; i++) {
             const cpt = contextProjectTasks[i];
             const updatePtParams = {
-              TableName: tables["DayProjectTask"][env],
+              TableName: getTable("DayProjectTask", env),
               Key: { id: cpt.id },
               UpdateExpression: `set dayPlanProjectTasksId = :newId`,
               ExpressionAttributeValues: { ":newId": newDayPlanId },
@@ -297,7 +299,7 @@ const createAndRemapDayPlans = async (env) => {
           for (let i = 0; i < contextNonProjectTasks.length; i++) {
             const cnpt = contextNonProjectTasks[i];
             const updateNptParams = {
-              TableName: tables["NonProjectTask"][env],
+              TableName: getTable("NonProjectTask", env),
               Key: { id: npt.id },
               UpdateExpression: `set dayPlanTasksId = :newId`,
               ExpressionAttributeValues: { ":newId": newDayPlanId },
@@ -322,7 +324,7 @@ const createAndRemapDayPlans = async (env) => {
 };
 
 const _importHandlerArr = async (env, tableName, jsonData, mapArrayToDdb) => {
-  const TableName = tables[tableName][env];
+  const TableName = getTable(tableName, env);
   const owner = userPools[env].ownerId;
   const existingRecords = await docClient
     .scan({
