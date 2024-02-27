@@ -7,6 +7,7 @@ import ProjectSelector from "../ui-elements/project-selector";
 import { projectsSubscription } from "@/helpers/api-operations/subscriptions";
 import SubmitButton from "../ui-elements/submit-button";
 import ProjectName from "../ui-elements/project-name";
+import { createProject as createProjectApi } from "@/helpers/api-operations/create";
 import styles from "./Task.module.css";
 
 type TaskFormProps = {
@@ -39,6 +40,18 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
     onSubmit(task, selectedProject);
   };
 
+  const createProject = async (projectName: string) => {
+    const data = await createProjectApi(projectName, context);
+    if (!data) return;
+    handleChange({
+      id: data.id,
+      project: data.project,
+      context,
+      batches: [],
+      accounts: [],
+    });
+  };
+
   return (
     <div className={styles.fullWidth}>
       <form onSubmit={handleSubmit}>
@@ -50,7 +63,10 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
           placeholder="Describe task"
         />
         {selectedProject && <ProjectName project={selectedProject} />}
-        <ProjectSelector onChange={handleChange} />
+        <ProjectSelector
+          onChange={handleChange}
+          onCreateProject={createProject}
+        />
         <SubmitButton type="submit" wrapperClassName={styles.confirmBtn}>
           Create Task
         </SubmitButton>

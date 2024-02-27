@@ -11,6 +11,7 @@
 - Der Titel der aktuellen Seite wird nun bestimmt durch die aktuelle Sektion (z.B. Today's Tasks) und dem aktuell ausgewählten Eintrag. Bearbeite ich zum Beispiel gerade das Meeting: "Lukas/Wilfried Vorbereitung ACME", dann wäre der Titel der Seite: "Impulso - Lukas/Wilfried Vorbereitung ACME - Meeting"
 - Die Editierfelder für neue Tagespläne und Aufgaben sind optimiert worden. In beiden Fällen wird die Eingabe mit der Enter-Taste bestätigt und gespeichert.
 - Für alle Aktivitäten (Notizen in Projekten und Meetings) gibt es nun einen Markdown-fähigen Editor. Er versteht Shortcuts wie `#`, `##`, `-`, `>`, `[]` und wandelt diese in Überschriften, Listen, Blockzitate und Aufgaben um.
+- Neue Projekte können jetzt auch in der Tagesübersicht erstellt werden.
 
 Todos:
 
@@ -18,7 +19,11 @@ Todos:
 - [x] Tastaturbefehle einführen cabcookie/personal-crm#4
 - [x] Aktuelle Seite soll den Titel der Website bestimmen
 - [x] Markdown-fähiger Editor cabcookie/personal-crm#6
-- [ ] Das Erstellen von neuen Projekten soll auch im DayPlan möglich sein
+- [x] Das Erstellen von neuen Projekten soll auch im DayPlan möglich sein
+
+## Bekannte Fehler
+
+- [ ] Beim Erstellen einer neuen Notiz in einem Meeting, verschwindet die Notiz zunächst. Erst beim Refreshen der Seite kehrt sie zurück
 
 ## Zukünftige Releases
 
@@ -52,6 +57,7 @@ Todos:
 #### data
 
 - better typing for serialize function [3780f31](https://github.com/cabcookie/personal-crm/commit/3780f318bfba3c66fc61207b844fd9ddaf8ea734)
+- typing issues with transforming notes to MD and backwards [e025fd2](https://github.com/cabcookie/personal-crm/commit/e025fd23487bdd02c96c3df6186a0065093b3f92)
 
 ### Miscellaneous
 

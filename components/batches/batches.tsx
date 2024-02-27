@@ -30,6 +30,7 @@ const Batch: FC<BatchProps> = ({ batch, projects }) => {
         {projects
           .filter(
             ({ batches }) =>
+              batches["filter"] &&
               batches.filter(({ sixWeekBatch: { id } }) => id === batch.id)
                 .length > 0
           )
