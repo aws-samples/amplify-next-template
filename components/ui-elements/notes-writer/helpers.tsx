@@ -5,7 +5,12 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import { CustomTextType, RenderText, TextType } from "./CustomText";
 import { BlockQuoteType, blockQuote } from "./BlockQuote";
 import { HeadingType, heading } from "./Heading";
-import { BulletedListType, ListItemType, listItems } from "./ListItem";
+import {
+  BulletedListType,
+  ListItemType,
+  bulletedList,
+  listItems,
+} from "./ListItem";
 import { TodoType, todo } from "./Todo";
 import { Nullable } from "@/helpers/types/data";
 
@@ -32,18 +37,29 @@ const SHORTCUTS: { [key: string]: ElementTypeNames } = [
   heading,
 ].reduce((prev, curr) => ({ ...prev, ...curr.shortcuts }), {});
 
-const transformers = [listItems, todo, blockQuote, heading].reduce(
-  (prev, curr) => ({ ...prev, ...curr.serialize }),
-  {}
-);
-
-const defaultTransformer = (note: Descendant) =>
+const mapTextChildren = (note: { children: { text: string }[] }) =>
   note.children.map(({ text }) => text).join("");
-const getTransformerFn = (type: ElementTypeNames) =>
-  transformers[type] || defaultTransformer;
-export const transformNotesToMd = (notes: Descendant[]): string => {
-  return notes.map((note) => getTransformerFn(note.type)(note)).join("\n");
-};
+
+export const transformNotesToMd = (notes: Descendant[]): string =>
+  notes
+    .map((note) =>
+      !("type" in note)
+        ? !("children" in note)
+          ? note.text
+          : ""
+        : note.type === "bulleted-list"
+        ? note.children.map(
+            (child) => `- ${child.children.map((val) => val.text).join("")}`
+          )
+        : note.type === "todo"
+        ? `${note.done ? "[x]" : "[]"} ${mapTextChildren(note)}`
+        : note.type === "block-quote"
+        ? `> ${mapTextChildren(note)}`
+        : note.type === "heading"
+        ? `${"#".repeat(note.level)} ${mapTextChildren(note)}`
+        : mapTextChildren(note)
+    )
+    .join("\n");
 
 const replaceShortcut = (
   note: string,
@@ -51,41 +67,40 @@ const replaceShortcut = (
   type: ElementTypeNames
 ) => [{ text: type === "paragraph" ? note : note.replace(`${shortcut} `, "") }];
 
-export const transformMdToNotes = (notes: Nullable<string>): Descendant[] => {
+export const transformMdToNotes = (notes: Nullable<string>) => {
   if (!notes || notes === "") return initialValue;
 
-  return notes.split("\n").reduce((prevNodes: ElementTypes[], note) => {
+  const splittedNotes = notes.split("\n");
+  const nodes = [] as ElementTypes[];
+  for (let i = 0; i < splittedNotes.length; i++) {
+    const note = splittedNotes[i];
     const startsWith = note.split(" ")[0];
     const type = SHORTCUTS[startsWith] || "paragraph";
-    const propsMapper: {
-      [k: string]: (text: string) => Partial<Element>;
-    } = [heading, todo].reduce(
-      (prev, curr) => ({ ...prev, ...(curr.mapProps || {}) }),
-      {}
-    );
-    const newProps: Partial<Element> = propsMapper[type]
-      ? {
-          ...propsMapper[type](startsWith),
-          children: replaceShortcut(note, startsWith, type),
-        }
-      : {
-          type,
-          children: replaceShortcut(note, startsWith, type),
-        };
 
-    if (newProps.type === "list-item") {
-      if (
-        prevNodes.length > 0 &&
-        prevNodes[prevNodes.length - 1].type === "bulleted-list"
-      ) {
-        const lastItem = { ...prevNodes[prevNodes.length - 1] };
-        lastItem.children = [...lastItem.children, newProps];
-        return [...prevNodes.slice(0, -1), lastItem];
+    const props = {
+      type,
+      level: type === "heading" ? startsWith.length : undefined,
+      done: type === "todo" ? startsWith === "[x]" : undefined,
+      children: replaceShortcut(note, startsWith, type),
+    } as ElementTypes;
+
+    if (props.type === "list-item") {
+      if (nodes.length > 0) {
+        const lastItem = nodes[nodes.length - 1];
+        if (lastItem.type === "bulleted-list") {
+          lastItem.children = [...lastItem.children, props as ListItemType];
+        }
+      } else {
+        nodes.push({
+          type: "bulleted-list",
+          children: [props as ListItemType],
+        });
       }
-      return [...prevNodes, { type: "bulleted-list", children: [newProps] }];
+    } else {
+      nodes.push(props);
     }
-    return [...prevNodes, newProps];
-  }, [] as ElementTypes[]);
+  }
+  return nodes;
 };
 
 declare module "slate" {
@@ -106,6 +121,7 @@ const RenderElement: FC<RenderElementProps> = (props) => {
     heading,
     todo,
     listItems,
+    bulletedList,
   ].reduce((prev, curr) => ({ ...prev, ...curr.mapRenderer }), {});
   const UiElement = mapRenderElement[props.element.type] || RenderText;
   return <UiElement {...props} />;
@@ -245,8 +261,11 @@ export const initialValue: TextType[] = [
 export const noteHasContent = (notes: Descendant[]): boolean =>
   notes.filter(
     (note) =>
+      "children" in note &&
       note.children &&
-      note.children.filter(
-        (child) => child.text && child.text.trim().length > 0
+      note.children.filter((child) =>
+        "text" in child
+          ? child.text && child.text.trim().length > 0
+          : child.children.length > 0
       ).length > 0
   ).length > 0;

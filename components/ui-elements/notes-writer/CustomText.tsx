@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Descendant } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 
 export const createShortCutMapper = (shortCuts: string[], type: string) =>
@@ -15,11 +14,10 @@ export type NotesWriterCategories<
   ChildrenType,
   Type extends ElementMinimal<T, ChildrenType>
 > = {
-  shortcuts: { [key: string]: T };
+  shortcuts?: { [key: string]: T };
   mapRenderer: { [K in T]: FC<RenderElementProps> };
   mapProps?: { [K in T]: (beforeText: string) => Partial<Type> };
   mapWrapperFn?: { [K in T]: (editor: ReactEditor) => void };
-  serialize?: { [K in T]: (note: Type) => string };
 };
 
 export type CustomTextType = { text: string };

@@ -49,6 +49,10 @@ Todos:
 
 - optimized visualization of forms for creating tasks and day plans [847cb1d](https://github.com/cabcookie/personal-crm/commit/847cb1d77eb285f87bff90ca51ceef62c128047e)
 
+#### data
+
+- better typing for serialize function [3780f31](https://github.com/cabcookie/personal-crm/commit/3780f318bfba3c66fc61207b844fd9ddaf8ea734)
+
 ### Miscellaneous
 
 #### ci

@@ -20,8 +20,4 @@ export const blockQuote: NotesWriterCategories<
       return <blockquote {...attributes}>{children}</blockquote>;
     },
   },
-  serialize: {
-    [typeName]: (note: BlockQuoteType) =>
-      `> ${note.children.map(({ text }) => text).join("")}`,
-  },
 };

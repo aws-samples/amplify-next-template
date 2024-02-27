@@ -30,10 +30,4 @@ export const todo: NotesWriterCategories<TypeName, CustomTextType, TodoType> = {
   mapProps: {
     [typeName]: (text) => ({ type: typeName, done: text === "[x]" }),
   },
-  serialize: {
-    [typeName]: (note: TodoType) =>
-      `${note.done ? "[x]" : "[]"} ${note.children
-        .map(({ text }) => text)
-        .join("")}`,
-  },
 };

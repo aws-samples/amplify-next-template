@@ -19,15 +19,14 @@ export default function MeetingsPage() {
   useEffect(() => {
     setSearchText("");
     const subscription = meetingsSubscription(({ items, isSynced }) => {
-      setMeetings(
-        items.map((meeting) => ({
-          ...meeting,
-          activities: meeting.activities.map((activity) => ({
-            ...activity,
-            slateNotes: transformMdToNotes(activity.notes),
-          })),
-        })) || []
-      );
+      const meetings = items.map((meeting) => ({
+        ...meeting,
+        activities: meeting.activities.map((activity) => ({
+          ...activity,
+          slateNotes: transformMdToNotes(activity.notes),
+        })),
+      }));
+      setMeetings(meetings || []);
     });
     return () => subscription.unsubscribe();
   }, [setSearchText]);

@@ -15,7 +15,7 @@ type TypeNameItem = "list-item";
 export type BulletedListType = {
   type: TypeNameBulleted;
   align?: string;
-  children: Descendant[];
+  children: ListItemType[];
 };
 
 export type ListItemType = {
@@ -23,17 +23,26 @@ export type ListItemType = {
   children: CustomTextType[];
 };
 
-export const listItems: NotesWriterCategories<
-  TypeNameBulleted | TypeNameItem,
-  CustomTextType | Descendant,
-  BulletedListType | ListItemType
+export const bulletedList: NotesWriterCategories<
+  TypeNameBulleted,
+  Descendant,
+  BulletedListType
 > = {
-  shortcuts: createShortCutMapper(["-", "*", "+"], typeNameItem),
   mapRenderer: {
     [typeNameBulleted]: (props) => {
       const { attributes, children } = props;
       return <ul {...attributes}>{children}</ul>;
     },
+  },
+};
+
+export const listItems: NotesWriterCategories<
+  TypeNameItem,
+  CustomTextType,
+  ListItemType
+> = {
+  shortcuts: createShortCutMapper(["-", "*", "+"], typeNameItem),
+  mapRenderer: {
     [typeNameItem]: (props) => {
       const { attributes, children } = props;
       return <li {...attributes}>{children}</li>;
@@ -52,17 +61,5 @@ export const listItems: NotesWriterCategories<
           node.type === typeNameItem,
       });
     },
-    [typeNameBulleted]: () => {},
-  },
-  serialize: {
-    [typeNameBulleted]: (note: BulletedListType) => {
-      return note.children
-        .map(
-          (child: Descendant) =>
-            `- ${child.children.map((val) => val.text).join("")}`
-        )
-        .join("\n");
-    },
-    [typeNameItem]: () => "",
   },
 };

@@ -55,10 +55,4 @@ export const heading: NotesWriterCategories<
     },
   },
   mapProps: { [typeName]: (text) => ({ type: typeName, level: text.length }) },
-  serialize: {
-    [typeName]: (note: HeadingType) =>
-      `${"#".repeat(note.level)} ${note.children
-        .map(({ text }) => text)
-        .join("")}`,
-  },
 };
