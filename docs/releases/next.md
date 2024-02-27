@@ -12,6 +12,7 @@
 - Die Editierfelder für neue Tagespläne und Aufgaben sind optimiert worden. In beiden Fällen wird die Eingabe mit der Enter-Taste bestätigt und gespeichert.
 - Für alle Aktivitäten (Notizen in Projekten und Meetings) gibt es nun einen Markdown-fähigen Editor. Er versteht Shortcuts wie `#`, `##`, `-`, `>`, `[]` und wandelt diese in Überschriften, Listen, Blockzitate und Aufgaben um.
 - Neue Projekte können jetzt auch in der Tagesübersicht erstellt werden.
+- Die Änderungen werden von nun an dokumentiert so wie auf dieser Seite.
 
 Todos:
 
@@ -20,6 +21,7 @@ Todos:
 - [x] Aktuelle Seite soll den Titel der Website bestimmen
 - [x] Markdown-fähiger Editor cabcookie/personal-crm#6
 - [x] Das Erstellen von neuen Projekten soll auch im DayPlan möglich sein
+- [x] Release Management einführen
 
 ## Bekannte Fehler
 
@@ -47,6 +49,7 @@ Todos:
 - show state of persisting changes [1f019c0](https://github.com/cabcookie/personal-crm/commit/1f019c05cc844cbd28bf3235c9d91d063f6f0061)
 - title of page is defined by section and selected record [2af2fa6](https://github.com/cabcookie/personal-crm/commit/2af2fa68d5466c162eb266c00ccc52a342d20d15)
 - markdown editor (Slate) for any Activity notes [d4a95c2](https://github.com/cabcookie/personal-crm/commit/d4a95c274dd4c38aabab9611ce3bb7b395cafdc5)
+- allow creation of new projects on DayPlan [a56b928](https://github.com/cabcookie/personal-crm/commit/a56b928100e0425c9389d45a356ce93b0cb89916)
 
 ### Bug Fixes
 
