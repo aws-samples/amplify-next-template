@@ -1,0 +1,56 @@
+name: Release Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch all history for all tags and branches
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          extra_plugins: |
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/changelog
+            @semantic-release/npm
+            @semantic-release/github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Rename next.md and update version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          mv docs/releases/next.md docs/releases/v${VERSION}.md
+          sed -i "s/:VERSION/$VERSION/g" docs/releases/v${VERSION}.md
+        shell: bash
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/releases/v*.md package.json
+          git commit -m "chore(release): v${VERSION}" || echo "No changes to commit"
+          git push
+
+      - name: Tag Release
+        if: success()
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git tag -a v${VERSION} -m "Release v${VERSION}"
+          git push origin v${VERSION}

@@ -5,3 +5,18 @@
 .date {
   text-align: center;
 }
+
+.inOneLine {
+  display: flex;
+  align-items: center;
+}
+
+.saveStatusMsg {
+  margin-left: -0.1rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.meetingSaved {
+  margin-left: 1rem;
+}

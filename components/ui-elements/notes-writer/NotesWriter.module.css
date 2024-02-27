@@ -1,0 +1,50 @@
+.fullWidth {
+  width: 100%;
+}
+.mdEditor {
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+
+h1.heading,
+h2.heading,
+h3.heading {
+  text-transform: uppercase;
+  text-decoration: underline;
+  margin-top: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+h4.heading,
+h5.heading,
+h6.heading {
+  font-weight: normal;
+  text-decoration: underline;
+  margin-top: 0.8rem;
+  margin-bottom: 0.2rem;
+}
+
+h1.heading {
+  font-size: 2.1rem;
+}
+
+h2.heading {
+  font-size: 2rem;
+}
+
+h3.heading {
+  font-size: 2rem;
+}
+
+h4.heading {
+  font-size: 1.9rem;
+}
+
+h5.heading {
+  font-size: 1.8rem;
+}
+
+h6.heading {
+  font-size: 1.8rem;
+  font-style: italic;
+}

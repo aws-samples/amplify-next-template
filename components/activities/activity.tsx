@@ -3,7 +3,7 @@ import { flow, map, get } from "lodash/fp";
 import { FC } from "react";
 import styles from "./Activity.module.css";
 import ProjectName from "../ui-elements/project-name";
-import NotesViewer from "./notes-viewer";
+import NotesWriter from "../ui-elements/notes-writer";
 
 type ActivityProps = {
   activity: Activity;
@@ -11,7 +11,7 @@ type ActivityProps = {
   showProjects?: boolean;
 };
 const ActivityComponent: FC<ActivityProps> = ({
-  activity: { finishedOn, createdAt, notes, forProjects },
+  activity: { finishedOn, createdAt, slateNotes, forProjects },
   showDates,
   showProjects,
 }) => {
@@ -30,7 +30,7 @@ const ActivityComponent: FC<ActivityProps> = ({
           )(forProjects)}
         </div>
       )}
-      <NotesViewer notes={notes} />
+      <NotesWriter note={slateNotes} readonly />
     </div>
   );
 };

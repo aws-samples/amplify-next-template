@@ -1,3 +1,4 @@
+import { initialValue } from "@/components/ui-elements/notes-writer/helpers";
 import {
   createActivity,
   createProjectActivity,
@@ -8,6 +9,7 @@ import {
 } from "@/helpers/api-operations/update";
 import { Activity, Meeting, Project } from "@/helpers/types/data";
 import { debounce } from "lodash";
+import { Descendant } from "slate";
 
 export const isDuplicate = (
   meeting: Meeting,
@@ -32,13 +34,14 @@ export const filterBySearchText =
     ).length > 0;
 
 export const addProjectToNewNote = async (
-  newNote: string,
+  newNote: Descendant[],
   project: Project,
   meeting: Meeting,
-  setNewNote: (newNote: string) => void,
-  setMeeting: (meeting: Meeting) => void,
-  setEditNoteId: (noteId: string) => void
+  setNewNote: (newNote: Descendant[]) => void,
+  setEditNoteId: (noteId: string) => void,
+  setSaved: (saved: boolean) => void
 ) => {
+  setSaved(false);
   const data = await createActivity(
     new Date(),
     newNote,
@@ -46,7 +49,8 @@ export const addProjectToNewNote = async (
     meeting.id
   );
   if (!data) return;
-  setNewNote("");
+  setSaved(true);
+  setNewNote(initialValue);
   const activityId = data.activityData.id;
   setEditNoteId(activityId);
 };
@@ -55,11 +59,14 @@ export const addProjectToMeetingActivity = async (
   meeting: Meeting,
   editNoteId: string,
   project: Project,
-  setMeeting: (meeting: Meeting) => void
+  setMeeting: (meeting: Meeting) => void,
+  setSaved: (saved: boolean) => void
 ) => {
   if (isDuplicate(meeting, editNoteId, project)) return;
+  setSaved(false);
   const data = await createProjectActivity(editNoteId, project.id);
   if (!data) return;
+  setSaved(true);
   setMeeting({
     ...meeting,
     activities: meeting.activities.map((activity) =>
@@ -77,12 +84,27 @@ export const addProjectToMeetingActivity = async (
 };
 
 export const debouncedSaveActivityNotes = debounce(
-  (activity: Activity, notes: string) => updateActivity(activity.id, notes),
+  async (
+    activity: Activity,
+    notes: Descendant[],
+    setSaved: (saved: boolean) => void
+  ) => {
+    const data = await updateActivity(activity.id, notes);
+    if (!data) return;
+    setSaved(true);
+  },
   1000
 );
 
 export const debouncedSaveMeetingDateTime = debounce(
-  (meetingId: string, meetingOn: Date | string) =>
-    updateMeetingDateTime(meetingId, meetingOn),
+  async (
+    meetingId: string,
+    meetingOn: Date | string,
+    setSaved: (saved: boolean) => void
+  ) => {
+    const data = await updateMeetingDateTime(meetingId, meetingOn);
+    if (!data) return;
+    setSaved(true);
+  },
   1500
 );

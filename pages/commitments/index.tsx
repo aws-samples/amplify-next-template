@@ -7,6 +7,7 @@ export default function CommitmentsPage() {
   return (
     <Layout
       title="Commitments"
+      sectionName="Commitments"
       addButton={{
         label: "New",
         onClick: () => router.push("/commitments/new"),

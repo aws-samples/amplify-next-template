@@ -9,7 +9,13 @@ export default function NewCommitmentPage() {
   };
 
   return (
-    <Layout title={title} drawBackBtn onTitleChange={handleTitleChange}>
+    <Layout
+      title={title}
+      drawBackBtn
+      saveTitle={handleTitleChange}
+      recordName="New"
+      sectionName="Commitment"
+    >
       WORK IN PROGRESS
     </Layout>
   );

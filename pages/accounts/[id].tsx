@@ -6,6 +6,10 @@ type AccountDetailPageProps = {};
 const AccountDetailPage: FC<AccountDetailPageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
-  return <Layout title="Accounts">WIP {id as string}</Layout>;
+  return (
+    <Layout title="Accounts" sectionName="Account" recordName={undefined}>
+      WIP {id as string}
+    </Layout>
+  );
 };
 export default AccountDetailPage;

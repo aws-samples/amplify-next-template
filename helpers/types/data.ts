@@ -1,6 +1,7 @@
 import { type Schema } from "@/amplify/data/resource";
 import { SelectionSet } from "aws-amplify/data";
 import { currentContextSelectionSet } from "../selection-sets";
+import { Descendant } from "slate";
 
 export type Nullable<T> = T | null;
 export type MappedAccount = {
@@ -25,6 +26,7 @@ export type Activity = {
   id: string;
   finishedOn: Nullable<string>;
   notes: Nullable<string>;
+  slateNotes: Descendant[];
   createdAt: string;
   forProjects?: { projects: Project }[];
 };

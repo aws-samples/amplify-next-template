@@ -10,7 +10,9 @@ const EditMeetingPage: FC<EditMeetingPageProps> = (props) => {
   const { id } = router.query;
 
   return !id ? (
-    <Layout title="Loading...">Loading Meeting...</Layout>
+    <Layout title="Loading..." recordName="Loading..." sectionName="Meeting">
+      Loading Meeting...
+    </Layout>
   ) : (
     <MeetingForm meetingId={id as string} />
   );

@@ -9,6 +9,7 @@ import { getDayOfDate } from "@/helpers/functional";
 import { meetingsSubscription } from "@/helpers/api-operations/subscriptions";
 import { useAppContext } from "@/components/navigation-menu/AppContext";
 import { filterBySearchText } from "@/components/meetings/helpers/meetings";
+import { transformMdToNotes } from "@/components/ui-elements/notes-writer/helpers";
 
 export default function MeetingsPage() {
   const [meetings, setMeetings] = useState<Meeting[]>([]);
@@ -18,7 +19,14 @@ export default function MeetingsPage() {
   useEffect(() => {
     setSearchText("");
     const subscription = meetingsSubscription(({ items, isSynced }) => {
-      setMeetings([...(items || [])]);
+      const meetings = items.map((meeting) => ({
+        ...meeting,
+        activities: meeting.activities.map((activity) => ({
+          ...activity,
+          slateNotes: transformMdToNotes(activity.notes),
+        })),
+      }));
+      setMeetings(meetings || []);
     });
     return () => subscription.unsubscribe();
   }, [setSearchText]);
@@ -43,6 +51,7 @@ export default function MeetingsPage() {
   return (
     <Layout
       title="Meetings"
+      sectionName="Meetings"
       addButton={{
         label: "New",
         onClick: () => router.push("/meetings/new"),

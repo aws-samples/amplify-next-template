@@ -6,6 +6,10 @@ type ProjectDetailPageProps = {};
 const ProjectDetailPage: FC<ProjectDetailPageProps> = (props) => {
   const router = useRouter();
   const { id } = router.query;
-  return <Layout title="Project">WIP {id as string}</Layout>;
+  return (
+    <Layout title="Project" recordName={undefined} sectionName="Project">
+      WIP {id as string}
+    </Layout>
+  );
 };
 export default ProjectDetailPage;
