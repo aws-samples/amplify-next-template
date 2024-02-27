@@ -19,7 +19,7 @@ export type NotesWriterCategories<
   mapRenderer: { [K in T]: FC<RenderElementProps> };
   mapProps?: { [K in T]: (beforeText: string) => Partial<Type> };
   mapWrapperFn?: { [K in T]: (editor: ReactEditor) => void };
-  serialize?: { [K in T]: (note: Descendant) => string };
+  serialize?: { [K in T]: (note: Type) => string };
 };
 
 export type CustomTextType = { text: string };

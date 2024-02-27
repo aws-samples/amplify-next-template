@@ -19,11 +19,11 @@ Todos:
 - [x] Aktuelle Seite soll den Titel der Website bestimmen
 - [x] Markdown-fähiger Editor cabcookie/personal-crm#6
 - [ ] Das Erstellen von neuen Projekten soll auch im DayPlan möglich sein
-- [ ] Tasks müssen in der Liste direkt editierbar sein, ohne dass der Task geöffnet werden muss
-- [ ] Beim Scrollen soll der Titel im Header übernommen werden
 
 ## Zukünftige Releases
 
+- [ ] Tasks müssen in der Liste direkt editierbar sein, ohne dass der Task geöffnet werden muss
+- [ ] Beim Scrollen soll der Titel im Header übernommen werden
 - [ ] DayProjectTask und NonProjectTask überführen in Task
 - [ ] Sicherstellen, dass die Daten durch das neue Release automatisch überführt werden
 - [ ] Auf dem iPhone soll es nicht den Header geben, sondern das Logo am unteren Rand des Bildschirms
@@ -41,6 +41,7 @@ Todos:
 
 - show state of persisting changes [1f019c0](https://github.com/cabcookie/personal-crm/commit/1f019c05cc844cbd28bf3235c9d91d063f6f0061)
 - title of page is defined by section and selected record [2af2fa6](https://github.com/cabcookie/personal-crm/commit/2af2fa68d5466c162eb266c00ccc52a342d20d15)
+- markdown editor (Slate) for any Activity notes [d4a95c2](https://github.com/cabcookie/personal-crm/commit/d4a95c274dd4c38aabab9611ce3bb7b395cafdc5)
 
 ### Bug Fixes
 
