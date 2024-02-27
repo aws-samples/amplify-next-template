@@ -54,6 +54,10 @@
 - better typing for serialize function [3780f31](https://github.com/cabcookie/personal-crm/commit/3780f318bfba3c66fc61207b844fd9ddaf8ea734)
 - typing issues with transforming notes to MD and backwards [e025fd2](https://github.com/cabcookie/personal-crm/commit/e025fd23487bdd02c96c3df6186a0065093b3f92)
 
+### Documentation
+
+- cleanup change documentation [50a82cb](https://github.com/cabcookie/personal-crm/commit/50a82cbd893bf1e82f46dda2b7f10334f91b7ab8)
+
 ### Miscellaneous
 
 #### ci
