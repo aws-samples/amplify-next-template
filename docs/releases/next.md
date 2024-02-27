@@ -14,18 +14,10 @@
 - Neue Projekte können jetzt auch in der Tagesübersicht erstellt werden.
 - Die Änderungen werden von nun an dokumentiert so wie auf dieser Seite.
 
-Todos:
-
-- [x] Besser visualisieren, ob ein ein Eintrag gespeichert ist cabcookie/personal-crm#8
-- [x] Tastaturbefehle einführen cabcookie/personal-crm#4
-- [x] Aktuelle Seite soll den Titel der Website bestimmen
-- [x] Markdown-fähiger Editor cabcookie/personal-crm#6
-- [x] Das Erstellen von neuen Projekten soll auch im DayPlan möglich sein
-- [x] Release Management einführen
-
 ## Bekannte Fehler
 
 - [ ] Beim Erstellen einer neuen Notiz in einem Meeting, verschwindet die Notiz zunächst. Erst beim Refreshen der Seite kehrt sie zurück
+- [ ] Die Suche funktioniert im Moment nicht
 
 ## Zukünftige Releases
 
@@ -70,6 +62,7 @@ Todos:
 - moving next.md update to post-commit [60a547d](https://github.com/cabcookie/personal-crm/commit/60a547d3d9e33275a2736febe179f044f2eeff09)
 - commits appended now [d5435b6](https://github.com/cabcookie/personal-crm/commit/d5435b60723d15df9447d155b435463035e01d5b)
 - update release template and give release a name [cd77ca9](https://github.com/cabcookie/personal-crm/commit/cd77ca9bc7aff99e92da822ea6ca9ce88b782905)
+- automating steps in releasing a new version [a10aecf](https://github.com/cabcookie/personal-crm/commit/a10aecf71e4f764c2ca2d0ba46806386d25bad8d)
 
 #### import
 
