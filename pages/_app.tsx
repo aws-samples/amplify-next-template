@@ -19,7 +19,7 @@ function App({ Component, pageProps }: AppProps) {
         ></meta>
       </Head>
       <AppContextProvider>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </AppContextProvider>
     </>
   );
