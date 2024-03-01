@@ -9,14 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "aws-amplify": "^6.0.3",
+    "aws-amplify": "latest",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "^0.5.4",
-    "@aws-amplify/backend-cli": "^0.9.0",
+    "@aws-amplify/backend": "beta",
+    "@aws-amplify/backend-cli": "beta",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
