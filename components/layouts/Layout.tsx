@@ -2,6 +2,7 @@ import PageWrapper from "@/components/PageWrapper";
 import Header from "../header/Header";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import CategoryTitle, { CategoryTitleProps } from "../CategoryTitle";
+import contextStyles from "./ContextColors.module.css";
 import styles from "./Layout.module.css";
 import NavigationMenu from "../navigation-menu/NavigationMenu";
 import { useAppContext } from "../navigation-menu/AppContext";
@@ -91,9 +92,9 @@ export default function Layout({
       <div
         className={
           {
-            family: styles.familyColorScheme,
-            hobby: styles.hobbyColorScheme,
-            work: styles.workColorScheme,
+            family: contextStyles.familyColorScheme,
+            hobby: contextStyles.hobbyColorScheme,
+            work: contextStyles.workColorScheme,
           }[context]
         }
       >

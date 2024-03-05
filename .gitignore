@@ -38,6 +38,5 @@ next-env.d.ts
 # amplify
 .amplify
 amplifyconfiguration*
-public/images/profile-pic-test.jpeg
 components/import-data/*
 !components/import-data/imports-aws-sdk

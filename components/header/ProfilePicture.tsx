@@ -10,7 +10,7 @@ export default function ProfilePicture() {
         width="50"
         height="50"
         className={styles.profilePicture}
-        src="/images/profile-pic-test.jpeg"
+        src="/images/profile-pic.jpeg"
       />
     </a>
   );
