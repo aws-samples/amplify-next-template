@@ -1,5 +1,16 @@
 # Bug-Fixing für das Editieren (Version :VERSION)
 
+## Änderungen
+
+### User Interface Dokumentation
+
+Für eine robustere Oberfläche, haben wir [StoryBook](https://storybook.js.org/) mit aufgenommen. StoryBook hilft UI Komponenten zu dokumentieren und zu testen.
+
+Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entsprechend überarbeitet, dass sie unabhängig von ihrer Umgebung funktionieren:
+
+- `SearchBar.tsx`
+- `Logo.tsx`
+
 ## Todos für dieses Release
 
 - [ ] List Items verschwinden durch speichern und wieder editieren
@@ -39,6 +50,10 @@
 ## Detailed changes
 
 ### Documentation
+
+#### ui
+
+- introducing UI documentation with StoryBook [68086b7](https://github.com/cabcookie/personal-crm/commit/68086b7382d008900cc10bb82d9beeac5ebb9604)
 
 #### release
 
