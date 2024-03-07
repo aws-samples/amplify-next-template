@@ -18,7 +18,7 @@ import {
   updateActivity,
   updateMeetingTitle,
 } from "@/helpers/api-operations/update";
-import { useAppContext } from "../navigation-menu/AppContext";
+import { useAppContext } from "../../contexts/AppContext";
 import {
   addProjectToMeetingActivity,
   addProjectToNewNote,

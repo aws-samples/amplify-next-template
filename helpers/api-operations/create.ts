@@ -1,7 +1,7 @@
 import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Project } from "../types/data";
-import { Context } from "@/components/navigation-menu/AppContext";
+import { Context } from "@/contexts/AppContext";
 import { handleApiErrors } from "./globals";
 import { transformNotesToMd } from "@/components/ui-elements/notes-writer/helpers";
 import { Descendant } from "slate";

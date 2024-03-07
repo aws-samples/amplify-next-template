@@ -1,13 +1,14 @@
 import { FC } from "react";
-import { Context } from "../navigation-menu/AppContext";
+import { Context } from "../../contexts/AppContext";
 import contextStyles from "../layouts/ContextColors.module.css";
 import styles from "./Logo.module.css";
 
 type LogoProps = {
   context?: Context;
+  logoOnly?: boolean;
 };
 
-const Logo: FC<LogoProps> = ({ context }) => {
+const Logo: FC<LogoProps> = ({ context, logoOnly }) => {
   return (
     <div
       className={`${context ? contextStyles[`${context}ColorScheme`] : ""} ${
@@ -15,7 +16,9 @@ const Logo: FC<LogoProps> = ({ context }) => {
       }`}
     >
       <div className={styles.logoIcon} />
-      <div className={styles.appName}>{context || "Impulso"}</div>
+      {!logoOnly && (
+        <div className={styles.appName}>{context || "Impulso"}</div>
+      )}
     </div>
   );
 };

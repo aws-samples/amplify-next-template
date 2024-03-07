@@ -7,17 +7,15 @@ import { Meeting } from "@/helpers/types/data";
 import MeetingRecord, { getMeetingDate } from "@/components/meetings/meeting";
 import { getDayOfDate } from "@/helpers/functional";
 import { meetingsSubscription } from "@/helpers/api-operations/subscriptions";
-import { useAppContext } from "@/components/navigation-menu/AppContext";
+import { useAppContext } from "@/contexts/AppContext";
 import { filterBySearchText } from "@/components/meetings/helpers/meetings";
 import { transformMdToNotes } from "@/components/ui-elements/notes-writer/helpers";
 
 export default function MeetingsPage() {
   const [meetings, setMeetings] = useState<Meeting[]>([]);
-  const { searchTextUpperCase, setSearchText } = useAppContext();
   const router = useRouter();
 
   useEffect(() => {
-    setSearchText("");
     const subscription = meetingsSubscription(({ items, isSynced }) => {
       const meetings = items.map((meeting) => ({
         ...meeting,
@@ -29,18 +27,16 @@ export default function MeetingsPage() {
       setMeetings(meetings || []);
     });
     return () => subscription.unsubscribe();
-  }, [setSearchText]);
+  }, []);
 
   const sortedMeetings = useMemo(
     () =>
-      meetings
-        .filter(filterBySearchText(searchTextUpperCase))
-        .sort(
-          (a, b) =>
-            new Date(b.meetingOn || b.createdAt).getTime() -
-            new Date(a.meetingOn || a.createdAt).getTime()
-        ),
-    [meetings, searchTextUpperCase]
+      meetings.sort(
+        (a, b) =>
+          new Date(b.meetingOn || b.createdAt).getTime() -
+          new Date(a.meetingOn || a.createdAt).getTime()
+      ),
+    [meetings]
   );
 
   const meetingDates = useMemo(

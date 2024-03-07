@@ -9,7 +9,7 @@ import { dayplansSubscription } from "@/helpers/api-operations/subscriptions";
 import { createDayPlan as createDayPlanApi } from "@/helpers/api-operations/create";
 import { completeDayPlan as completeDayPlanApi } from "@/helpers/api-operations/update";
 import { wait } from "@/helpers/functional";
-import { useAppContext } from "@/components/navigation-menu/AppContext";
+import { useAppContext } from "@/contexts/AppContext";
 import SubmitButton from "@/components/ui-elements/submit-button";
 
 export default function TodayPage() {

@@ -3,7 +3,7 @@ import { generateClient } from "aws-amplify/data";
 import { Nullable } from "../types/data";
 import { handleApiErrors } from "./globals";
 import { makeISOString } from "../functional";
-import { Context } from "@/components/navigation-menu/AppContext";
+import { Context } from "@/contexts/AppContext";
 import { createCurrentContext } from "./create";
 import { transformNotesToMd } from "@/components/ui-elements/notes-writer/helpers";
 import { Descendant } from "slate";

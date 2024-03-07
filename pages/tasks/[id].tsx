@@ -12,7 +12,7 @@ import { getTask } from "@/helpers/api-operations/get";
 import { projectActivitySubscription } from "@/helpers/api-operations/subscriptions";
 import { createActivity as createActivityApi } from "@/helpers/api-operations/create";
 import ProjectName from "@/components/ui-elements/project-name";
-import { useAppContext } from "@/components/navigation-menu/AppContext";
+import { useAppContext } from "@/contexts/AppContext";
 import { filterBySearch } from "@/components/tasks/helpers/tasks";
 import {
   initialValue,

@@ -2,7 +2,7 @@ import { Project } from "@/helpers/types/data";
 import { FC, useState, useEffect } from "react";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { useAppContext } from "../navigation-menu/AppContext";
+import { useAppContext } from "../../contexts/AppContext";
 import { makeProjectName } from "./project-name";
 import { projectsSubscription } from "@/helpers/api-operations/subscriptions";
 

@@ -8,7 +8,7 @@ import {
   projectTasksSelectionSet,
 } from "../selection-sets";
 import { Activity, Meeting, ProjectTask } from "../types/data";
-import { Context } from "@/components/navigation-menu/AppContext";
+import { Context } from "@/contexts/AppContext";
 import { transformMdToNotes } from "@/components/ui-elements/notes-writer/helpers";
 
 const client = generateClient<Schema>();

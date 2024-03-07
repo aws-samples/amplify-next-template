@@ -3,7 +3,7 @@
   align-items: center;
   border: 2px solid transparent;
   border-radius: 2rem;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-medium);
   padding: 0.2rem 0.4rem 0.2rem 0.4rem;
 }
 
@@ -72,7 +72,7 @@
   border: none;
   outline: none;
   padding-left: 0.3rem;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-medium);
   background: none;
   width: 100%;
 }
@@ -88,5 +88,5 @@
 
 .searchIcon {
   color: var(--color-text-secondary);
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-medium);
 }

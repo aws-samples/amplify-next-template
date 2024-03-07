@@ -22,10 +22,12 @@
   flex-grow: 1;
   text-align: center;
   cursor: pointer;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
   transition: color 0.3s ease;
   color: var(--context-color);
   position: relative;
-  font-size: var(--font-size-x-small);
+  text-transform: capitalize;
 }
 
 .highlighter {

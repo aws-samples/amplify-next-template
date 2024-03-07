@@ -54,6 +54,7 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 #### ui
 
 - introducing UI documentation with StoryBook [68086b7](https://github.com/cabcookie/personal-crm/commit/68086b7382d008900cc10bb82d9beeac5ebb9604)
+- added Logo to StoryBook [0e03460](https://github.com/cabcookie/personal-crm/commit/0e0346045cd4b61433ca3cbb8b4f29a419b6d3c7)
 
 #### release
 

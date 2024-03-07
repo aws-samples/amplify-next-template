@@ -10,7 +10,7 @@ import {
   DayPlan,
   Activity,
 } from "../types/data";
-import { Context } from "@/components/navigation-menu/AppContext";
+import { Context } from "@/contexts/AppContext";
 import {
   otherTasksSelectionSet,
   projectTasksSelectionSet,

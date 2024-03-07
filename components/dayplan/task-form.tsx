@@ -1,5 +1,5 @@
 import { FC, FormEvent, useEffect, useState } from "react";
-import { useAppContext } from "../navigation-menu/AppContext";
+import { useAppContext } from "../../contexts/AppContext";
 import { Project, SixWeekBatch } from "@/helpers/types/data";
 import { flow, map } from "lodash/fp";
 import Batch, { getUniqueBatches } from "../batches/batches";
@@ -41,6 +41,7 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
   };
 
   const createProject = async (projectName: string) => {
+    if (!context) return;
     const data = await createProjectApi(projectName, context);
     if (!data) return;
     handleChange({

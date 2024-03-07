@@ -2,7 +2,7 @@ import SearchBar from "./SearchBar";
 import Logo from "./Logo";
 import ProfilePicture from "./ProfilePicture";
 import styles from "./Header.module.css";
-import { useAppContext } from "../navigation-menu/AppContext";
+import { useAppContext } from "../../contexts/AppContext";
 import { RefObject } from "react";
 
 type HeaderProps = {
