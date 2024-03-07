@@ -4,16 +4,16 @@ backend:
     build:
       commands:
         - nvm use 18
-        - npm ci
+        - yarn ci
         - npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
 frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - yarn ci
     build:
       commands:
-        - npm run build
+        - yarn run build
   artifacts:
     baseDirectory: .next
     files:
