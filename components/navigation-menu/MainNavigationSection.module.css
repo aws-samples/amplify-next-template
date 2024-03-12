@@ -4,14 +4,21 @@
 }
 
 .menuItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   flex: 1;
   margin: 0 5px;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
   border-radius: 1rem;
   border: none;
   background-color: var(--color-btn);
   box-shadow: none;
-  transition: background-color 1s ease;
+  color: var(--color-text);
+  transition: background-color 1s ease, color 1s ease;
+  text-decoration: none;
 }
 
 .menuItem:hover {
@@ -20,22 +27,12 @@
 }
 
 .menuIcon {
-  font-size: 5rem;
+  font-size: 6rem;
 }
 
 .menuLabel {
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-large);
   font-weight: bold;
-}
-
-@media (max-width: 40em) {
-  .menuIcon {
-    font-size: 4rem;
-  }
-  .menuLabel {
-    font-size: var(--font-size-xx-small);
-    font-weight: normal;
-  }
 }
 
 .wrapper :first-child.menuItem {
@@ -44,4 +41,29 @@
 
 .wrapper :last-child.menuItem {
   margin-right: 0;
+}
+
+@media (min-width: 40em) {
+  .menuIcon {
+    font-size: 8rem;
+  }
+  .menuLabel {
+    font-size: var(--font-size-x-large);
+  }
+}
+
+@media (max-width: 29.999em) {
+  .menuIcon {
+    font-size: 4rem;
+  }
+  .menuLabel {
+    font-size: var(--font-size-small);
+  }
+}
+
+@media (max-width: 23.999em) {
+  .menuLabel {
+    font-size: var(--font-size-xx-small);
+    font-weight: normal;
+  }
 }

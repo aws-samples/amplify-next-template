@@ -10,6 +10,9 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 
 - `SearchBar.tsx`
 - `Logo.tsx`
+- `ProfilePicture.tsx`
+- `ContextSwitcher.tsx`
+- `MainNavigationSection.tsx`
 
 ## Todos für dieses Release
 
@@ -65,3 +68,10 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 #### ui
 
 - remove semilicon at the end of each page [e20740c](https://github.com/cabcookie/personal-crm/commit/e20740c5c814fdc948974500676976171b77d663)
+- adjusted ContextSwitcher for robustness (incl. new AppContext provider) [53a83da](https://github.com/cabcookie/personal-crm/commit/53a83da2d59cf5c66c5033e24b1dae643bb2b9fb)
+
+### Miscellaneous
+
+#### dependencies
+
+- upgrade to Storybook 8 [e4520e3](https://github.com/cabcookie/personal-crm/commit/e4520e3d33a9fe5133b3fcef14e37fdf2495847d)

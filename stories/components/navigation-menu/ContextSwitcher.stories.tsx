@@ -17,6 +17,7 @@ export default meta;
 
 const CONTEXT_LOCAL_STORAGE_NAME = "currentContext";
 type Story = StoryObj<typeof meta>;
+
 const contextLocalStorage = {
   getContext: (setContext: SetContextStateFn, fallBackContext: Context) => {
     const result: string =
