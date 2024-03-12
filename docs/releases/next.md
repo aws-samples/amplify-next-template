@@ -59,6 +59,7 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - introducing UI documentation with StoryBook [68086b7](https://github.com/cabcookie/personal-crm/commit/68086b7382d008900cc10bb82d9beeac5ebb9604)
 - added Logo to StoryBook [0e03460](https://github.com/cabcookie/personal-crm/commit/0e0346045cd4b61433ca3cbb8b4f29a419b6d3c7)
 - adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
+- reduce margin between icon and label [78dc5f2](https://github.com/cabcookie/personal-crm/commit/78dc5f29ba87c25060819e8f9215b74a6c46280c)
 
 #### release
 
@@ -73,6 +74,8 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 
 ### Miscellaneous
+
+- reduce margin between icon and label [78dc5f2](https://github.com/cabcookie/personal-crm/commit/78dc5f29ba87c25060819e8f9215b74a6c46280c)
 
 #### dependencies
 
