@@ -58,6 +58,7 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 
 - introducing UI documentation with StoryBook [68086b7](https://github.com/cabcookie/personal-crm/commit/68086b7382d008900cc10bb82d9beeac5ebb9604)
 - added Logo to StoryBook [0e03460](https://github.com/cabcookie/personal-crm/commit/0e0346045cd4b61433ca3cbb8b4f29a419b6d3c7)
+- adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 
 #### release
 
@@ -69,6 +70,7 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 
 - remove semilicon at the end of each page [e20740c](https://github.com/cabcookie/personal-crm/commit/e20740c5c814fdc948974500676976171b77d663)
 - adjusted ContextSwitcher for robustness (incl. new AppContext provider) [53a83da](https://github.com/cabcookie/personal-crm/commit/53a83da2d59cf5c66c5033e24b1dae643bb2b9fb)
+- adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 
 ### Miscellaneous
 
