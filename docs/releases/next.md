@@ -14,6 +14,7 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - `ContextSwitcher.tsx`
 - `MainNavigationSection.tsx`
 - `NavigationMenu.tsx`
+- `Header.tsx`
 
 ## Todos für dieses Release
 
@@ -63,6 +64,7 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - reduce margin between icon and label [78dc5f2](https://github.com/cabcookie/personal-crm/commit/78dc5f29ba87c25060819e8f9215b74a6c46280c)
 - adjusted ContextSwitcher for robustness (incl. new AppContext provider) [53a83da](https://github.com/cabcookie/personal-crm/commit/53a83da2d59cf5c66c5033e24b1dae643bb2b9fb)
 - adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
+- adding NavigationMenu for robustness [2f24b8e](https://github.com/cabcookie/personal-crm/commit/2f24b8e5c5c517ad2b78e93bb47fab0eee14b773)
 
 #### release
 
