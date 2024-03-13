@@ -27,9 +27,9 @@ const menuItems: MenuItem[] = [
 const MainNavigationSection: FC<MainNavigationSectionProps> = ({ context }) => {
   return (
     <div
-      className={`${context ? contextStyles[`${context}ColorScheme`] : ""} ${
-        styles.wrapper
-      }`}
+      className={`${
+        context ? contextStyles[`${context}ColorScheme`] : styles.noColorScheme
+      } ${styles.wrapper}`}
     >
       {menuItems.map(({ name, link, Icon }, idx) => (
         <Link className={styles.menuItem} key={idx} href={link}>

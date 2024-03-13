@@ -13,6 +13,7 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - `ProfilePicture.tsx`
 - `ContextSwitcher.tsx`
 - `MainNavigationSection.tsx`
+- `NavigationMenu.tsx`
 
 ## Todos für dieses Release
 
@@ -60,6 +61,8 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - added Logo to StoryBook [0e03460](https://github.com/cabcookie/personal-crm/commit/0e0346045cd4b61433ca3cbb8b4f29a419b6d3c7)
 - adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 - reduce margin between icon and label [78dc5f2](https://github.com/cabcookie/personal-crm/commit/78dc5f29ba87c25060819e8f9215b74a6c46280c)
+- adjusted ContextSwitcher for robustness (incl. new AppContext provider) [53a83da](https://github.com/cabcookie/personal-crm/commit/53a83da2d59cf5c66c5033e24b1dae643bb2b9fb)
+- adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 
 #### release
 
@@ -70,8 +73,6 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 #### ui
 
 - remove semilicon at the end of each page [e20740c](https://github.com/cabcookie/personal-crm/commit/e20740c5c814fdc948974500676976171b77d663)
-- adjusted ContextSwitcher for robustness (incl. new AppContext provider) [53a83da](https://github.com/cabcookie/personal-crm/commit/53a83da2d59cf5c66c5033e24b1dae643bb2b9fb)
-- adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 
 ### Miscellaneous
 
@@ -80,3 +81,4 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 #### dependencies
 
 - upgrade to Storybook 8 [e4520e3](https://github.com/cabcookie/personal-crm/commit/e4520e3d33a9fe5133b3fcef14e37fdf2495847d)
+- upgrade deps [3b750cf](https://github.com/cabcookie/personal-crm/commit/3b750cf6bcd4e8ca370ba01cee6561e9c8ddb0b1)

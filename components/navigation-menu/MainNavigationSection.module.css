@@ -26,6 +26,10 @@
   box-shadow: 2px 2px 8px rgba(89, 88, 88, 0.344);
 }
 
+.noColorScheme .menuItem {
+  border: 1px solid gray;
+}
+
 .menuIcon {
   font-size: 6rem;
 }
