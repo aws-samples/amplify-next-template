@@ -1,24 +1,27 @@
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 import ContextSwitcher from "./ContextSwitcher";
 import MainNavigationSection from "./MainNavigationSection";
 import styles from "./NavigationMenu.module.css";
-import { useAppContext } from "@/contexts/AppContext";
+import { Context } from "@/contexts/ContextContext";
 
-type NavigationMenuProps = {};
-
-const NavigationMenu: FC<NavigationMenuProps> = () => {
-  const { context } = useAppContext();
-
-  return (
-    <div className={styles.menu}>
-      <div className={styles.contextSection}>
-        <ContextSwitcher />
-      </div>
-      <div className={styles.navigationSection}>
-        <MainNavigationSection context={context} />
-      </div>
-    </div>
-  );
+type NavigationMenuProps = {
+  context?: Context;
 };
 
+const NavigationMenu = forwardRef<HTMLDivElement, NavigationMenuProps>(
+  ({ context }, ref) => {
+    return (
+      <div className={styles.menu} ref={ref}>
+        <div className={styles.contextSection}>
+          <ContextSwitcher context={context} />
+        </div>
+        <div className={styles.navigationSection}>
+          <MainNavigationSection context={context} />
+        </div>
+      </div>
+    );
+  }
+);
+
+NavigationMenu.displayName = "NavigationMenu";
 export default NavigationMenu;

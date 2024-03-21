@@ -10,7 +10,7 @@ import {
 export type Context = "family" | "hobby" | "work";
 export type SetContextStateFn = (context: Context) => void;
 
-interface AppContextType {
+interface ContextContextType {
   context?: Context;
   setContext: SetContextStateFn;
 }
@@ -20,13 +20,14 @@ type ContextHookResult = {
   saveContext: SetContextStateFn;
 };
 
-interface AppContextProviderProps {
+interface ContextContextProviderProps {
   children: ReactNode;
   useContextHook: () => ContextHookResult;
 }
 
-const AppContext = createContext<AppContextType | undefined>(undefined);
-export const AppContextProvider: FC<AppContextProviderProps> = ({
+const ContextContext = createContext<ContextContextType | undefined>(undefined);
+
+export const ContextContextProvider: FC<ContextContextProviderProps> = ({
   children,
   useContextHook,
 }) => {
@@ -43,21 +44,23 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({
   };
 
   return (
-    <AppContext.Provider
+    <ContextContext.Provider
       value={{
         context,
         setContext: handleContextChange,
       }}
     >
       {children}
-    </AppContext.Provider>
+    </ContextContext.Provider>
   );
 };
 
-export const useAppContext = () => {
-  const context = useContext(AppContext);
+export const useContextContext = () => {
+  const context = useContext(ContextContext);
   if (context === undefined) {
-    throw new Error("useAppContext must be used within an AppContextProvider");
+    throw new Error(
+      "useContextContext must be used within an ContextContextProvider"
+    );
   }
   return context;
 };

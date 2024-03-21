@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Context } from "../../contexts/AppContext";
+import { Context } from "../../contexts/ContextContext";
 import contextStyles from "../layouts/ContextColors.module.css";
 import styles from "./Logo.module.css";
 

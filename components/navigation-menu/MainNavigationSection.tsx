@@ -6,7 +6,7 @@ import { BiConversation } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
 import { PiHandFist } from "react-icons/pi";
 import Link from "next/link";
-import { Context } from "@/contexts/AppContext";
+import { Context } from "@/contexts/ContextContext";
 
 type MainNavigationSectionProps = {
   context?: Context;

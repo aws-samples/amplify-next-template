@@ -1,4 +1,4 @@
-import { Context } from "@/contexts/AppContext";
+import { Context } from "@/contexts/ContextContext";
 import { FC } from "react";
 import contextStyles from "../layouts/ContextColors.module.css";
 import styles from "./Header.module.css";

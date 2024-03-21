@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { AppContextProvider } from "@/contexts/AppContext";
+import {
+  ContextContextProvider,
+  useContextContext,
+} from "@/contexts/ContextContext";
 import NavigationMenu from "@/components/navigation-menu/NavigationMenu";
 import { contextLocalStorage } from "./helpers";
 
@@ -8,9 +11,9 @@ const meta: Meta<typeof NavigationMenu> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <AppContextProvider useContextHook={() => contextLocalStorage}>
+      <ContextContextProvider useContextHook={() => contextLocalStorage}>
         <Story />
-      </AppContextProvider>
+      </ContextContextProvider>
     ),
   ],
 };
@@ -19,4 +22,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  render: () => {
+    const { context } = useContextContext();
+    return <NavigationMenu context={context} />;
+  },
+};
+export const ContextFamily: Story = { args: { context: "family" } };
+export const ContextHobby: Story = { args: { context: "hobby" } };
+export const ContextWork: Story = { args: { context: "work" } };

@@ -8,9 +8,7 @@ import {
 } from "react";
 import styles from "./ContextSwitcher.module.css";
 import contextStyles from "../layouts/ContextColors.module.css";
-import { Context, useAppContext } from "@/contexts/AppContext";
-
-type ContextSwitcherProps = {};
+import { Context, useContextContext } from "@/contexts/ContextContext";
 
 export const contexts: Context[] = ["family", "hobby", "work"];
 
@@ -33,9 +31,13 @@ const moveSlider = (
   }
 };
 
-const ContextSwitcher: FC<ContextSwitcherProps> = (props) => {
+type ContextSwitcherProps = {
+  context?: Context;
+};
+
+const ContextSwitcher: FC<ContextSwitcherProps> = ({ context }) => {
   const [highlighterStyle, setHighlighterStyle] = useState({});
-  const { context, setContext } = useAppContext();
+  const { setContext } = useContextContext();
   const contextRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(

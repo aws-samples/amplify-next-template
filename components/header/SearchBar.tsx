@@ -3,7 +3,7 @@ import styles from "./SearchBar.module.css";
 import contextStyles from "@/components/layouts/ContextColors.module.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { forwardRef } from "react";
-import { Context } from "../../contexts/AppContext";
+import { Context } from "../../contexts/ContextContext";
 import useSearch from "@/hooks/useSearch";
 
 type SearchBarProps = {

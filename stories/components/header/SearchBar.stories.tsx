@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import SearchBar from "@/components/header/SearchBar";
 import { FC } from "react";
-import { Context } from "@/contexts/AppContext";
+import { Context } from "@/contexts/ContextContext";
 
 const meta: Meta<typeof SearchBar> = {
   component: SearchBar,

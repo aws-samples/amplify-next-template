@@ -2,8 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Header from "@/components/header/Header";
 import { useEffect, useState } from "react";
 import { within, userEvent } from "@storybook/test";
-import { NavMenuContextProvider } from "@/contexts/NavMenuContext";
-import { AppContextProvider } from "@/contexts/AppContext";
+import { ContextContextProvider } from "@/contexts/ContextContext";
 import { contextLocalStorage } from "../navigation-menu/helpers";
 
 const handleResize = (setter: (val: number) => void) => () =>
@@ -22,19 +21,17 @@ const meta: Meta<typeof Header> = {
       }, []);
 
       return (
-        <AppContextProvider
+        <ContextContextProvider
           useContextHook={() => {
             contextLocalStorage.saveContext(context.args.context || "work");
             return contextLocalStorage;
           }}
         >
-          <NavMenuContextProvider>
-            <Story />
-            <div style={{ paddingTop: "6rem" }}>
-              Width: {width} ({Math.round(width / 16)}em)
-            </div>
-          </NavMenuContextProvider>
-        </AppContextProvider>
+          <Story />
+          <div style={{ paddingTop: "6rem" }}>
+            Width: {width} ({Math.round(width / 16)}em)
+          </div>
+        </ContextContextProvider>
       );
     },
   ],

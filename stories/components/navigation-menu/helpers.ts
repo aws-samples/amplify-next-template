@@ -1,5 +1,5 @@
 import { contexts } from "@/components/navigation-menu/ContextSwitcher";
-import { Context, SetContextStateFn } from "@/contexts/AppContext";
+import { Context, SetContextStateFn } from "@/contexts/ContextContext";
 
 const CONTEXT_LOCAL_STORAGE_NAME = "currentContext";
 

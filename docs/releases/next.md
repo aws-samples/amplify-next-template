@@ -8,13 +8,17 @@ Für eine robustere Oberfläche, haben wir [StoryBook](https://storybook.js.org/
 
 Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entsprechend überarbeitet, dass sie unabhängig von ihrer Umgebung funktionieren:
 
-- `SearchBar.tsx`
+- `Header.tsx`
 - `Logo.tsx`
 - `ProfilePicture.tsx`
+- `SearchBar.tsx`
 - `ContextSwitcher.tsx`
 - `MainNavigationSection.tsx`
 - `NavigationMenu.tsx`
-- `Header.tsx`
+
+WIP:
+
+- `MainLayout.tsx`
 
 ## Todos für dieses Release
 
@@ -62,9 +66,10 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - added Logo to StoryBook [0e03460](https://github.com/cabcookie/personal-crm/commit/0e0346045cd4b61433ca3cbb8b4f29a419b6d3c7)
 - adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 - reduce margin between icon and label [78dc5f2](https://github.com/cabcookie/personal-crm/commit/78dc5f29ba87c25060819e8f9215b74a6c46280c)
-- adjusted ContextSwitcher for robustness (incl. new AppContext provider) [53a83da](https://github.com/cabcookie/personal-crm/commit/53a83da2d59cf5c66c5033e24b1dae643bb2b9fb)
+- adjusted ContextSwitcher for robustness (incl. new ContextContext provider) [53a83da](https://github.com/cabcookie/personal-crm/commit/53a83da2d59cf5c66c5033e24b1dae643bb2b9fb)
 - adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 - adding NavigationMenu for robustness [2f24b8e](https://github.com/cabcookie/personal-crm/commit/2f24b8e5c5c517ad2b78e93bb47fab0eee14b773)
+- adding Header to documentation and harden it [7f895c8](https://github.com/cabcookie/personal-crm/commit/7f895c8d1c00f9b8eb4cfc1a93f6155e630db6c5)
 
 #### release
 
