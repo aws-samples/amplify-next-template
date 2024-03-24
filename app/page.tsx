@@ -1,36 +1,35 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client"
+
+import React from "react"
+import styled from "styled-components"
+import { theme } from "./theme";
+import TitleItem from "./components/atoms/TitleItem";
+
+const SNewArticleWrapper = styled.div`
+  background-color: ${theme.baseColor};
+`;
+
+const SContentContainer = styled.div`
+  width: ${theme.contentWidth};
+  margin-right: auto;
+  margin-left: auto;
+`
+
+const STitleItem = styled.a`
+  font-size: ${theme.maxItemFontSize};
+  font-weight: bold;
+  letter-spacing: -3px;
+  color: white;
+`;
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <span>+</span>
-        <Image
-          src="/amplify.svg"
-          alt="Amplify Logo"
-          width={45}
-          height={37}
-          priority
-        />
-      </div>
-
-
+    <main>
+      <SNewArticleWrapper>
+        <SContentContainer>
+          <STitleItem>New Article</STitleItem>
+        </SContentContainer>
+      </SNewArticleWrapper>
     </main>
   )
 }

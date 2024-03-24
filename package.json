@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.34",
     "aws-amplify": "latest",
     "next": "13.5.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@aws-amplify/backend": "beta",
