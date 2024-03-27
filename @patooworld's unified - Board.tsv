@@ -1,0 +1,10 @@
+Title	URL	Assignees	Status	Labels
+[Snyk] Upgrade eslint-config-next from 12.1.6 to 12.3.4	https://github.com/patooworld/patoocloud/pull/4	patooworld		
+[Snyk] Upgrade @types/react from 18.0.12 to 18.2.46	https://github.com/patooworld/patoocloud/pull/5	patooworld	Next	
+[Snyk] Upgrade next from 13.5.1 to 13.5.6	https://github.com/patooworld/patoocloud/pull/6	patooworld	Next	
+[Snyk] Upgrade eslint from 8.17.0 to 8.56.0	https://github.com/patooworld/patoocloud/pull/7	patooworld	Next	
+Bump the npm_and_yarn group across 1 directories with 7 updates	https://github.com/patooworld/patoocloud/pull/1	patooworld	Next	dependencies
+[Snyk] Upgrade typescript from 4.7.3 to 4.9.5	https://github.com/patooworld/patoocloud/pull/3	patooworld		
+Bump the npm_and_yarn group across 1 directories with 3 updates	https://github.com/patooworld/patoocloud/pull/2			dependencies
+React			Untriaged	
+npx create-react-app@latest myapp cd myapp			Untriaged	
