@@ -4,17 +4,19 @@ import styled from 'styled-components';
 
 type TitleItemProps = {
   children: React.ReactNode;
+  color?: string;
 }
 
 const STitleItem = styled.a`
   font-size: ${theme.maxItemFontSize};
   font-weight: bold;
   letter-spacing: -3px;
+  color: ${props => props.color || theme.mainContentsColor};
 `;
 
-const TitleItem: React.FC<TitleItemProps> = ({children}) => {
+const TitleItem: React.FC<TitleItemProps> = ({children, color}) => {
   return (
-    <STitleItem>{children}</STitleItem>
+    <STitleItem color={color}>{children}</STitleItem>
   )
 }
 

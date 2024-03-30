@@ -1,11 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import TopBar from './components/TopBar'
 import styled from 'styled-components'
 import { theme } from './theme'
-
-const inter = Inter({ subsets: ['latin'] })
 
 
 
@@ -20,8 +17,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="jp">
+      <style jsx global>{`
+        body { font-family: ${theme.fonts.inter.style.fontFamily}, sans-serif}
+        body:lang(ja) { font-family: ${theme.fonts.notoSansJP.style.fontFamily}, sans-serif}
+      `}</style>
+      <body>
         <TopBar />
         {children}
       </body>
