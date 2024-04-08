@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { theme } from '../../theme';
 
 const SSectionMargin = styled.div`
-  margin-top: ${theme.sectionMargin};
+  height: ${theme.sectionMargin};
 `;
 
 const SectionMargin = () => {

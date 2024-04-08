@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@notionhq/client": "^2.2.14",
     "@types/styled-components": "^5.1.34",
     "aws-amplify": "latest",
     "next": "13.5.4",
+    "notion-to-md": "^3.1.1",
     "react": "^18",
     "react-dom": "^18",
     "styled-components": "^6.1.8"

@@ -1,10 +1,17 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import TopBar from './components/TopBar'
+import TopBar from './components/organisms/Header'
 import styled from 'styled-components'
 import { theme } from './theme'
 
+import { Inter, Noto_Sans_JP } from 'next/font/google'
+const inter = Inter({ subsets: ['latin'] })
 
+const notojp = Noto_Sans_JP({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: 'WaratakeBlog',
@@ -18,12 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="jp">
-      <style jsx global>{`
-        body { font-family: ${theme.fonts.inter.style.fontFamily}, sans-serif}
-        body:lang(ja) { font-family: ${theme.fonts.notoSansJP.style.fontFamily}, sans-serif}
-      `}</style>
-      <body>
-        <TopBar />
+      <body className={inter.className}>
         {children}
       </body>
     </html>

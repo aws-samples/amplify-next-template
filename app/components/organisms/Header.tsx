@@ -2,15 +2,16 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { theme } from '../theme';
-import SectionMargin from './atoms/SectionMargin';
-import TitleItem from './atoms/TitleItem';
+import { theme } from '../../theme';
+import SectionMargin from '../atoms/SectionMargin';
+import TitleItem from '../atoms/TitleItem';
 
 
 const SConentWrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
   width: ${theme.contentWidth};
+  background-color: ${theme.ContentsColors.main};
 `;
 
 const SFlexContainer = styled.div`
@@ -33,7 +34,7 @@ const SHorizontalLine = styled.div`
   margin-top: 7px;
   width: 100%;
   height: 2px;
-  background-color: ${theme.baseColor};
+  background-color: ${theme.ContentsColors.sub};
 `;
 
 const SOptionWrapper = styled.div`
@@ -48,10 +49,9 @@ const SOption = styled.a`
   text-transform: uppercase;
 `;
 
-const TopBar = () => {
+const Header = () => {
   return (
     <>
-      <SectionMargin />
       <SConentWrapper>
         <SFlexContainer>
           <TitleItem>Waratake Blog</TitleItem>
@@ -62,10 +62,9 @@ const TopBar = () => {
           <SOption href="/">PORTFOLIO</SOption>
           <SOption href="/">BLOG</SOption>
         </SOptionWrapper>
-        <SectionMargin />
       </SConentWrapper>
     </>
   )
 }
 
-export default TopBar
+export default Header
