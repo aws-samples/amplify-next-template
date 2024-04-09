@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Context } from "../../contexts/ContextContext";
-import contextStyles from "../layouts/ContextColors.module.css";
+import { Context } from "@/contexts/ContextContext";
+import contextStyles from "@/components/layouts/ContextColors.module.css";
 import styles from "./Logo.module.css";
 
 type LogoProps = {

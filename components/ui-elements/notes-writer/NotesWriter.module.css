@@ -1,50 +1,57 @@
 .fullWidth {
   width: 100%;
 }
-.mdEditor {
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
+
+.editorInput {
+  padding: 1rem;
+  border-radius: 0.4rem;
+  background-color: inherit;
+  transition: background-color 1s ease;
 }
 
-h1.heading,
-h2.heading,
-h3.heading {
+.unsaved {
+  background-color: rgba(232, 67, 34, 0.1);
+}
+
+.editorInput h1,
+.editorInput h2,
+.editorInput h3 {
   text-transform: uppercase;
   text-decoration: underline;
   margin-top: 1.4rem;
   margin-bottom: 0.6rem;
 }
 
-h4.heading,
-h5.heading,
-h6.heading {
+.editorInput h4,
+.editorInput h5,
+.editorInput h6 {
   font-weight: normal;
   text-decoration: underline;
   margin-top: 0.8rem;
   margin-bottom: 0.2rem;
 }
 
-h1.heading {
+.editorInput h1 {
   font-size: 2.1rem;
 }
 
-h2.heading {
+.editorInput h2 {
   font-size: 2rem;
 }
 
-h3.heading {
+.editorInput h3 {
   font-size: 2rem;
 }
 
-h4.heading {
+.editorInput h4 {
   font-size: 1.9rem;
 }
 
-h5.heading {
+.editorInput h5 {
   font-size: 1.8rem;
 }
 
-h6.heading {
+.editorInput h6 {
   font-size: 1.8rem;
   font-style: italic;
 }

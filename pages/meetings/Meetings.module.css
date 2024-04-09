@@ -1,0 +1,16 @@
+.projectNote {
+  margin-top: 3rem;
+}
+
+.date {
+  text-align: center;
+}
+
+.inOneLine {
+  display: flex;
+  align-items: center;
+}
+
+.meetingSaved {
+  margin-left: 1rem;
+}

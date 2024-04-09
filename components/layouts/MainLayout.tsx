@@ -2,26 +2,19 @@ import Head from "next/head";
 import { FC, ReactNode, useEffect, useRef } from "react";
 import contextStyles from "./ContextColors.module.css";
 import styles from "./MainLayout.module.css";
-import {
-  ContextContextProvider,
-  Context,
-  useContextContext,
-} from "../../contexts/ContextContext";
-import CategoryTitle from "../NewCategoryTitle";
-import Header from "../header/Header";
+import { Context, useContextContext } from "@/contexts/ContextContext";
+import CategoryTitle, { CategoryTitleProps } from "@/components/CategoryTitle";
+import Header from "@/components/header/Header";
 import { useRouter } from "next/router";
-import { contextLocalStorage } from "@/stories/components/navigation-menu/helpers";
 import { addKeyDownListener } from "@/helpers/keyboard-events/main-layout";
-import NavigationMenu from "../navigation-menu/NavigationMenu";
+import NavigationMenu from "@/components/navigation-menu/NavigationMenu";
 import {
   NavMenuContextProvider,
   useNavMenuContext,
 } from "@/contexts/NavMenuContext";
 import { addOutsideMenuClickListener } from "@/helpers/mouse-events/navigation";
 
-type MainLayoutProps = {
-  title?: string; // WIP
-  addButton?: any; // WIP
+type MainLayoutProps = CategoryTitleProps & {
   context?: Context;
   recordName?: string;
   sectionName: string;
@@ -32,15 +25,16 @@ export const MainLayoutInner: FC<MainLayoutProps> = ({
   children,
   recordName,
   sectionName,
-  ...props
+  context: propsContext,
+  ...categoryTitleProps
 }) => {
   const { menuIsOpen, toggleMenu } = useNavMenuContext();
-  const { context: storedContext } = useContextContext();
-  const context = props.context || storedContext || "family";
+  const { context: storedContext, setContext } = useContextContext();
+  const context = propsContext || storedContext || "family";
   const router = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => addKeyDownListener(router), [router]);
+  useEffect(() => addKeyDownListener(router, setContext), [router, setContext]);
   useEffect(
     () => addOutsideMenuClickListener(menuRef, menuIsOpen, toggleMenu),
     [menuIsOpen, toggleMenu]
@@ -53,20 +47,20 @@ export const MainLayoutInner: FC<MainLayoutProps> = ({
           recordName ? `- ${recordName}` : ""
         } · ${sectionName}`}</title>
       </Head>
-      <div
-        className={`${context ? contextStyles[`${context}ColorScheme`] : ""}`}
-      >
+      <div className={context ? contextStyles[`${context}ColorScheme`] : ""}>
         <Header context={context} />
-        <div className={styles.navMenu}>
+        <div
+          className={`${styles.navMenu} ${menuIsOpen ? styles.menuIsOpen : ""}`}
+        >
           <NavigationMenu context={context} ref={menuRef} />
         </div>
-        <main className={`${styles.page} ${menuIsOpen ? styles.menuOpen : ""}`}>
+        <main
+          className={`${styles.page} ${menuIsOpen ? styles.blurContent : ""}`}
+        >
           <div className={styles.pageContent}>
-            <div
-              className={`${styles.sheet} ${styles.sheetVh} ${styles.sheetContent}`}
-            >
+            <div className={styles.sheet}>
               <div className={styles.categoryWrapper}>
-                <CategoryTitle />
+                <CategoryTitle {...(categoryTitleProps || {})} />
                 <div className={styles.categoryContent}>{children}</div>
               </div>
             </div>
@@ -79,9 +73,7 @@ export const MainLayoutInner: FC<MainLayoutProps> = ({
 
 const MainLayout: FC<MainLayoutProps> = (props) => (
   <NavMenuContextProvider>
-    <ContextContextProvider useContextHook={() => contextLocalStorage}>
-      <MainLayoutInner {...props} />
-    </ContextContextProvider>
+    <MainLayoutInner {...props} />
   </NavMenuContextProvider>
 );
 

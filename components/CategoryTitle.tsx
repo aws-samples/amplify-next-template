@@ -1,23 +1,22 @@
 import { IoChevronBackOutline } from "react-icons/io5";
 import styles from "./CategoryTitle.module.css";
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-
-type AddButtonProps = {
-  label: string;
-  onClick: () => void;
-};
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import SubmitButton from "./ui-elements/submit-button";
 
 export type CategoryTitleProps = {
   title?: string;
-  addButton?: AddButtonProps;
+  addButton?: {
+    label: string;
+    onClick: () => void;
+  };
   drawBackBtn?: boolean;
   onBackBtnClick?: () => void;
   saveTitle?: (newTitle: string) => void;
   onTitleChange?: (newTitle: string) => void;
 };
 
-export default function CategoryTitle(props: CategoryTitleProps) {
+const CategoryTitle: FC<CategoryTitleProps> = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(props.title);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -35,7 +34,9 @@ export default function CategoryTitle(props: CategoryTitleProps) {
     }
   }, [title, isEditing]);
 
-  useEffect(() => setTitle(props.title), [props.title]);
+  useEffect(() => {
+    setTitle(props.title);
+  }, [props.title]);
 
   const handleBlur = () => {
     setIsEditing(false);
@@ -72,20 +73,22 @@ export default function CategoryTitle(props: CategoryTitleProps) {
             className={`${styles.alignCenterOnMedium} ${styles.flush} ${
               props.saveTitle ? styles.isEditable : ""
             }`}
-            onClick={() => {
-              if (props.saveTitle) setIsEditing(true);
-            }}
+            onClick={() => (props.saveTitle ? setIsEditing(true) : null)}
           >
             {title}
           </h1>
         ))}
       {props.addButton && (
-        <div className={styles.action}>
-          <a className={styles.actionBtn} onClick={props.addButton.onClick}>
-            {props.addButton.label}
-          </a>
-        </div>
+        <SubmitButton
+          btnClassName={styles.actionBtn}
+          wrapperClassName={styles.action}
+          onClick={props.addButton.onClick}
+        >
+          {props.addButton.label}
+        </SubmitButton>
       )}
     </header>
   );
-}
+};
+
+export default CategoryTitle;

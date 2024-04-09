@@ -1,0 +1,116 @@
+.page {
+  width: 100%;
+  filter: blur(0);
+  margin: 0 auto;
+  transition: filter 0.5s ease;
+  max-width: var(--content-width);
+}
+
+@media (min-width: 60em) {
+  .page {
+    max-width: none;
+    padding-top: var(--page-padding);
+  }
+}
+
+.blurContent {
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+  margin-bottom: calc(var(--page-padding) * -1);
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+@media (min-width: 40em) {
+  .pageContent {
+    min-height: calc(100vh - var(--body-padding) - 2rem);
+    margin-bottom: -2rem;
+  }
+}
+
+@media (min-width: 60em) {
+  .pageContent {
+    min-height: calc(100vh - var(--body-padding) - 3rem);
+    margin-bottom: -3rem;
+  }
+}
+
+.sheet {
+  --sheet-padding: 0.6em;
+  padding: var(--sheet-padding);
+  background-color: var(--color-bg-sheet);
+  box-shadow: none;
+  margin: 0 var(--negative-page-padding) 0;
+  border-radius: 0;
+  transition: box-shadow 0.3s ease-in-out;
+  min-height: calc(100vh - 7.6rem);
+  margin-bottom: 0;
+}
+
+@media (min-width: 60em) {
+  .sheet {
+    --sheet-padding: 5rem;
+    box-shadow: 0 0 3rem var(--color-shadow);
+    border-radius: 1.5rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+@media (min-width: 40em) {
+  .sheet {
+    --sheet-padding: 2em;
+    /* margin: 0 auto 2em; */
+    /* width: 100%; */
+  }
+}
+
+.categoryWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.categoryContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  margin-top: var(--base-space);
+}
+
+.familyColorScheme,
+.hobbyColorScheme,
+.workColorScheme {
+  background-color: var(--background-color);
+}
+
+.navMenu {
+  position: fixed;
+  top: 6rem;
+  left: calc(50% - var(--navigation-menu-width) / 2);
+  opacity: 0;
+  transform: translateY(calc(-7rem - 100%));
+  width: var(--navigation-menu-width);
+  z-index: 9;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.menuIsOpen {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+@media (max-width: 24.999em) {
+  .navMenu {
+    width: 100vw;
+    left: 0;
+  }
+}

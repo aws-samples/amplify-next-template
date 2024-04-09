@@ -1,4 +1,4 @@
-import { FC, forwardRef } from "react";
+import { forwardRef } from "react";
 import ContextSwitcher from "./ContextSwitcher";
 import MainNavigationSection from "./MainNavigationSection";
 import styles from "./NavigationMenu.module.css";

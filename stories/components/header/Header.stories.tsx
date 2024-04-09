@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { within, userEvent } from "@storybook/test";
 import { ContextContextProvider } from "@/contexts/ContextContext";
 import { contextLocalStorage } from "../navigation-menu/helpers";
+import { NavMenuContextProvider } from "@/contexts/NavMenuContext";
 
 const handleResize = (setter: (val: number) => void) => () =>
   setter(window.innerWidth);
@@ -21,17 +22,19 @@ const meta: Meta<typeof Header> = {
       }, []);
 
       return (
-        <ContextContextProvider
-          useContextHook={() => {
-            contextLocalStorage.saveContext(context.args.context || "work");
-            return contextLocalStorage;
-          }}
-        >
-          <Story />
-          <div style={{ paddingTop: "6rem" }}>
-            Width: {width} ({Math.round(width / 16)}em)
-          </div>
-        </ContextContextProvider>
+        <NavMenuContextProvider>
+          <ContextContextProvider
+            useContextHook={() => {
+              contextLocalStorage.saveContext(context.args.context || "work");
+              return contextLocalStorage;
+            }}
+          >
+            <Story />
+            <div style={{ paddingTop: "6rem" }}>
+              Width: {width} ({Math.round(width / 16)}em)
+            </div>
+          </ContextContextProvider>
+        </NavMenuContextProvider>
       );
     },
   ],

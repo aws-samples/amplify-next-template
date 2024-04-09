@@ -32,7 +32,8 @@
     "react-select": "^5.8.0",
     "slate": "^0.102.0",
     "slate-history": "^0.100.0",
-    "slate-react": "^0.102.0"
+    "slate-react": "^0.102.0",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@aws-amplify/backend": "0.13.0-beta.3",

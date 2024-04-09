@@ -1,86 +1,44 @@
-import { FC, FormEvent, useEffect, useState } from "react";
-import { useAppContext } from "../../contexts/AppContext";
-import { Project, SixWeekBatch } from "@/helpers/types/data";
-import { flow, map } from "lodash/fp";
-import Batch, { getUniqueBatches } from "../batches/batches";
-import ProjectSelector from "../ui-elements/project-selector";
-import { projectsSubscription } from "@/helpers/api-operations/subscriptions";
-import SubmitButton from "../ui-elements/submit-button";
-import ProjectName from "../ui-elements/project-name";
-import { createProject as createProjectApi } from "@/helpers/api-operations/create";
+import { FC, FormEvent, useState } from "react";
 import styles from "./Task.module.css";
+import ProjectName from "@/components/ui-elements/tokens/project-name";
+import ProjectSelector from "@/components/ui-elements/project-selector";
+import SubmitButton from "../ui-elements/submit-button";
 
 type TaskFormProps = {
-  onSubmit: (task: string, selectedProject: Project | null) => void;
+  onSubmit: (task: string, selectedProjectId: string | null) => void;
 };
 
 const TaskForm: FC<TaskFormProps> = ({ onSubmit }) => {
-  const { context } = useAppContext();
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [task, setTask] = useState("");
-
-  useEffect(() => {
-    const filter = {
-      context: { eq: context },
-      done: { ne: "true" },
-    };
-    const subscription = projectsSubscription(({ items, isSynced }) => {
-      setProjects([...(items || [])]);
-    }, filter);
-    return () => subscription.unsubscribe();
-  }, [context]);
-
-  const handleChange = (selectedOption: Project | null) => {
-    setSelectedProject(selectedOption);
-  };
+  const [projectId, setProjectId] = useState<string | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(task, selectedProject);
+    onSubmit(task, projectId);
   };
 
-  const createProject = async (projectName: string) => {
-    if (!context) return;
-    const data = await createProjectApi(projectName, context);
-    if (!data) return;
-    handleChange({
-      id: data.id,
-      project: data.project,
-      context,
-      batches: [],
-      accounts: [],
-    });
+  const handleChange = (projectId: string | null) => {
+    setProjectId(projectId);
   };
 
   return (
-    <div className={styles.fullWidth}>
+    <div className={styles.taskForm}>
       <form onSubmit={handleSubmit}>
         <input
-          className={`${styles.fullWidth} ${styles.taskInput}`}
+          className={styles.taskInput}
           type="text"
           value={task}
           onChange={(event) => setTask(event.target.value)}
           placeholder="Describe task"
         />
-        {selectedProject && <ProjectName project={selectedProject} />}
-        <ProjectSelector
-          onChange={handleChange}
-          onCreateProject={createProject}
-        />
+        {projectId && <ProjectName projectId={projectId} />}
+        <ProjectSelector allowCreateProjects onChange={handleChange} />
         <SubmitButton type="submit" wrapperClassName={styles.confirmBtn}>
           Create Task
         </SubmitButton>
+        <h3>Current Commitments</h3>
+        <code>Work in progress</code>
       </form>
-      <div>
-        <h3>Important Six-Week Batches and Projects</h3>
-        {flow(
-          getUniqueBatches,
-          map((batch: SixWeekBatch) => (
-            <Batch key={batch.id} batch={batch} projects={projects} />
-          ))
-        )(projects)}
-      </div>
     </div>
   );
 };

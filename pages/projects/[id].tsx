@@ -1,15 +1,63 @@
-import Layout from "@/components/layouts/Layout";
+import useProject from "@/api/useProject";
+import useProjectAccounts from "@/api/useProjectAccounts";
+import useProjectActivities from "@/api/useProjectActivities";
+import ActivityComponent from "@/components/activities/activity";
+import MainLayout from "@/components/layouts/MainLayout";
+import AccountName from "@/components/ui-elements/tokens/account-name";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { useState } from "react";
 
-type ProjectDetailPageProps = {};
-const ProjectDetailPage: FC<ProjectDetailPageProps> = (props) => {
+const ProjectDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const projectId = Array.isArray(id) ? id[0] : id;
+  const { project, loadingProject } = useProject(projectId);
+  const { projectActivities, createProjectActivity } =
+    useProjectActivities(projectId);
+  const { projectAccountIds } = useProjectAccounts(projectId);
+  const [newActivityId, setNewActivityId] = useState(crypto.randomUUID());
+
+  const saveNewActivity = async (notes?: string) => {
+    console.log("saveNewActivity", { notes });
+    const data = await createProjectActivity(newActivityId, notes);
+    console.log("saveNewActivity", { notes, data });
+    setNewActivityId(crypto.randomUUID());
+    return data;
+  };
+
   return (
-    <Layout title="Project" recordName={undefined} sectionName="Project">
-      WIP {id as string}
-    </Layout>
+    <MainLayout
+      title={project?.project}
+      recordName={project?.project}
+      sectionName="Projects"
+    >
+      {loadingProject && "Loading project..."}
+      {project?.dueOn && (
+        <div>Due On: {project.dueOn.toLocaleDateString()}</div>
+      )}
+      {project?.doneOn && (
+        <div>Done On: {project.doneOn.toLocaleDateString()}</div>
+      )}
+      {(projectAccountIds?.length || 0) > 0 && "Accounts: "}
+      {projectAccountIds?.map(
+        ({ accountId }) =>
+          accountId && <AccountName key={accountId} accountId={accountId} />
+      )}
+      {[
+        { id: newActivityId },
+        ...(projectActivities?.filter((pa) => pa.id !== newActivityId) || []),
+      ].map((activity) => (
+        <ActivityComponent
+          key={activity.id}
+          activityId={activity.id}
+          showDates
+          showMeeting
+          createActivity={
+            activity.id === newActivityId ? saveNewActivity : undefined
+          }
+        />
+      ))}
+    </MainLayout>
   );
 };
 export default ProjectDetailPage;

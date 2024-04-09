@@ -1,19 +1,12 @@
-import Layout from "@/components/layouts/Layout";
-import { useRouter } from "next/router";
+import styles from "./Commitments.module.css";
+import MainLayout from "@/components/layouts/MainLayout";
 
-export default function CommitmentsPage() {
-  const router = useRouter();
-
+const CommitmentPage = () => {
   return (
-    <Layout
-      title="Commitments"
-      sectionName="Commitments"
-      addButton={{
-        label: "New",
-        onClick: () => router.push("/commitments/new"),
-      }}
-    >
-      Items will come
-    </Layout>
+    <MainLayout title="Commitments" sectionName="Commitments">
+      Work in progress
+    </MainLayout>
   );
-}
+};
+
+export default CommitmentPage;

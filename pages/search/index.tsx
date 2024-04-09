@@ -1,9 +1,11 @@
-import Layout from "@/components/layouts/Layout";
+import MainLayout from "@/components/layouts/MainLayout";
 
-export default function Search() {
+const SearchPage = () => {
   return (
-    <Layout title="Search" sectionName="Search">
-      Test
-    </Layout>
+    <MainLayout title="Search" sectionName="Search">
+      Work in progress
+    </MainLayout>
   );
-}
+};
+
+export default SearchPage;

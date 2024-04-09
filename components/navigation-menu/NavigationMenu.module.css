@@ -14,26 +14,3 @@
 .navigationSection {
   padding: 1rem;
 }
-
-/* .menu {
-  position: fixed;
-  top: 6rem;
-  left: calc(50% - var(--navigation-menu-width) / 2);
-  opacity: 0;
-  transform: translateY(calc(-7rem - 100%));
-  width: var(--navigation-menu-width);
-  z-index: 9;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-} */
-
-/* .isOpen {
-  transform: translateX(0);
-  opacity: 1;
-} */
-
-/* @media (max-width: 40em) {
-  .menu {
-    width: 100vw;
-    left: 0;
-  }
-} */

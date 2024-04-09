@@ -2,9 +2,8 @@ import Link from "next/link";
 import styles from "./SearchBar.module.css";
 import contextStyles from "@/components/layouts/ContextColors.module.css";
 import { IoSearchSharp } from "react-icons/io5";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { Context } from "../../contexts/ContextContext";
-import useSearch from "@/hooks/useSearch";
 
 type SearchBarProps = {
   context?: Context;
@@ -13,7 +12,7 @@ type SearchBarProps = {
 
 const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
   ({ context, alwaysBorder = false }, ref) => {
-    const { searchText, setSearchText } = useSearch();
+    const [searchText, setSearchText] = useState("");
 
     return (
       <>

@@ -1,72 +1,151 @@
-import Layout from "@/components/layouts/Layout";
-import PersonName from "@/components/ui-elements/person-name";
-import SubmitButton from "@/components/ui-elements/submit-button";
-import { Meeting } from "@/helpers/types/data";
+import useMeeting from "@/api/useMeeting";
+import MainLayout from "@/components/layouts/MainLayout";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import styles from "../../components/meetings/Meetings.module.css";
-import ProjectName from "@/components/ui-elements/project-name";
-import { getMeeting } from "@/helpers/api-operations/get";
-import NotesWriter from "@/components/ui-elements/notes-writer";
+import styles from "./Meetings.module.css";
+import DateSelector from "@/components/ui-elements/date-selector";
+import useMeetingParticipants from "@/api/useMeetingParticipants";
+import PersonName from "@/components/ui-elements/tokens/person-name";
+import PeopleSelector from "@/components/ui-elements/people-selector";
+import useMeetingActivities from "@/api/useMeetingActivities";
+import ProjectNotesForm from "@/components/ui-elements/project-notes-form/project-notes-form";
+import { useEffect, useMemo, useState } from "react";
+import SavedState from "@/components/ui-elements/project-notes-form/saved-state";
+import { debounce } from "lodash";
+import { Activity } from "@/api/useActivity";
 
-export default function MeetingDetailPage() {
-  const [meeting, setMeeting] = useState<Meeting | null>(null);
+const MeetingDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const meetingId: string | undefined = Array.isArray(id) ? id[0] : id;
+  const { meeting, loadingMeeting, updateMeeting } = useMeeting(meetingId);
+  const {
+    meetingParticipants,
+    loadingMeetingParticipants,
+    createMeetingParticipant,
+  } = useMeetingParticipants(meetingId);
+  const { meetingActivities, loadingMeetingActivities, createMeetingActivity } =
+    useMeetingActivities(meetingId);
+  const [meetingDate, setMeetingDate] = useState(
+    meeting?.meetingOn || new Date()
+  );
+  const [dateTitleSaved, setDateTitleSaved] = useState(true);
+  const [participantsSaved, setParticipantsSaved] = useState(true);
+  const [allSaved, setAllSaved] = useState(true);
+  const [newActivityId, setNewActivityId] = useState(crypto.randomUUID());
 
   useEffect(() => {
-    if (!id) return;
-    getMeeting(id as string, setMeeting);
-  }, [id]);
+    setAllSaved(dateTitleSaved && participantsSaved);
+  }, [dateTitleSaved, participantsSaved]);
+
+  useEffect(() => {
+    if (!meeting) return;
+    setMeetingDate(meeting.meetingOn);
+  }, [meeting]);
+
+  const debouncedUpdateMeeting = useMemo(
+    () =>
+      debounce(
+        async ({ meetingOn, title }: { meetingOn?: Date; title?: string }) => {
+          if (!meeting) return;
+          const data = await updateMeeting({
+            meetingId: meeting.id,
+            title: title || meeting.topic,
+            meetingOn: meetingOn || meeting.meetingOn,
+          });
+          if (data) setDateTitleSaved(true);
+        },
+        1500
+      ),
+    [updateMeeting, meeting]
+  );
+
+  const handleDateChange = (date: Date) => {
+    if (!meeting) return;
+    setDateTitleSaved(false);
+    setMeetingDate(date);
+    debouncedUpdateMeeting({
+      meetingOn: date,
+    });
+  };
+
+  const addParticipant = async (personId: string) => {
+    setParticipantsSaved(false);
+    const data = await createMeetingParticipant(personId, meetingId);
+    if (data) setParticipantsSaved(true);
+  };
+
+  const handleBackBtnClick = () => {
+    router.push("/meetings");
+  };
+
+  const saveMeetingTitle = (newTitle: string) => {
+    if (!meeting) return;
+    if (newTitle === meeting.topic) return;
+    setDateTitleSaved(false);
+    debouncedUpdateMeeting({ title: newTitle });
+  };
+
+  const saveNewActivity = async (notes?: string) => {
+    const data = await createMeetingActivity(newActivityId, notes);
+    setNewActivityId(crypto.randomUUID());
+    return data;
+  };
 
   return (
-    <Layout
+    <MainLayout
       title={meeting?.topic || "Loading..."}
       recordName={meeting?.topic}
-      sectionName="Meeting"
-      onBackBtnClick={() => router.push("/meetings")}
+      sectionName="Meetings"
+      onBackBtnClick={handleBackBtnClick}
+      onTitleChange={() => setDateTitleSaved(false)}
+      saveTitle={saveMeetingTitle}
     >
-      {!meeting ? (
-        <div>Loading...</div>
-      ) : (
+      {loadingMeeting && "Loading meeting..."}
+      {meeting && (
         <div>
-          <h2>
-            Meeting on:{" "}
-            {new Date(meeting.meetingOn || meeting.createdAt).toLocaleString(
-              undefined,
-              {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
+          <SavedState saved={allSaved} />
+          <h2>Meeting on:</h2>
+          <DateSelector
+            date={meetingDate}
+            setDate={handleDateChange}
+            selectHours
+          />
+          <h2>Participants:</h2>
+          {loadingMeetingParticipants && "Loading participants..."}
+          {meetingParticipants?.map(({ personId }) =>
+            !personId ? "" : <PersonName key={personId} personId={personId} />
+          )}
+          <SavedState saved={participantsSaved} />
+          <PeopleSelector
+            onChange={addParticipant}
+            clearAfterSelection
+            allowNewPerson
+          />
+          <h2>Notes:</h2>
+          {loadingMeetingActivities && "Loading notes..."}
+          {[
+            ...(meetingActivities?.filter((ma) => ma.id !== newActivityId) ||
+              []),
+            {
+              id: newActivityId,
+              finishedOn: new Date(),
+              notes: "",
+              meetingId,
+            } as Activity,
+          ].map(({ id }) => (
+            <ProjectNotesForm
+              key={id}
+              activityId={id}
+              className={styles.projectNote}
+              createActivity={
+                id === newActivityId ? saveNewActivity : undefined
               }
-            )}
-          </h2>
-          <SubmitButton
-            onClick={() => router.push(`/meetings/${id as string}/edit`)}
-          >
-            <strong>Edit Meeting</strong>
-          </SubmitButton>
-          <h3>Participants:</h3>
-          <div>
-            {meeting.participants.map(({ person }) => (
-              <PersonName key={person.id} person={person} />
-            ))}
-          </div>
-
-          {meeting.activities.map(({ id, forProjects, slateNotes }) => (
-            <div key={id} className={styles.projectNote}>
-              <h3>Notes</h3>
-              <NotesWriter note={slateNotes} readonly />
-              <h4>For Projects:</h4>
-              {forProjects?.map(({ projects }) => (
-                <ProjectName key={projects.id} project={projects} />
-              ))}
-            </div>
+            />
           ))}
         </div>
       )}
-    </Layout>
+    </MainLayout>
   );
-}
+};
+
+export default MeetingDetailPage;

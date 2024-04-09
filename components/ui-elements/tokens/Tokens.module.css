@@ -1,0 +1,64 @@
+.projectName,
+.accountName,
+.personName,
+.meetingName {
+  display: inline-block;
+  border-radius: 0.8rem;
+  padding: 0.1rem 0.8rem;
+  background: none;
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.projectName,
+.meetingName {
+  margin-bottom: 0.4rem;
+  margin-right: 0.4rem;
+}
+
+.projectName {
+  border: 2px solid rgba(121, 11, 165, 0.6);
+}
+
+a.projectName:hover {
+  border-color: rgb(121, 11, 165);
+  background-color: rgba(121, 11, 165, 0.2);
+  cursor: pointer;
+}
+
+.meetingName {
+  border: 2px solid rgba(70, 204, 12, 0.6);
+}
+
+a.meetingName:hover {
+  border-color: rgb(70, 204, 12);
+  background-color: rgb(70, 204, 12, 0.2);
+  cursor: pointer;
+}
+
+.accountName,
+.personName {
+  margin-bottom: 0.2rem;
+  margin-right: 0.2rem;
+}
+
+.accountName {
+  border: 2px solid rgba(170, 180, 24, 0.6);
+}
+
+a.accountName:hover {
+  border-color: rgb(170, 180, 24);
+  background-color: rgba(170, 180, 24, 0.2);
+  cursor: pointer;
+}
+
+.personName {
+  border: 2px solid rgba(24, 180, 151, 0.6);
+}
+
+a.personName:hover {
+  border-color: rgb(24, 180, 151);
+  background-color: rgba(24, 180, 151, 0.2);
+  cursor: pointer;
+}

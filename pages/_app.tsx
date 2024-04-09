@@ -5,6 +5,8 @@ import "@aws-amplify/ui-react/styles.css";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { ContextContextProvider } from "@/contexts/ContextContext";
+import { contextLocalStorage } from "@/stories/components/navigation-menu/helpers";
 
 Amplify.configure(config);
 
@@ -17,7 +19,9 @@ function App({ Component, pageProps }: AppProps) {
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         ></meta>
       </Head>
-      <Component {...pageProps} />
+      <ContextContextProvider useContextHook={() => contextLocalStorage}>
+        <Component {...pageProps} />
+      </ContextContextProvider>
     </>
   );
 }

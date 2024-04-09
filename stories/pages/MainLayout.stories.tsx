@@ -57,3 +57,11 @@ export const ContextWork: Story = {
 export const ContextHobby: Story = {
   args: { context: "hobby" },
 };
+
+export const WithNewButton: Story = {
+  args: {
+    addButton: { label: "New", onClick: () => alert("Button clicked") },
+    title: "Main Screen",
+    children: <div>Here comes the content</div>,
+  },
+};

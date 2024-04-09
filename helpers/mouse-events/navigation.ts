@@ -6,7 +6,11 @@ export const addOutsideMenuClickListener = (
   toggleMenu: () => void
 ) => {
   const handleClickOutsideMenu = (event: MouseEvent) => {
-    if (ref.current && !ref.current.contains(event.target as Node)) {
+    if (
+      isVisible &&
+      ref.current &&
+      !ref.current.contains(event.target as Node)
+    ) {
       toggleMenu();
       event.stopPropagation();
     }

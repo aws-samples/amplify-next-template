@@ -1,6 +1,22 @@
-# Bug-Fixing für das Editieren (Version :VERSION)
+# Performance optimieren und UI für Smartphones (Version :VERSION)
 
 ## Änderungen
+
+### SWR eingeführt
+
+SWR übernimmt die Aufrufe der GraphQL API. Damit wird die Oberfläche insgesamt schneller und verständlicher.
+Ich bundle die API Aufrufe in Hooks wie `useProjects` und so weiter.
+SWR stellt eine Reihe von Funktionen zur Verfügung wie zum Beispiel eine Info darüber, ob gerade Daten geladen oder revalidiert werden.
+
+### Darstellung des Projektnamen, Account-Namen, Personen und Meetings
+
+Der Projektname wird nun überall einheitlich dargestellt. Der Name selbst ist separiert von den Account Namen. Inklusive der Projekt-Auswahlbox ist die Darstellung immer die gleiche. Projektnamen und Account-Namen sind mit unterschiedlichen Farben umrandet. Das gleiche ist mit Personen und mit den Namen von Meetings.
+
+### Markdown Editor
+
+Slate ist etwas tricky. Daher gehe ich zunächst zurück auf die Basics. Markdown werden wir dann später wieder einführen, dann aber Element für Element und wir nutzen dazu dann die ["Executing Commands" Funktion](https://docs.slatejs.org/walkthroughs/05-executing-commands).
+
+Insgesamt ist das Editieren nun aber überall möglich: in Listenansichten, wie auf den Detailseiten, zumindest was die Notizen angeht. Damit sind auch die `/new` und `/edit` Seiten nicht mehr notwendig. Das Handling ist insgesamt deutlich stabiler.
 
 ### User Interface Dokumentation
 
@@ -15,30 +31,16 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 - `ContextSwitcher.tsx`
 - `MainNavigationSection.tsx`
 - `NavigationMenu.tsx`
-
-WIP:
-
 - `MainLayout.tsx`
-
-## Todos für dieses Release
-
-- [ ] List Items verschwinden durch speichern und wieder editieren
-- [ ] Numerierte Listen unterstützen
-- [ ] Beim Erstellen einer neuen Notiz in einem Meeting, verschwindet die Notiz zunächst. Erst beim Refreshen der Seite kehrt sie zurück
-- [ ] Das Editierfeld wird nicht geleert, nach dem Speichern
-- [ ] Tasks müssen in der Liste direkt editierbar sein, ohne dass der Task geöffnet werden muss
-
-- [ ] Todos und Vereinbarungen aus Meetings hervorheben
-- [ ] Die Suche funktioniert im Moment nicht
-- [ ] Seite /tasks/:id gibt keine Indikation, ob die Änderungen gespeichert sind
-- [ ] Auf der DayPlan Seite, wenn ich eine Aufgabe abschließe, gehen für alle Tasks die Projekte verloren
-- [ ] Hyperlinks erkennen
-- [ ] Die Schriftgrößen für das iPhone anpassen
 
 ## Bekannte Fehler
 
 ## Geplante neue Funktionen
 
+- [ ] Numerierte Listen unterstützen
+- [ ] Tasks müssen in der Liste direkt editierbar sein, ohne dass der Task geöffnet werden muss
+- [ ] Die Suche funktioniert im Moment nicht
+- [ ] Hyperlinks erkennen
 - [ ] Bei Task Detailseite auch die Meetings anzeigen
 - [ ] Projektliste und Detailseite
 - [ ] Personenliste und Detailseite
@@ -54,7 +56,6 @@ WIP:
 - [ ] Auf dem iPhone soll es nicht den Header geben, sondern das Logo am unteren Rand des Bildschirms
 - [ ] Planung eines Cycles unterstützen
 - [ ] eine Inbox einführen
-- [ ] [Cloudscape Design System](https://cloudscape.design) evaluieren
 
 ## Detailed changes
 
@@ -70,6 +71,7 @@ WIP:
 - adjusted MainNavigationSection for robustness [2d60d18](https://github.com/cabcookie/personal-crm/commit/2d60d18f7d066e353235e0b618d6968299178884)
 - adding NavigationMenu for robustness [2f24b8e](https://github.com/cabcookie/personal-crm/commit/2f24b8e5c5c517ad2b78e93bb47fab0eee14b773)
 - adding Header to documentation and harden it [7f895c8](https://github.com/cabcookie/personal-crm/commit/7f895c8d1c00f9b8eb4cfc1a93f6155e630db6c5)
+- work in progress MainLayout.tsx [a5e9b7f](https://github.com/cabcookie/personal-crm/commit/a5e9b7f928f29978b2a5576df651636a418743a8)
 
 #### release
 

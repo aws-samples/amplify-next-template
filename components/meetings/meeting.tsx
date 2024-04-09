@@ -1,47 +1,44 @@
 import { FC } from "react";
-import { Meeting } from "@/helpers/types/data";
+import { Meeting } from "@/api/useMeetings";
 import styles from "./Meeting.module.css";
-import { flow, map } from "lodash/fp";
-import { sortActivities } from "@/helpers/functional";
 import ActivityComponent from "../activities/activity";
-import PersonName from "../ui-elements/person-name";
-import { useRouter } from "next/router";
-
-export const getMeetingDate = ({ meetingOn, createdAt }: Meeting) =>
-  new Date(meetingOn || createdAt);
+import PersonName from "../ui-elements/tokens/person-name";
+import useMeetingParticipants from "@/api/useMeetingParticipants";
+import useMeetingActivities from "@/api/useMeetingActivities";
 
 type MeetingRecordProps = {
   meeting: Meeting;
 };
 const MeetingRecord: FC<MeetingRecordProps> = ({ meeting }) => {
-  const router = useRouter();
+  const { meetingParticipants, loadingMeetingParticipants } =
+    useMeetingParticipants(meeting.id);
+  const { meetingActivities, loadingMeetingActivities } = useMeetingActivities(
+    meeting.id
+  );
 
   return (
     <div>
       <h2>
         <a href={`/meetings/${meeting.id}`} className={styles.title}>
-          {`${new Date(getMeetingDate(meeting)).toLocaleTimeString(undefined, {
+          {meeting.meetingOn.toLocaleTimeString(undefined, {
             hour: "2-digit",
             minute: "2-digit",
-          })} – ${meeting.topic}`}
+          })}{" "}
+          – {meeting.topic}
         </a>
       </h2>
       <div>
-        {meeting.participants.map(({ person }) => (
-          <PersonName key={person.id} person={person} />
+        {loadingMeetingParticipants && "Loading attendees..."}
+        {(meetingParticipants?.length || 0) > 0 && "Attendees: "}
+        {meetingParticipants?.map(({ personId }) =>
+          !personId ? "" : <PersonName key={personId} personId={personId} />
+        )}
+        {loadingMeetingActivities && "Loading meeting notes..."}
+        {(meetingActivities?.length || 0) > 0 && <h3>Meeting notes:</h3>}
+        {meetingActivities?.map(({ id }) => (
+          <ActivityComponent key={id} activityId={id} showProjects />
         ))}
       </div>
-
-      {flow(
-        sortActivities,
-        map((activity) => (
-          <ActivityComponent
-            key={activity.id}
-            activity={activity}
-            showProjects
-          />
-        ))
-      )(meeting.activities)}
     </div>
   );
 };

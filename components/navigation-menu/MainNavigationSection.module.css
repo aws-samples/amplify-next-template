@@ -36,7 +36,6 @@
 
 .menuLabel {
   margin-top: -2rem;
-  font-size: var(--font-size-large);
   font-weight: bold;
 }
 
@@ -48,27 +47,12 @@
   margin-right: 0;
 }
 
-@media (min-width: 40em) {
+@media (max-width: 24.999em) {
   .menuIcon {
-    font-size: 8rem;
-  }
-  .menuLabel {
-    font-size: var(--font-size-x-large);
-  }
-}
-
-@media (max-width: 29.999em) {
-  .menuIcon {
-    font-size: 4rem;
+    font-size: var(--font-size-xx-large);
   }
   .menuLabel {
     margin-top: -1rem;
-    font-size: var(--font-size-small);
-  }
-}
-
-@media (max-width: 23.999em) {
-  .menuLabel {
     font-size: var(--font-size-xx-small);
     font-weight: normal;
   }

@@ -5,6 +5,7 @@ import styles from "./Header.module.css";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import ProfilePicture from "./ProfilePicture";
+import { useNavMenuContext } from "@/contexts/NavMenuContext";
 
 type HeaderProps = {
   context?: Context;
@@ -12,8 +13,7 @@ type HeaderProps = {
 };
 
 const Header: FC<HeaderProps> = ({ context, logoOnly }) => {
-  const menuIsOpen = false;
-  const toggleMenu = () => {};
+  const { menuIsOpen, toggleMenu } = useNavMenuContext();
 
   return logoOnly ? (
     <div
@@ -33,7 +33,10 @@ const Header: FC<HeaderProps> = ({ context, logoOnly }) => {
         <div className={styles.headerLeft}>
           <SearchBar context={context} />
         </div>
-        <div className={styles.headerMid} onClick={toggleMenu}>
+        <div
+          className={styles.headerMid}
+          onClick={() => !menuIsOpen && toggleMenu()}
+        >
           <Logo context={context} logoOnly={logoOnly} />
         </div>
         <div className={styles.headerRight}>
