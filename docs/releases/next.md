@@ -97,3 +97,4 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 
 - upgrade to Storybook 8 [e4520e3](https://github.com/cabcookie/personal-crm/commit/e4520e3d33a9fe5133b3fcef14e37fdf2495847d)
 - upgrade deps [3b750cf](https://github.com/cabcookie/personal-crm/commit/3b750cf6bcd4e8ca370ba01cee6561e9c8ddb0b1)
+- update deps [2ac789e](https://github.com/cabcookie/personal-crm/commit/2ac789eda0653e7f9d6542ebe9de26013f9c0533)
