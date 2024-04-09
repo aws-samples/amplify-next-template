@@ -1,9 +1,37 @@
-.fullWidth {
-  width: 100%;
-}
-.taskInput {
+.postLine {
+  display: flex;
+  flex-direction: row;
   margin-bottom: 1rem;
 }
-.confirmBtn {
-  margin-top: 1rem;
+
+.postCheckbox {
+  font-size: var(--font-size-x-large);
+  margin-right: 1rem;
+}
+
+.postBody {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: var(--font-size-large);
+}
+
+.postLine:hover {
+  background-color: var(--background-color);
+}
+
+.description {
+  font-size: var(--font-size-small);
+  color: var(--subtle-text-color);
+}
+
+.taskForm {
+  width: 100%;
+}
+
+.taskInput {
+  width: 100%;
+  margin-bottom: 1rem;
 }

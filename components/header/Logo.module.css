@@ -4,44 +4,38 @@
 }
 
 .logoIcon {
-  width: 8rem;
+  width: 5rem;
   height: 5rem;
   display: block;
   background: url("/images/app-logo-transparent.png") no-repeat center/5rem;
   filter: var(--logo-filter);
 }
 
-.appNameWrapper {
-  position: relative;
-  display: flex;
-  font-size: 2rem;
-}
-
 .appName {
   display: flex;
   align-items: center;
   width: auto;
-  padding-top: 2rem;
-  height: 3.2rem;
-  margin-left: -2.2rem;
-  color: var(--color-text);
+  color: var(--color-text-secondary);
   font-weight: 1000;
+  font-size: var(--font-size-x-large);
   text-transform: uppercase;
+  margin-right: 1rem;
 }
 
-@media (max-width: 40em) {
+@media (max-width: 39.999em) {
   .logoIcon {
-    width: 4.8rem;
-    height: 3rem;
-    margin-top: 0.2rem;
-    background: url("/images/app-logo-transparent.png") no-repeat center/3rem;
+    width: 4rem;
+    height: 4rem;
+    background: url("/images/app-logo-transparent.png") no-repeat center/4rem;
   }
-  .appNameWrapper {
-    font-size: 1.2rem;
-  }
+
   .appName {
-    padding-top: 1.2rem;
-    height: 1.92rem;
-    margin-left: -1.32rem;
+    font-size: var(--font-size-large);
+  }
+}
+
+@media (max-width: 29.999em) {
+  .appName {
+    display: none;
   }
 }

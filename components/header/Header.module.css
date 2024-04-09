@@ -4,17 +4,27 @@
   left: 0;
   right: 0;
   z-index: 20;
-  margin-bottom: 1.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--bg-color-transparent);
+  background-color: var(--bg-color-transparent);
   pointer-events: auto;
 }
 
 .menuIsOpen {
   pointer-events: none;
+}
+
+.logoOnlyWrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem;
+  background-color: var(--background-color);
+  border: none;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
 }
 
 .headerContent {
@@ -23,7 +33,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
   max-width: calc(var(--content-width) + 15rem);
 }
 
@@ -35,13 +44,7 @@
 .headerRight {
   display: flex;
   align-items: center;
-  height: 100%;
   position: absolute;
-  top: 0;
-}
-
-.headerMiddle {
-  position: relative;
 }
 
 .headerRight {

@@ -1,0 +1,27 @@
+.savedStatusMsg {
+  margin-left: -0.1rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #a9a9a9;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.unsavedChanges {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.fadeOut {
+  animation: fadeOutAnimation 2s forwards;
+}
+
+@keyframes fadeOutAnimation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

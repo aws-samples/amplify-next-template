@@ -1,50 +1,43 @@
-import { Participant } from "@/helpers/types/data";
-import { FC, useState, useEffect } from "react";
+import usePeople from "@/api/usePeople";
+import { FC, useState } from "react";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { peopleSubscription } from "@/helpers/api-operations/subscriptions";
 
 type PeopleSelectorProps = {
-  onChange: (selected: Participant | null) => void;
+  onChange: (personId: string) => void;
   clearAfterSelection?: boolean;
-  onCreatePerson?: (name: string) => void;
+  allowNewPerson?: boolean;
 };
 
 const PeopleSelector: FC<PeopleSelectorProps> = ({
   onChange,
   clearAfterSelection,
-  onCreatePerson: createPerson,
+  allowNewPerson,
 }) => {
-  const [people, setPeople] = useState<Participant[]>([]);
+  const { people, createPerson } = usePeople();
   const [selectedOption, setSelectedOption] = useState<any>(null);
 
   const mapOptions = () =>
-    people.map((person) => ({
+    people?.map((person) => ({
       value: person.id,
       label: person.name,
     }));
 
-  const selectPerson = (selectedOption: any) => {
-    if (!(createPerson && selectedOption.__isNew__)) {
-      const person = people.find((p) => p.id === selectedOption.value);
-      onChange(person || null);
+  const selectPerson = async (selectedOption: any) => {
+    if (!(allowNewPerson && selectedOption.__isNew__)) {
+      onChange(selectedOption.value as string);
       if (clearAfterSelection) setSelectedOption(null);
       return;
     }
-    createPerson(selectedOption.label);
+    const personId = await createPerson(selectedOption.label);
+    if (!personId) return;
+    onChange(personId);
     if (clearAfterSelection) setSelectedOption(null);
   };
 
-  useEffect(() => {
-    const subscription = peopleSubscription(({ items, isSynced }) => {
-      setPeople([...(items || [])]);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
-
   return (
     <div>
-      {!createPerson ? (
+      {!allowNewPerson ? (
         <Select
           options={mapOptions()}
           onChange={selectPerson}

@@ -1,26 +1,18 @@
 .profile {
   display: flex;
   align-items: center;
-  font-weight: 500;
-  height: 100%;
-  margin-top: 0.2rem;
   cursor: auto;
 }
 
 .profilePicture {
   width: 3.6rem;
   height: 3.6rem;
-  margin-right: calc(var(--base-space) / 2) !important;
   border-radius: 100%;
   z-index: 1;
-  display: block;
-  position: relative;
 }
 
 @media (max-width: 40em) {
   .profilePicture {
-    margin-top: 0.6rem;
-    margin-right: calc(var(--base-space) / 8) !important;
     width: 2.8rem;
     height: 2.8rem;
   }

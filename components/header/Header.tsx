@@ -1,30 +1,43 @@
-import SearchBar from "./SearchBar";
-import Logo from "./Logo";
-import ProfilePicture from "./ProfilePicture";
+import { Context } from "@/contexts/ContextContext";
+import { FC } from "react";
+import contextStyles from "../layouts/ContextColors.module.css";
 import styles from "./Header.module.css";
-import { useAppContext } from "../navigation-menu/AppContext";
-import { RefObject } from "react";
+import Logo from "./Logo";
+import SearchBar from "./SearchBar";
+import ProfilePicture from "./ProfilePicture";
+import { useNavMenuContext } from "@/contexts/NavMenuContext";
 
 type HeaderProps = {
-  toggleMenu: () => void;
-  menuIsOpen: boolean;
-  searchBarRef: RefObject<HTMLInputElement>;
+  context?: Context;
+  logoOnly?: boolean;
 };
 
-export default function Header({
-  menuIsOpen,
-  toggleMenu,
-  searchBarRef,
-}: HeaderProps) {
-  const { context } = useAppContext();
-  return (
-    <nav className={`${styles.header} ${menuIsOpen ? styles.menuIsOpen : ""}`}>
+const Header: FC<HeaderProps> = ({ context, logoOnly }) => {
+  const { menuIsOpen, toggleMenu } = useNavMenuContext();
+
+  return logoOnly ? (
+    <div
+      className={`${context ? contextStyles[`${context}ColorScheme`] : ""} ${
+        styles.logoOnlyWrapper
+      } ${menuIsOpen ? styles.menuIsOpen : ""}`}
+    >
+      <Logo context={context} logoOnly={logoOnly} />
+    </div>
+  ) : (
+    <nav
+      className={`${context ? contextStyles[`${context}ColorScheme`] : ""} ${
+        styles.header
+      } ${menuIsOpen ? styles.menuIsOpen : ""}`}
+    >
       <div className={styles.headerContent}>
         <div className={styles.headerLeft}>
-          <SearchBar ref={searchBarRef} />
+          <SearchBar context={context} />
         </div>
-        <div className={styles.headerMiddle} onClick={toggleMenu}>
-          <Logo context={context} />
+        <div
+          className={styles.headerMid}
+          onClick={() => !menuIsOpen && toggleMenu()}
+        >
+          <Logo context={context} logoOnly={logoOnly} />
         </div>
         <div className={styles.headerRight}>
           <ProfilePicture />
@@ -32,4 +45,6 @@ export default function Header({
       </div>
     </nav>
   );
-}
+};
+
+export default Header;

@@ -1,12 +1,15 @@
+import { FC } from "react";
 import { IconType } from "react-icons";
 import styles from "./MainNavigationSection.module.css";
+import contextStyles from "@/components/layouts/ContextColors.module.css";
 import { BiConversation } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
 import { PiHandFist } from "react-icons/pi";
-import { useRouter } from "next/router";
+import Link from "next/link";
+import { Context } from "@/contexts/ContextContext";
 
 type MainNavigationSectionProps = {
-  closeMenu: () => void;
+  context?: Context;
 };
 
 type MenuItem = {
@@ -21,26 +24,23 @@ const menuItems: MenuItem[] = [
   { name: "Commitments", link: "/commitments", Icon: PiHandFist },
 ];
 
-function MainNavigationSection({ closeMenu }: MainNavigationSectionProps) {
-  const router = useRouter();
+const MainNavigationSection: FC<MainNavigationSectionProps> = ({ context }) => {
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${
+        context ? contextStyles[`${context}ColorScheme`] : styles.noColorScheme
+      } ${styles.wrapper}`}
+    >
       {menuItems.map(({ name, link, Icon }, idx) => (
-        <button
-          key={idx}
-          className={styles.menuItem}
-          onClick={() => {
-            closeMenu();
-            router.push(link);
-          }}
-        >
+        <Link className={styles.menuItem} key={idx} href={link}>
           <div className={styles.menuIcon}>
             <Icon />
           </div>
           <div className={styles.menuLabel}>{name}</div>
-        </button>
+        </Link>
       ))}
     </div>
   );
-}
+};
+
 export default MainNavigationSection;

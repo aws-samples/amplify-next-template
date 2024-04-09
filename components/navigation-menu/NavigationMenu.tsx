@@ -1,29 +1,23 @@
-import React, { forwardRef } from "react";
-import styles from "./NavigationMenu.module.css";
+import { forwardRef } from "react";
 import ContextSwitcher from "./ContextSwitcher";
 import MainNavigationSection from "./MainNavigationSection";
+import styles from "./NavigationMenu.module.css";
+import { Context } from "@/contexts/ContextContext";
+
 type NavigationMenuProps = {
-  isOpen: boolean;
-  closeMenu: () => void;
+  context?: Context;
 };
 
 const NavigationMenu = forwardRef<HTMLDivElement, NavigationMenuProps>(
-  ({ isOpen, closeMenu }, ref) => {
+  ({ context }, ref) => {
     return (
-      <div
-        className={`${styles.menu} ${isOpen ? styles.isOpen : ""}`}
-        ref={ref}
-      >
-        {/* <div className={styles.searchSection}>
-        <SearchBar />
-      </div> */}
+      <div className={styles.menu} ref={ref}>
         <div className={styles.contextSection}>
-          <ContextSwitcher />
+          <ContextSwitcher context={context} />
         </div>
         <div className={styles.navigationSection}>
-          <MainNavigationSection closeMenu={closeMenu} />
+          <MainNavigationSection context={context} />
         </div>
-        {/* <div className={styles.linksSection}>Additional Navigation Items</div> */}
       </div>
     );
   }

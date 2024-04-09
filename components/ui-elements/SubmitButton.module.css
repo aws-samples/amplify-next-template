@@ -2,12 +2,14 @@
   border-radius: 2rem;
   border: none;
   background-color: var(--color-btn);
+  box-shadow: none;
   padding: 0.5rem 1.2rem;
   margin-top: 0.4rem;
   margin-bottom: 1rem;
   cursor: pointer;
+  transition: box-shadow 0.1s ease;
 }
 
 .button:hover {
-  filter: drop-shadow(0.2rem 0.2rem 0.5rem rgba(20, 20, 20, 0.6));
+  box-shadow: 1px 1px 6px rgba(40, 40, 40, 0.4);
 }

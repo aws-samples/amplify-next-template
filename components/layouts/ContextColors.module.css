@@ -1,0 +1,41 @@
+.familyColorScheme {
+  --family-color-main: hwb(55 35% 5%);
+  --background-color: rgb(245, 245, 242);
+  --bg-color-transparent: rgba(245, 245, 242, 0.95);
+  --color-shadow: rgba(58, 53, 4, 0.1);
+  --color-btn: var(--family-color-main);
+  --color-btn-secondary: hsl(55, 88%, 17%);
+  --color-text: #1c1b0c;
+  --color-text-secondary: #66644d;
+  --color-subtle: hwb(55 60% 20%);
+  --logo-filter: grayscale(100%) sepia(1) hue-rotate(340deg) brightness(90%)
+    saturate(400%);
+}
+
+.hobbyColorScheme {
+  --hobby-color-main: hwb(98 31% 8%);
+  --background-color: rgb(246, 252, 242);
+  --bg-color-transparent: rgba(246, 252, 242, 0.95);
+  --color-shadow: rgba(23, 60, 1, 0.1);
+  --color-btn: var(--hobby-color-main);
+  --color-btn-secondary: hsl(98, 96%, 17%);
+  --color-text: #131d0e;
+  --color-text-secondary: #4b5943;
+  --color-subtle: hwb(98 60% 20%);
+  --logo-filter: grayscale(100%) sepia(1) hue-rotate(40deg) brightness(90%)
+    saturate(400%);
+}
+
+.workColorScheme {
+  --work-color-main: hwb(181 31% 8%);
+  --background-color: rgb(242, 252, 252);
+  --bg-color-transparent: rgba(242, 252, 252, 0.95);
+  --color-shadow: rgba(2, 59, 60, 0.1);
+  --color-btn: var(--work-color-main);
+  --color-btn-secondary: hsl(181, 95%, 17%);
+  --color-text: #0e1b1b;
+  --color-text-secondary: #435859;
+  --color-subtle: hwb(181 60% 20%);
+  --logo-filter: grayscale(100%) sepia(1) hue-rotate(100deg) brightness(90%)
+    saturate(400%);
+}
