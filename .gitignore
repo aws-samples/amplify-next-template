@@ -1,3 +1,6 @@
+# API credentials
+.env.local
+
 # amplify generated files
 .amplify
 amplifyconfiguration*
