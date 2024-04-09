@@ -59,6 +59,12 @@ Folgende UI Komponenten sind bisher in der Dokumentation aufgenommen und entspre
 
 ## Detailed changes
 
+### Feature
+
+#### Breaking Changes
+
+- introduced SWR which makes it more performant and stable; also improvements for mobile phones [532c200](https://github.com/cabcookie/personal-crm/commit/532c20063b5c01c513319bbc6fe80b10cdc3e2ee)
+
 ### Documentation
 
 #### ui
