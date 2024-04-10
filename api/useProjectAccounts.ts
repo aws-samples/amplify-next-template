@@ -4,12 +4,14 @@ import useSWR from "swr";
 
 const client = generateClient<Schema>();
 
-const fetchProjectAccounts = (projectId: string) => async () =>
-  client.models.AccountProjects.list({
+const fetchProjectAccounts = (projectId?: string) => async () => {
+  if (!projectId) return;
+  const { data, errors } = await client.models.AccountProjects.list({
     filter: { projectsId: { eq: projectId } },
-  }).then(({ data }) => {
-    return data.map(({ accountId }) => ({ accountId }));
   });
+  if (errors) throw errors;
+  return data.map(({ accountId }) => ({ accountId }));
+};
 
 const useProjectAccounts = (projectId?: string) => {
   const {
@@ -18,7 +20,7 @@ const useProjectAccounts = (projectId?: string) => {
     isLoading: loadingProjectAccounts,
   } = useSWR(
     `/api/projects/${projectId}/accounts`,
-    fetchProjectAccounts(projectId || "")
+    fetchProjectAccounts(projectId)
   );
 
   return { projectAccountIds, errorProjectAccounts, loadingProjectAccounts };

@@ -12,14 +12,14 @@ export type Activity = {
   updatedAt: Date;
 };
 
-export const mapActivity = ({
+export const mapActivity: (activity: Schema["Activity"]) => Activity = ({
   id,
   notes,
   meetingActivitiesId,
   finishedOn,
   createdAt,
   updatedAt,
-}: Schema["Activity"]): Activity => ({
+}) => ({
   id,
   notes: notes || "",
   meetingId: meetingActivitiesId,
@@ -27,10 +27,12 @@ export const mapActivity = ({
   updatedAt: new Date(updatedAt),
 });
 
-const fetchActivity = (activityId: string) => () =>
-  client.models.Activity.get({ id: activityId }).then(({ data }) =>
-    mapActivity(data)
-  );
+const fetchActivity = (activityId?: string) => async () => {
+  if (!activityId) return;
+  const { data, errors } = await client.models.Activity.get({ id: activityId });
+  if (errors) throw errors;
+  return mapActivity(data);
+};
 
 const useActivity = (activityId?: string) => {
   const {
@@ -38,7 +40,7 @@ const useActivity = (activityId?: string) => {
     error: errorActivity,
     isLoading: loadingActivity,
     mutate: mutateActivity,
-  } = useSWR(`/api/activities/${activityId}`, fetchActivity(activityId || ""));
+  } = useSWR(`/api/activities/${activityId}`, fetchActivity(activityId));
 
   const updateNotes = async (notes: string) => {
     if (!activity?.id) return;

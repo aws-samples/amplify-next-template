@@ -14,10 +14,14 @@ const mapMeetingParticipant = ({
   personId,
 });
 
-const fetchMeetingParticipants = (meetingId: string) => () =>
-  client.models.MeetingParticipant.list({
+const fetchMeetingParticipants = (meetingId?: string) => async () => {
+  if (!meetingId) return;
+  const { data, errors } = await client.models.MeetingParticipant.list({
     filter: { meetingId: { eq: meetingId } },
-  }).then(({ data }) => data.map(mapMeetingParticipant));
+  });
+  if (errors) throw errors;
+  return data.map(mapMeetingParticipant);
+};
 
 const useMeetingParticipants = (meetingId?: string) => {
   const {
@@ -27,7 +31,7 @@ const useMeetingParticipants = (meetingId?: string) => {
     mutate: mutateMeetingParticipants,
   } = useSWR(
     `/api/meeting/${meetingId}/participants`,
-    fetchMeetingParticipants(meetingId || "")
+    fetchMeetingParticipants(meetingId)
   );
 
   const createMeetingParticipant = async (

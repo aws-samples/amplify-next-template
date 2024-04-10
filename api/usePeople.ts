@@ -5,8 +5,11 @@ import useSWR from "swr";
 import { Person, mapPerson } from "./usePerson";
 const client = generateClient<Schema>();
 
-const fetchPeople = () =>
-  client.models.Person.list().then(({ data }): Person[] => data.map(mapPerson));
+const fetchPeople = async () => {
+  const { data, errors } = await client.models.Person.list({ limit: 800 });
+  if (errors) throw errors;
+  return data.map(mapPerson);
+};
 
 const usePeople = () => {
   const {

@@ -13,18 +13,19 @@ export const mapPerson = ({ id, name }: Schema["Person"]): Person => ({
   name,
 });
 
-const fetchPerson = (personId: string) => () =>
-  client.models.Person.get({ id: personId }).then(({ data }) =>
-    mapPerson(data)
-  );
+const fetchPerson = (personId?: string) => async () => {
+  if (!personId) return;
+  const { data, errors } = await client.models.Person.get({ id: personId });
+  if (errors) throw errors;
+  return mapPerson(data);
+};
 
 const usePerson = (personId?: string) => {
   const {
     data: person,
     error: errorPerson,
     isLoading: loadingPerson,
-    mutate: mutatePerson,
-  } = useSWR(`/api/person/${personId}`, fetchPerson(personId || ""));
+  } = useSWR(`/api/person/${personId}`, fetchPerson(personId));
   return {
     person,
     errorPerson,

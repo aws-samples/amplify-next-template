@@ -11,10 +11,12 @@ type MeetingUpdateProps = {
   title: string;
 };
 
-const fetchMeeting = (meetingId: string) => () =>
-  client.models.Meeting.get({ id: meetingId }).then(({ data }) =>
-    mapMeeting(data)
-  );
+const fetchMeeting = (meetingId?: string) => async () => {
+  if (!meetingId) return;
+  const { data, errors } = await client.models.Meeting.get({ id: meetingId });
+  if (errors) throw errors;
+  return mapMeeting(data);
+};
 
 const useMeeting = (meetingId?: string) => {
   const {
@@ -22,7 +24,7 @@ const useMeeting = (meetingId?: string) => {
     error: errorMeeting,
     isLoading: loadingMeeting,
     mutate: mutateMeeting,
-  } = useSWR(`/api/meeting/${meetingId}`, fetchMeeting(meetingId || ""));
+  } = useSWR(`/api/meeting/${meetingId}`, fetchMeeting(meetingId));
 
   const updateMeeting = async ({
     meetingId,

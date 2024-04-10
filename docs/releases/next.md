@@ -1,8 +1,9 @@
-# Auch Meetings anzeigen, die keinen Kontext haben (Version :VERSION)
-
-Meetings, die keinen Kontext haben werden auch angezeigt.
+# NEW RELEASE (Version :VERSION)
 
 ## Bekannte Fehler
+
+- [ ] Aktivitäten werden nicht angezeigt
+- [ ] Limit für Personen ist zu klein
 
 ## Geplante neue Funktionen
 
@@ -31,3 +32,10 @@ Meetings, die keinen Kontext haben werden auch angezeigt.
 ### Bug Fixes
 
 - show meetings with missing context [f22b7d6](https://github.com/cabcookie/personal-crm/commit/f22b7d6b06cf449c3da3f8add2024413beb0ee1e)
+- update fetching for fewer API calls and better error handling [08c9007](https://github.com/cabcookie/personal-crm/commit/08c9007b528758a8d71a897c60cbe3f9606b64a0)
+
+### Documentation
+
+#### release
+
+- document know issue [f00b2c2](https://github.com/cabcookie/personal-crm/commit/f00b2c2cde4f90670c92134198c169041784772f)

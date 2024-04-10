@@ -13,24 +13,26 @@ export type DayPlan = {
   done?: boolean;
 };
 
-const mapDayPlan = ({
+const mapDayPlan: (dayplan: Schema["DayPlan"]) => DayPlan = ({
   id,
   day,
   dayGoal,
   done,
-}: Schema["DayPlan"]): DayPlan => ({
+}) => ({
   id,
   day,
   dayGoal,
   done: !!done,
 });
 
-const fetchDayPlans = (context?: Context) => () =>
-  client.models.DayPlan.list({
+const fetchDayPlans = (context?: Context) => async () => {
+  if (!context) return;
+  const { data, errors } = await client.models.DayPlan.list({
     filter: { done: { ne: "true" }, context: { eq: context } },
-  }).then(({ data }) =>
-    data.map(mapDayPlan).sort((a, b) => sortByDate(true)([a.day, b.day]))
-  );
+  });
+  if (errors) throw errors;
+  return data.map(mapDayPlan).sort((a, b) => sortByDate(true)([a.day, b.day]));
+};
 
 const useDayPlans = (context?: Context) => {
   const {
