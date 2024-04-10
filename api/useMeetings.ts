@@ -4,6 +4,8 @@ import { generateClient } from "aws-amplify/data";
 import { handleApiErrors } from "./globals";
 import { Context } from "@/contexts/ContextContext";
 import useSWR from "swr";
+import { flow } from "lodash";
+import { addDaysToDate, getDayOfDate } from "@/helpers/functional";
 const client = generateClient<Schema>();
 
 export type Meeting = {
@@ -26,11 +28,13 @@ export const mapMeeting: (data: Schema["Meeting"]) => Meeting = ({
   context: context || undefined,
 });
 
-const fetchMeetings = (context?: Context) => async () => {
+const fetchMeetings = (page: number, context?: Context) => async () => {
+  if (!context) return;
+  const compareDate = flow(addDaysToDate(-4 * 7), getDayOfDate)(new Date());
   const { data, errors } = await client.models.Meeting.list({
     filter: {
       or: [
-        { context: { eq: context || "" } },
+        { context: { eq: context } },
         {
           and: [
             { context: { ne: "work" } },
@@ -39,6 +43,7 @@ const fetchMeetings = (context?: Context) => async () => {
           ],
         },
       ],
+      meetingOn: { gt: compareDate },
     },
   });
   if (errors) throw errors;
@@ -47,13 +52,21 @@ const fetchMeetings = (context?: Context) => async () => {
     .sort((a, b) => b.meetingOn.getTime() - a.meetingOn.getTime());
 };
 
-const useMeetings = (context?: Context) => {
+type UseMeetingsProps = {
+  context?: Context;
+  page?: number;
+};
+
+const useMeetings = ({ page = 1, context }: UseMeetingsProps) => {
   const {
     data: meetings,
     error: errorMeetings,
     isLoading: loadingMeetings,
     mutate: mutateMeetings,
-  } = useSWR(`/api/meetings/${context}`, fetchMeetings(context));
+  } = useSWR(
+    `/api/meetings/${context}/page/${page}`,
+    fetchMeetings(page, context)
+  );
   const [meetingDates, setMeetingDates] = useState<Date[]>([]);
 
   const createMeeting = async (
