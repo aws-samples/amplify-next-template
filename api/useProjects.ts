@@ -3,23 +3,19 @@ import { Context } from "@/contexts/ContextContext";
 import { generateClient } from "aws-amplify/data";
 import useSWR from "swr";
 import { handleApiErrors } from "./globals";
+import { mapProject } from "./useProject";
 
 const client = generateClient<Schema>();
 
-const fetchProjects = (context?: Context) => async () =>
-  context &&
-  client.models.Projects.list({
+const fetchProjects = (context?: Context) => async () => {
+  if (!context) return;
+  const { data, errors } = await client.models.Projects.list({
     filter: { context: { eq: context }, done: { ne: "true" } },
     limit: 500,
-  }).then(({ data }) =>
-    data.map(({ id, project, done, doneOn, dueOn }) => ({
-      id,
-      project,
-      done,
-      doneOn,
-      dueOn,
-    }))
-  );
+  });
+  if (errors) throw errors;
+  return data.map(mapProject);
+};
 
 const useProjects = (context?: Context) => {
   const {
@@ -35,15 +31,16 @@ const useProjects = (context?: Context) => {
     const newProject = {
       id: crypto.randomUUID(),
       project: projectName,
+      context,
       done: false,
-      doneOn: null,
-      dueOn: null,
     };
     const updatedProjects = [...(projects || []), newProject];
     mutate(updatedProjects, false);
 
     const { data, errors } = await client.models.Projects.create({
-      ...newProject,
+      id: newProject.id,
+      project: projectName,
+      done: false,
       context,
     });
     if (errors) handleApiErrors(errors, "Error creating project");

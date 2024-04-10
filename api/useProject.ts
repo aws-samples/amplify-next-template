@@ -1,4 +1,5 @@
 import { type Schema } from "@/amplify/data/resource";
+import { Context } from "@/contexts/ContextContext";
 import { generateClient } from "aws-amplify/data";
 import useSWR from "swr";
 
@@ -7,23 +8,26 @@ const client = generateClient<Schema>();
 type Project = {
   id: string;
   project: string;
+  context?: Context;
   done: boolean;
   doneOn?: Date;
   dueOn?: Date;
 };
 
-const mapProject = ({
+export const mapProject: (project: Schema["Projects"]) => Project = ({
   id,
   project,
   done,
   doneOn,
   dueOn,
-}: Schema["Projects"]): Project => ({
+  context,
+}) => ({
   id,
   project,
   done: !!done,
   doneOn: doneOn ? new Date(doneOn) : undefined,
   dueOn: dueOn ? new Date(dueOn) : undefined,
+  context,
 });
 
 const fetchProject = (projectId: string) => () =>

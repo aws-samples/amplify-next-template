@@ -18,9 +18,7 @@ const ProjectDetailPage = () => {
   const [newActivityId, setNewActivityId] = useState(crypto.randomUUID());
 
   const saveNewActivity = async (notes?: string) => {
-    console.log("saveNewActivity", { notes });
     const data = await createProjectActivity(newActivityId, notes);
-    console.log("saveNewActivity", { notes, data });
     setNewActivityId(crypto.randomUUID());
     return data;
   };
