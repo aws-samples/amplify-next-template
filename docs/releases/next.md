@@ -1,4 +1,6 @@
-# Weiß noch nicht (Version :VERSION)
+# Auch Meetings anzeigen, die keinen Kontext haben (Version :VERSION)
+
+Meetings, die keinen Kontext haben werden auch angezeigt.
 
 ## Bekannte Fehler
 
@@ -25,3 +27,7 @@
 - [ ] eine Inbox einführen
 
 ## Detailed changes
+
+### Bug Fixes
+
+- show meetings with missing context [f22b7d6](https://github.com/cabcookie/personal-crm/commit/f22b7d6b06cf449c3da3f8add2024413beb0ee1e)
