@@ -1,8 +1,8 @@
-# Auch Meetings anzeigen, die keinen Kontext haben (Version :VERSION)
-
-Meetings, die keinen Kontext haben werden auch angezeigt.
+# NEW RELEASE (Version :VERSION)
 
 ## Bekannte Fehler
+
+- [ ] Aktivitäten werden nicht angezeigt
 
 ## Geplante neue Funktionen
 
