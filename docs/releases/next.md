@@ -3,6 +3,7 @@
 ## Bekannte Fehler
 
 - [ ] Aktivitäten werden nicht angezeigt
+- [ ] Limit für Personen ist zu klein
 
 ## Geplante neue Funktionen
 
@@ -31,3 +32,9 @@
 ### Bug Fixes
 
 - show meetings with missing context [f22b7d6](https://github.com/cabcookie/personal-crm/commit/f22b7d6b06cf449c3da3f8add2024413beb0ee1e)
+
+### Documentation
+
+#### release
+
+- document know issue [f00b2c2](https://github.com/cabcookie/personal-crm/commit/f00b2c2cde4f90670c92134198c169041784772f)

@@ -5,14 +5,16 @@ import { handleApiErrors } from "./globals";
 import { Activity, mapActivity } from "./useActivity";
 const client = generateClient<Schema>();
 
-const fetchMeetingActivities = (meetingId: string) => () =>
-  client.models.Activity.list({
+const fetchMeetingActivities = (meetingId?: string) => async () => {
+  if (!meetingId) return;
+  const { data, errors } = await client.models.Activity.list({
     filter: { meetingActivitiesId: { eq: meetingId } },
-  }).then(({ data }) =>
-    data
-      .map(mapActivity)
-      .sort((a, b) => a.finishedOn.getTime() - b.finishedOn.getTime())
-  );
+  });
+  if (errors) throw errors;
+  return data
+    .map(mapActivity)
+    .sort((a, b) => a.finishedOn.getTime() - b.finishedOn.getTime());
+};
 
 const useMeetingActivities = (meetingId?: string) => {
   const {
@@ -22,7 +24,7 @@ const useMeetingActivities = (meetingId?: string) => {
     mutate: mutateMeetingActivities,
   } = useSWR(
     `/api/meetings/${meetingId}/activities`,
-    fetchMeetingActivities(meetingId || "")
+    fetchMeetingActivities(meetingId)
   );
 
   const createMeetingActivity = async (activityId: string, notes?: string) => {

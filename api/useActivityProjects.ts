@@ -8,14 +8,18 @@ type ActivityProject = {
   projectId?: string;
 };
 
-const mapActivityProject = ({
-  projectsId,
-}: Schema["ProjectActivity"]): ActivityProject => ({ projectId: projectsId });
+const mapActivityProject: (
+  activity: Schema["ProjectActivity"]
+) => ActivityProject = ({ projectsId }) => ({ projectId: projectsId });
 
-const fetchActivityProjects = (activityId: string) => () =>
-  client.models.ProjectActivity.list({
+const fetchActivityProjects = (activityId?: string) => async () => {
+  if (!activityId) return;
+  const { data, errors } = await client.models.ProjectActivity.list({
     filter: { activityId: { eq: activityId } },
-  }).then(({ data }) => data.map(mapActivityProject));
+  });
+  if (errors) throw errors;
+  return data.map(mapActivityProject);
+};
 
 const useActivityProjects = (activityId?: string) => {
   const {
@@ -25,7 +29,7 @@ const useActivityProjects = (activityId?: string) => {
     mutate: mutateActivityProjects,
   } = useSWR(
     `/api/activities/${activityId}/projects`,
-    fetchActivityProjects(activityId || "")
+    fetchActivityProjects(activityId)
   );
 
   const addProjectToActivity = async (
