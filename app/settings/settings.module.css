@@ -1,0 +1,16 @@
+.mainContainer {
+    display: flex;
+    background-color: #FFE1C5;
+    min-height: 100vh;
+}
+
+.heading1 {
+    color: #C16C47;
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-bottom: 30px;
+}
+
+.main {
+    font-family: 'Montserrat';
+}

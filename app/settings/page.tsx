@@ -1,7 +1,7 @@
 'use client'
 import React, {Component} from "react";
-import NavBar from "./components/navbar";
-import styles from "./page.module.css"
+import NavBar from "../components/navbar";
+import styles from "./settings.module.css"
 
 const navigation = {
     brand: { name: "Drafted", to: "/"},
@@ -14,7 +14,7 @@ const navigation = {
     
 }
 
-export default class Home extends Component {
+export default class News extends Component {
     render() {
         const { brand, links } = navigation;
 
@@ -25,7 +25,7 @@ export default class Home extends Component {
 
                 <div className={styles.mainContainer}>
                     <div className="form">
-                        <h2 className={styles.heading1}>Home</h2>
+                        <h2 className={styles.heading1}>Settings</h2>
                     </div>
                 </div>
 
