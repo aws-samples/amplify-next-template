@@ -8,7 +8,7 @@ import MeetingRecord from "@/components/meetings/meeting";
 export default function MeetingsPage() {
   const { context } = useContextContext();
   const { meetings, loadingMeetings, meetingDates, createMeeting } =
-    useMeetings(context);
+    useMeetings({ context });
   const router = useRouter();
 
   const createAndOpenNewMeeting = async () => {

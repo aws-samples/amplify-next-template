@@ -24,7 +24,7 @@ const MeetingDetailPage = () => {
     createMeetingParticipant,
   } = useMeetingParticipants(meetingId);
   const { meetingActivities, loadingMeetingActivities, createMeetingActivity } =
-    useMeetingActivities(meetingId);
+    useMeetingActivities({ meetingId });
   const [meetingDate, setMeetingDate] = useState(
     meeting?.meetingOn || new Date()
   );

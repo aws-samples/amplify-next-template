@@ -12,9 +12,9 @@ type MeetingRecordProps = {
 const MeetingRecord: FC<MeetingRecordProps> = ({ meeting }) => {
   const { meetingParticipants, loadingMeetingParticipants } =
     useMeetingParticipants(meeting.id);
-  const { meetingActivities, loadingMeetingActivities } = useMeetingActivities(
-    meeting.id
-  );
+  const { meetingActivities, loadingMeetingActivities } = useMeetingActivities({
+    meetingId: meeting.id,
+  });
 
   return (
     <div>

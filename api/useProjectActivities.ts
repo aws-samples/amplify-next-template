@@ -31,6 +31,7 @@ const fetchProjectActivities = (projectId?: string) => async () => {
   if (!projectId) return;
   const { data, errors } = await client.models.ProjectActivity.list({
     filter: { projectsId: { eq: projectId } },
+    limit: 200,
     selectionSet,
   });
   if (errors) throw errors;
