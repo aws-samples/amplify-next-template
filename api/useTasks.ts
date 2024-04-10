@@ -2,25 +2,25 @@ import { type Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { handleApiErrors } from "./globals";
 import useSWR from "swr";
+import { mapNonProjectTask, mapProjectTask } from "./useTask";
 
 const client = generateClient<Schema>();
 
-const fetchProjectTasks = (dayPlanId: string) => async () =>
-  client.models.DayProjectTask.list({
+const fetchProjectTasks = (dayPlanId: string) => async () => {
+  const { data, errors } = await client.models.DayProjectTask.list({
     filter: { dayPlanProjectTasksId: { eq: dayPlanId } },
-  }).then(({ data }) =>
-    data.map(({ id, task, done, projectsDayTasksId }) => ({
-      id,
-      task,
-      done,
-      projectId: projectsDayTasksId,
-    }))
-  );
+  });
+  if (errors) throw errors;
+  return data.map(mapProjectTask);
+};
 
-const fetchNonProjectTasks = (dayPlanId: string) => async () =>
-  client.models.NonProjectTask.list({
+const fetchNonProjectTasks = (dayPlanId: string) => async () => {
+  const { data, errors } = await client.models.NonProjectTask.list({
     filter: { dayPlanTasksId: { eq: dayPlanId } },
-  }).then(({ data }) => data.map(({ id, task, done }) => ({ id, task, done })));
+  });
+  if (errors) throw errors;
+  return data.map(mapNonProjectTask);
+};
 
 const useTasks = (dayPlanId: string) => {
   const {

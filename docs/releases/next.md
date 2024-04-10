@@ -32,6 +32,7 @@
 ### Bug Fixes
 
 - show meetings with missing context [f22b7d6](https://github.com/cabcookie/personal-crm/commit/f22b7d6b06cf449c3da3f8add2024413beb0ee1e)
+- update fetching for fewer API calls and better error handling [08c9007](https://github.com/cabcookie/personal-crm/commit/08c9007b528758a8d71a897c60cbe3f9606b64a0)
 
 ### Documentation
 

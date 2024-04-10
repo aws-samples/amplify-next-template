@@ -27,7 +27,8 @@ const mapProjectActivity = ({
   finishedOn: new Date(finishedOn || createdAt),
 });
 
-const fetchProjectActivities = (projectId: string) => async () => {
+const fetchProjectActivities = (projectId?: string) => async () => {
+  if (!projectId) return;
   const { data, errors } = await client.models.ProjectActivity.list({
     filter: { projectsId: { eq: projectId } },
     selectionSet,
@@ -46,7 +47,7 @@ const useProjectActivities = (projectId?: string) => {
     mutate: mutateProjectActivities,
   } = useSWR(
     `/api/projects/${projectId}/activities`,
-    fetchProjectActivities(projectId || "")
+    fetchProjectActivities(projectId)
   );
 
   const createProjectActivity = async (activityId: string, notes?: string) => {

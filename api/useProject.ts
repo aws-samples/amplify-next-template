@@ -30,17 +30,19 @@ export const mapProject: (project: Schema["Projects"]) => Project = ({
   context,
 });
 
-const fetchProject = (projectId: string) => () =>
-  client.models.Projects.get({ id: projectId }).then(({ data }) =>
-    mapProject(data)
-  );
+const fetchProject = (projectId?: string) => async () => {
+  if (!projectId) return;
+  const { data, errors } = await client.models.Projects.get({ id: projectId });
+  if (errors) throw errors;
+  return mapProject(data);
+};
 
 const useProject = (projectId?: string) => {
   const {
     data: project,
     error: errorProject,
     isLoading: loadingProject,
-  } = useSWR(`/api/projects/${projectId}`, fetchProject(projectId || ""));
+  } = useSWR(`/api/projects/${projectId}`, fetchProject(projectId));
 
   return { project, errorProject, loadingProject };
 };

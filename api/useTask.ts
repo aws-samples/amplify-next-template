@@ -4,37 +4,52 @@ import useSWR from "swr";
 
 const client = generateClient<Schema>();
 
-const fetchProjectTask = (taskId: string) => () =>
-  client.models.DayProjectTask.get({ id: taskId }).then(
-    ({ data: { id, task, done, projectsDayTasksId } }) => ({
-      id,
-      task,
-      done,
-      projectId: projectsDayTasksId,
-    })
-  );
+export type Task = {
+  id: string;
+  task: string;
+  done: boolean;
+  projectId?: string;
+};
 
-const fetchNonProjectTask = (taskId: string) => () =>
-  client.models.NonProjectTask.get({ id: taskId }).then(
-    ({ data: { id, task, done } }) => ({
-      id,
-      task,
-      done,
-    })
-  );
+export const mapProjectTask: (data: Schema["DayProjectTask"]) => Task = ({
+  id,
+  task,
+  done,
+  projectsDayTasksId,
+}) => ({ id, task, done: !!done, projectId: projectsDayTasksId });
+
+export const mapNonProjectTask: (data: Schema["NonProjectTask"]) => Task = ({
+  id,
+  task,
+  done,
+}) => ({ id, task, done: !!done });
+
+const fetchProjectTask = (taskId: string) => async () => {
+  const { data, errors } = await client.models.DayProjectTask.get({
+    id: taskId,
+  });
+  if (errors) throw errors;
+  return mapProjectTask(data);
+};
+
+const fetchNonProjectTask = (taskId: string) => async () => {
+  const { data, errors } = await client.models.NonProjectTask.get({
+    id: taskId,
+  });
+  if (errors) throw errors;
+  return mapNonProjectTask(data);
+};
 
 const useTask = (taskId: string) => {
   const {
     data: projectTask,
     error: errorProjectTask,
     isLoading: loadingProjectTask,
-    mutate: mutateProjectTask,
   } = useSWR(`/api/projectTask/${taskId}`, fetchProjectTask(taskId));
   const {
     data: nonProjectTask,
     error: errorNonProjectTask,
     isLoading: loadingNonProjectTask,
-    mutate: mutateNonProjectTask,
   } = useSWR(`/api/nonProjectTask/${taskId}`, fetchNonProjectTask(taskId));
 
   return {
