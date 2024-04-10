@@ -33,17 +33,33 @@ const fetchMeetings = (page: number, context?: Context) => async () => {
   const compareDate = flow(addDaysToDate(-4 * 7), getDayOfDate)(new Date());
   const { data, errors } = await client.models.Meeting.list({
     filter: {
-      or: [
-        { context: { eq: context } },
+      and: [
         {
-          and: [
-            { context: { ne: "work" } },
-            { context: { ne: "family" } },
-            { context: { ne: "hobby" } },
+          or: [
+            { context: { eq: context } },
+            {
+              and: [
+                { context: { ne: "work" } },
+                { context: { ne: "family" } },
+                { context: { ne: "hobby" } },
+              ],
+            },
+          ],
+        },
+        {
+          or: [
+            {
+              meetingOn: { gt: compareDate },
+            },
+            {
+              and: [
+                { meetingOn: { attributeExists: false } },
+                { createdAt: { gt: compareDate } },
+              ],
+            },
           ],
         },
       ],
-      meetingOn: { gt: compareDate },
     },
   });
   if (errors) throw errors;
