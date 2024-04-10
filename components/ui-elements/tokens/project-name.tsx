@@ -13,15 +13,22 @@ const ProjectName: FC<ProjectNameProps> = ({ projectId, noLinks }) => {
   const { project, loadingProject } = useProject(projectId);
   const { projectAccountIds } = useProjectAccounts(projectId);
 
-  return loadingProject ? (
+  return !project ? (
     "Loading project..."
   ) : (
     <div>
       {noLinks ? (
-        <div className={styles.projectName}>{project?.project}</div>
+        <div className={styles.projectName}>
+          {project?.project}
+          <small> {(project.context || "none").toUpperCase()}</small>
+        </div>
       ) : (
         <a href={`/projects/${projectId}`} className={styles.projectName}>
           {project?.project}
+          <small style={{ color: "gray" }}>
+            {" "}
+            {(project.context || "none").toUpperCase()}
+          </small>
         </a>
       )}
       <div>

@@ -25,6 +25,10 @@ const MeetingRecord: FC<MeetingRecordProps> = ({ meeting }) => {
             minute: "2-digit",
           })}{" "}
           – {meeting.topic}
+          <small style={{ color: "gray" }}>
+            {" "}
+            {(meeting.context || "none").toUpperCase()}
+          </small>
         </a>
       </h2>
       <div>

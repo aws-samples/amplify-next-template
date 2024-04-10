@@ -10,27 +10,42 @@ export type Meeting = {
   id: string;
   topic: string;
   meetingOn: Date;
+  context?: Context;
 };
 
-export const mapMeeting = ({
+export const mapMeeting: (data: Schema["Meeting"]) => Meeting = ({
   id,
   topic,
   meetingOn,
   createdAt,
-}: Schema["Meeting"]): Meeting => ({
+  context,
+}) => ({
   id,
   topic,
   meetingOn: new Date(meetingOn || createdAt),
+  context: context || undefined,
 });
 
-const fetchMeetings = (context?: Context) => () =>
-  client.models.Meeting.list({
-    filter: { context: { eq: context || "" } },
-  }).then(({ data }) =>
-    data
-      .map(mapMeeting)
-      .sort((a, b) => a.meetingOn.getTime() - b.meetingOn.getTime())
-  );
+const fetchMeetings = (context?: Context) => async () => {
+  const { data, errors } = await client.models.Meeting.list({
+    filter: {
+      or: [
+        { context: { eq: context || "" } },
+        {
+          and: [
+            { context: { ne: "work" } },
+            { context: { ne: "family" } },
+            { context: { ne: "hobby" } },
+          ],
+        },
+      ],
+    },
+  });
+  if (errors) throw errors;
+  return data
+    .map(mapMeeting)
+    .sort((a, b) => b.meetingOn.getTime() - a.meetingOn.getTime());
+};
 
 const useMeetings = (context?: Context) => {
   const {
@@ -83,22 +98,3 @@ const useMeetings = (context?: Context) => {
 };
 
 export default useMeetings;
-
-/**
-
-const debouncedSearchText = debounce(
-  async (searchText: string, setLocalSearchText: (text: string) => void) => {
-    setLocalSearchText(searchText);
-  },
-  1500
-);
-
-
-const useMeetings = () => {
-
-  useEffect(() => {
-    debouncedSearchText(searchText, setLocalSearchText);
-  }, [searchText]);
-
-};
- */
