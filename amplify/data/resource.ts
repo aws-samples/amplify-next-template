@@ -30,3 +30,21 @@ export const data = defineData({
     },
   },
 });
+
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+// ...
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+
+      done: a.boolean(),
+      priority: a.enum(['low', 'medium', 'high'])
+
+    })
+    .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
+});
+
+// ...
