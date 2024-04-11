@@ -44,7 +44,14 @@ const schema = a.schema({
       priority: a.enum(['low', 'medium', 'high'])
 
     })
-    .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
+    .authorization([a.allow.owner(),
 });
 
 // ...
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'userPool'
+  }
+});
