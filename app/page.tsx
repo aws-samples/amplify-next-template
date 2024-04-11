@@ -1,9 +1,7 @@
-
-
 export default function Page(){
   return (
-    <>
-      <h1>Hello, World</h1>
-    </>
+    <div className="splash" style={{ display: "flex", flexDirection:"column", justifyContent:"center", alignItems:"center" }}>
+      <h1>Hello, friends.</h1>
+    </div>
   )
 }
