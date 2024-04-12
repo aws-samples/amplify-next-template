@@ -18,6 +18,18 @@ const schema = a.schema({
       done: a.boolean(),
       tasks: a.hasMany("NonProjectTask"),
       projectTasks: a.hasMany("DayProjectTask"),
+      todos: a.hasMany("DayPlanTodo"),
+    })
+    .authorization([a.allow.owner()]),
+  DayPlanTodo: a
+    .model({
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+      todo: a.string().required(),
+      done: a.boolean(),
+      doneOn: a.date(),
+      dayPlan: a.belongsTo("DayPlan"),
+      project: a.belongsTo("Projects"),
+      context: a.ref("Context").required(),
     })
     .authorization([a.allow.owner()]),
   DayProjectTask: a
@@ -163,6 +175,7 @@ const schema = a.schema({
       createdAtMeeting: a.belongsTo("Meeting"),
       activities: a.manyToMany("Activity", { relationName: "ProjectActivity" }),
       dayTasks: a.hasMany("DayProjectTask"),
+      todos: a.hasMany("DayPlanTodo"),
     })
     .authorization([a.allow.owner()]),
 });
