@@ -1,4 +1,9 @@
-# NEW RELEASE (Version :VERSION)
+# Bereinigung vorheriger Änderungen; manche Daten wurden nicht angezeigt (Version :VERSION)
+
+## Zusammenfassung der Änderungen
+
+- Ein neues Datenmodell eingeführt, um später Todos mit und ohne Projekt zusammenzufassen in einem Modell und entsprechend zu migrieren.
+- Überflüssige Spalten und damit auch Modelle entfernt, um das Schema etwas schlanker zu machen.
 
 ## Bekannte Fehler
 
@@ -29,15 +34,12 @@
 
 ## Detailed changes
 
-### Bug Fixes
+### Feature
 
-- show meetings with missing context [f22b7d6](https://github.com/cabcookie/personal-crm/commit/f22b7d6b06cf449c3da3f8add2024413beb0ee1e)
-- update fetching for fewer API calls and better error handling [08c9007](https://github.com/cabcookie/personal-crm/commit/08c9007b528758a8d71a897c60cbe3f9606b64a0)
-- adjusted the rest of the API calls [eca8613](https://github.com/cabcookie/personal-crm/commit/eca8613c0a6758191106d57be0f3e935c9101c3b)
-- adjusting API limits and filters via date [239027f](https://github.com/cabcookie/personal-crm/commit/239027fcff9817fedeb7ec74fbbe2db64f5ea85f)
+#### docs
 
-### Documentation
+- release documentation [2c6c421](https://github.com/cabcookie/personal-crm/commit/2c6c42113cd58151f02451b5289a17bd2ea2bd31)
 
-#### release
+#### data
 
-- document know issue [f00b2c2](https://github.com/cabcookie/personal-crm/commit/f00b2c2cde4f90670c92134198c169041784772f)
+- creating DayPlanTodo to later consolidate todos there [90901dc](https://github.com/cabcookie/personal-crm/commit/90901dcd3d2ba5ad45f8d4e918c08a07b16bee10)
