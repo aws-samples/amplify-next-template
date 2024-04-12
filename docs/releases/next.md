@@ -1,5 +1,10 @@
 # Bereinigung vorheriger Änderungen; manche Daten wurden nicht angezeigt (Version :VERSION)
 
+## Zusammenfassung der Änderungen
+
+- Ein neues Datenmodell eingeführt, um später Todos mit und ohne Projekt zusammenzufassen in einem Modell und entsprechend zu migrieren.
+- Überflüssige Spalten und damit auch Modelle entfernt, um das Schema etwas schlanker zu machen.
+
 ## Bekannte Fehler
 
 - [ ] Aktivitäten werden nicht angezeigt
@@ -30,6 +35,10 @@
 ## Detailed changes
 
 ### Feature
+
+#### docs
+
+- release documentation [2c6c421](https://github.com/cabcookie/personal-crm/commit/2c6c42113cd58151f02451b5289a17bd2ea2bd31)
 
 #### data
 

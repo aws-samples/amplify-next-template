@@ -11,7 +11,6 @@ const schema = a.schema({
   DayPlan: a
     .model({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
-      notionId: a.integer(),
       day: a.date().required(),
       dayGoal: a.string().required(),
       context: a.ref("Context"),
@@ -37,7 +36,6 @@ const schema = a.schema({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
       task: a.string().required(),
       done: a.boolean(),
-      timeInvested: a.integer(),
       dayPlan: a.belongsTo("DayPlan"),
       projects: a.belongsTo("Projects"),
     })
@@ -74,11 +72,6 @@ const schema = a.schema({
       participants: a.manyToMany("Person", {
         relationName: "MeetingParticipant",
       }),
-      projectsDiscussed: a.manyToMany("Projects", {
-        relationName: "MeetingDiscussedProject",
-      }),
-      newProjects: a.hasMany("Projects"),
-      timeInvested: a.integer(),
       activities: a.hasMany("Activity"),
     })
     .authorization([a.allow.owner()]),
@@ -90,7 +83,6 @@ const schema = a.schema({
       howToSay: a.string(),
       birthday: a.date(),
       dateOfDeath: a.date(),
-      createdOn: a.date(),
       meetings: a.manyToMany("Meeting", { relationName: "MeetingParticipant" }),
       accountRoles: a.hasMany("PersonAccount"),
     })
@@ -161,7 +153,6 @@ const schema = a.schema({
       doneOn: a.date(),
       dueOn: a.date(),
       onHoldTill: a.date(),
-      createdOnDay: a.date(),
       myNextActions: a.string(),
       othersNextActions: a.string(),
       context: a.ref("Context").required(),
@@ -169,10 +160,6 @@ const schema = a.schema({
       batches: a.manyToMany("SixWeekBatch", {
         relationName: "SixWeekBatchProjects",
       }),
-      discussedInMeetings: a.manyToMany("Meeting", {
-        relationName: "MeetingDiscussedProject",
-      }),
-      createdAtMeeting: a.belongsTo("Meeting"),
       activities: a.manyToMany("Activity", { relationName: "ProjectActivity" }),
       dayTasks: a.hasMany("DayProjectTask"),
       todos: a.hasMany("DayPlanTodo"),
