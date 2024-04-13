@@ -1,45 +1,13 @@
-# Bereinigung vorheriger Änderungen; manche Daten wurden nicht angezeigt (Version :VERSION)
+# Backend updaten (Version :VERSION)
 
 ## Zusammenfassung der Änderungen
 
-- Ein neues Datenmodell eingeführt, um später Todos mit und ohne Projekt zusammenzufassen in einem Modell und entsprechend zu migrieren.
-- Überflüssige Spalten und damit auch Modelle entfernt, um das Schema etwas schlanker zu machen.
-
-## Bekannte Fehler
-
-- [ ] Aktivitäten werden nicht angezeigt
-- [ ] Limit für Personen ist zu klein
-
-## Geplante neue Funktionen
-
-- [ ] Numerierte Listen unterstützen
-- [ ] Tasks müssen in der Liste direkt editierbar sein, ohne dass der Task geöffnet werden muss
-- [ ] Die Suche funktioniert im Moment nicht
-- [ ] Hyperlinks erkennen
-- [ ] Bei Task Detailseite auch die Meetings anzeigen
-- [ ] Projektliste und Detailseite
-- [ ] Personenliste und Detailseite
-- [ ] Account-Liste und Detailseite
-- [ ] Projekte sollen abgeschlossen werden können
-- [ ] Kontexte mit Tastaturkombinationen wechseln (^+W, ^+H, ^+P)
-- [ ] Tastaturbefehle anzeigen, wenn die "Control" Taste gedrückt ist
-- [ ] Integration von Bildern in Notizen ermöglichen
-- [ ] Über Pagination nachdenken, damit sich die Ladezeiten optimieren
-- [ ] Beim Scrollen soll der Titel im Header übernommen werden
-- [ ] DayProjectTask und NonProjectTask überführen in Task
-- [ ] Sicherstellen, dass die Daten durch das neue Release automatisch überführt werden
-- [ ] Auf dem iPhone soll es nicht den Header geben, sondern das Logo am unteren Rand des Bildschirms
-- [ ] Planung eines Cycles unterstützen
-- [ ] eine Inbox einführen
+Im [Issue #2443 im Amplify Backend repo](https://github.com/aws-amplify/amplify-category-api/issues/2443) habe ich einen Fehler gemeldet, dass einzelne Datensätze zwar in der DynamoDB Tabelle zu sehen sind, aber die GraphQl Abfragen diese nicht ausspucken. Mir wurde geraten, das Amplify Backend auf eine neue Version zu updaten.
 
 ## Detailed changes
 
-### Feature
+### Bug Fixes
 
-#### docs
+#### deps
 
-- release documentation [2c6c421](https://github.com/cabcookie/personal-crm/commit/2c6c42113cd58151f02451b5289a17bd2ea2bd31)
-
-#### data
-
-- creating DayPlanTodo to later consolidate todos there [90901dc](https://github.com/cabcookie/personal-crm/commit/90901dcd3d2ba5ad45f8d4e918c08a07b16bee10)
+- trying to fix the AppSync resolvers with a backend update [89fd19d](https://github.com/cabcookie/personal-crm/commit/89fd19d4683ab9b76d89892a8b89857e3371013f)
