@@ -1,0 +1,57 @@
+.mainContainer {
+    display: flex;
+    background-color: #FFE1C5;
+}
+
+.heading1 {
+    color: #C16C47;
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-bottom: 30px;
+}
+
+.heading2 {
+    color: #C16C47;
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-bottom: 30px;
+    margin-left: 400px;
+    margin-right: auto;
+}
+
+.formItem {
+    display: block;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+.labelClass {
+    display: block;
+    color: #C16C47;
+}
+
+.buttonContainer {
+    padding: 20px;
+}
+
+.saveButton {
+    margin: 0px;
+    border-radius: 12px;
+    padding: 5px 15px;
+}
+
+.clearButton {
+    margin-left: 30px;
+    border-radius: 12px;
+    padding: 5px 15px;
+}
+
+.dataTable {
+    margin-left: 0px;
+}
+
+.main {
+    font-family: 'Montserrat';
+}
