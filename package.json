@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prepare": "node .husky/install.mjs",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "sandbox": "npx amplify sandbox --profile impulso"
   },
   "husky": {
     "hooks": {
