@@ -21,9 +21,27 @@ const CardWrapper = styled.div`
     margin-top: 8px;
 `;
 
-const AllArticles = () => {
-  const notionTest = getAllPosts();
-  console.log(notionTest)
+
+// export const test = async () => {
+//   const allPosts = await getAllPosts();
+//   return allPosts
+// };
+
+export async function getServerSideProps() {
+  const allPosts = await getAllPosts();
+
+  return {
+    props: { allPosts }, // ページコンポーネントにデータを渡す
+  };
+}
+
+
+const AllArticles = async ({allPosts}: any) => {
+  // const allPosts = await getAllPosts();
+  // console.log("allPosts")
+  // console.log(allPosts)
+  console.log("test")
+  console.log(allPosts)
 
   return (
     <SConentWrapper>

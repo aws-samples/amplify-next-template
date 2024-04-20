@@ -1,5 +1,3 @@
-"use client"
-
 import React from 'react'
 import styled from 'styled-components'
 import { theme } from '../../theme';
@@ -59,8 +57,8 @@ const Header = () => {
         </SFlexContainer>
         <SHorizontalLine />
         <SOptionWrapper>
-          <SOption href="/">PORTFOLIO</SOption>
-          <SOption href="/">BLOG</SOption>
+          {/* <SOption href="/">PORTFOLIO</SOption>
+          <SOption href="/">BLOG</SOption> */}
         </SOptionWrapper>
       </SConentWrapper>
     </>
