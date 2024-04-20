@@ -1,0 +1,36 @@
+{
+    "name": "mongodb-atlas",
+    "type": "mongodb-atlas",
+    "config": {
+        "aggOptions": {
+            "forceAllowDiskUse": false
+        },
+        "clusterId": "656882b728f1136405ff68b0",
+        "clusterName": "AtlasCluster",
+        "clusterSize": "M0",
+        "clusterType": "atlas",
+        "clusterUpdated": 0,
+        "flexible_sync": {
+            "state": "enabled",
+            "database_name": "db",
+            "queryable_fields_names": [
+                "_id",
+                "owner_id"
+            ],
+            "queryable_fields_version": 1,
+            "permissions": {
+                "rules": {},
+                "defaultRoles": []
+            },
+            "client_max_offline_days": 30
+        },
+        "groupName": "ATOLOG",
+        "isLoadBalanced": false,
+        "lastUpdated": 1711555477,
+        "orgName": "PATOOWORLD, Inc",
+        "readPreference": "primary",
+        "uri": "mongodb://ac-lmytsbg-shard-00-00.toacxrl.mesh.mongodb.net:30454,ac-lmytsbg-shard-00-01.toacxrl.mesh.mongodb.net:30454,ac-lmytsbg-shard-00-02.toacxrl.mesh.mongodb.net:30454",
+        "wireProtocolEnabled": false
+    },
+    "version": 1
+}
