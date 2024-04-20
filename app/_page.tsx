@@ -1,8 +1,12 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: An AWS Serverless Application Model template describing your function.
+import "../styles/tailwind.css"
+
+import { AppProps } from "next/app"
+
+function MyApp({ Component, pageProps }: AppProps) 
+{Transform:
+ function.
 Resources:
-  UnifiedFunction:
+   {UnifiedFunction}:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
@@ -541,3 +545,8 @@ Parameters:
     Type: String
   ExternalRDSSecretArn:
     Type: String
+
+  return <Component {...pageProps} />
+}
+
+export default MyApp
