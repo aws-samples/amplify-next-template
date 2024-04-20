@@ -1,233 +1,234 @@
 import "../styles/tailwind.css"
 
 import { AppProps } from "next/app"
-
-function MyApp({ Component, pageProps }: AppProps) 
-{Transform:
+{
+"{function MyApp({ Component, pageProps }: AppProps) 
+"Transform":
  function.
 Resources:
-   {UnifiedFunction}:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: .
-      Description: ''
-      MemorySize: 128
-      Timeout: 3
-      Handler: hello.handler
-      Runtime: provided.al2
-      Architectures:
-        - x86_64
-      EphemeralStorage:
+  "{UnifiedFunction}"
+    "Type: //AWS::Serverless::Function
+   "Properties
+     "CodeUri: .
+      "Description:
+      "MemorySize: 128
+      "Timeout: 3
+      "Handler: hello.handler
+      "Runtime: provided.al2
+     "Architectures":
+     " - x86_64
+      "//EphemeralStorage:"
         Size: 512
-      EventInvokeConfig:
-        MaximumEventAgeInSeconds: 21600
-        MaximumRetryAttempts: 2
-      PackageType: Zip
-      Policies:
-        - Statement:
-            - Effect: Allow
-              Action:
-                - logs:CreateLogGroup
-              Resource: arn:aws:logs:us-east-1:731825509313:*
-            - Effect: Allow
-              Action:
-                - logs:CreateLogStream
-                - logs:PutLogEvents
-              Resource:
-                - arn:aws:logs:us-east-1:731825509313:log-group:/aws/lambda/UnifiedFunction:*
-        - LambdaInvokePolicy:
-            FunctionName: !Ref Function
-      SnapStart:
-        ApplyOn: None
-      RuntimeManagementConfig:
-        UpdateRuntimeOn: Auto
-      Environment:
-        Variables:
-          FUNCTION_FUNCTION_NAME: !Ref Function
-          FUNCTION_FUNCTION_ARN: !GetAtt Function.Arn
-  DomainName:
-    Type: AWS::AppSync::DomainName
-    Properties:
-      DomainName: <String>
-      CertificateArn: <String>
-  Api:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Sub
-        - ${ResourceName} From Stack ${AWS::StackName}
-        - ResourceName: Api
-      StageName: Prod
-      DefinitionBody:
-        openapi: '3.0'
-        info: {}
-        paths:
-          /:
-            get:
-              responses: {}
-      EndpointConfiguration: REGIONAL
-      TracingEnabled: true
-  UserPool:
-    Type: AWS::Cognito::UserPool
-    Properties:
-      AdminCreateUserConfig:
-        AllowAdminCreateUserOnly: false
-      AliasAttributes:
-        - email
-        - preferred_username
-      UserPoolName: !Sub ${AWS::StackName}-UserPool
-  UserPoolClient:
-    Type: AWS::Cognito::UserPoolClient
-  Table:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      BillingMode: PAY_PER_REQUEST
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      StreamSpecification:
-        StreamViewType: NEW_AND_OLD_IMAGES
-  EventRule:
-    Type: AWS::Events::Rule
-    Properties:
-      EventPattern:
-        source:
-          - aws.health
-  Schedule:
-    Type: AWS::Scheduler::Schedule
-    Properties:
-      ScheduleExpression: rate(1 minute)
-      FlexibleTimeWindow:
-        Mode: 'OFF'
-  Stream:
-    Type: AWS::Kinesis::Stream
-    Properties:
-      StreamEncryption:
-        EncryptionType: KMS
-        KeyId: alias/aws/kinesis
-      StreamModeDetails:
-        StreamMode: ON_DEMAND
-  Function:
-    Type: AWS::Serverless::Function
-    Properties:
-      Description: !Sub
-        - Stack ${AWS::StackName} Function ${ResourceName}
-        - ResourceName: Function
-      CodeUri: src/Function
-      Runtime: provided.al2
-      MemorySize: 3008
-      Timeout: 30
-      Tracing: Active
-  FunctionLogGroup:
-    Type: AWS::Logs::LogGroup
-    DeletionPolicy: Retain
-    Properties:
-      LogGroupName: !Sub /aws/lambda/${Function}
-  Layer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      Description: !Sub
-        - Stack ${AWS::StackName} Layer ${ResourceName}
-        - ResourceName: Layer
-      ContentUri: src/Layer
-      RetentionPolicy: Retain
-  Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub ${AWS::StackName}-bucket-${AWS::AccountId}
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: aws:kms
-              KMSMasterKeyID: alias/aws/s3
-      PublicAccessBlockConfiguration:
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
-  BucketBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref Bucket
-      PolicyDocument:
-        Id: RequireEncryptionInTransit
-        Version: '2012-10-17'
-        Statement:
-          - Principal: '*'
-            Action: '*'
-            Effect: Deny
-            Resource:
-              - !GetAtt Bucket.Arn
-              - !Sub ${Bucket.Arn}/*
-            Condition:
-              Bool:
-                aws:SecureTransport: 'false'
-  Topic:
-    Type: AWS::SNS::Topic
-  Queue:
-    Type: AWS::SQS::Queue
-  StateMachine:
-    Type: AWS::Serverless::StateMachine
-    Properties:
-      Definition:
-        StartAt: LambdaTask
-        States:
-          LambdaTask:
-            Type: Task
-            Resource: arn:aws:states:::lambda:invoke
-            Parameters:
-              Payload.$: $
-              FunctionName: ${LambdaFunction1}
-            End: true
-      Logging:
-        Level: ALL
-        IncludeExecutionData: true
-        Destinations:
-          - CloudWatchLogsLogGroup:
-              LogGroupArn: !GetAtt StateMachineLogGroup.Arn
-      Policies:
-        - AWSXrayWriteOnlyAccess
-        - Statement:
-            - Effect: Allow
-              Action:
-                - logs:CreateLogDelivery
-                - logs:GetLogDelivery
-                - logs:UpdateLogDelivery
-                - logs:DeleteLogDelivery
-                - logs:ListLogDeliveries
-                - logs:PutResourcePolicy
-                - logs:DescribeResourcePolicies
-                - logs:DescribeLogGroups
-              Resource: '*'
-      Tracing:
-        Enabled: true
-      Type: STANDARD
-      DefinitionSubstitutions:
-        LambdaFunction1: !Ref AWS::NoValue
-  StateMachineLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub
-        - /aws/vendedlogs/states/${AWS::StackName}-${ResourceId}-Logs
-        - ResourceId: StateMachine
-  Skill:
-    Type: Alexa::ASK::Skill
-    Properties:
-      AuthenticationConfiguration:
-        RefreshToken: <String>
-        ClientSecret: <String>
-        ClientId: <String>
-      VendorId: <String>
-      SkillPackage:
-        S3Bucket: <String>
-        S3Key: <String>
-  Analyzer:
-    Type: AWS::AccessAnalyzer::Analyzer
-    Properties:
-      Type: <String>
-  Certificate:
-    Type: AWS::ACMPCA::Certificate
-    Properties:
+      "EventInvokeConfig:
+        "MaximumEventAgeInSeconds: 21600
+       "MaximumRetryAttempts: 2
+     "PackageType: Zip
+     "Policies:
+        - "Statement:
+            - "Effect: Allow
+       "{Action:
+                - /logs:CreateLogGroup
+             " Resource: arn:aws:logs:us-east-1:731825509313:*
+            - /Effect: Allow
+              "Action:
+                - /logs:CreateLogStream
+                - /logs:PutLogEvents
+              "Resource:
+                - "/arn:aws:logs:us-east-1:731825509313:log-group://aws/lambda/UnifiedFunction":
+        - /LambdaInvokePolicy:}":
+            "{FunctionName: !Ref Function}":
+     / SnapStart:
+        "ApplyOn: None
+      "RuntimeManagementConfig:
+        "UpdateRuntimeOn: Auto
+      "Environment:
+        "Variables:
+          "{FUNCTION_FUNCTION_NAME: !Ref Function
+         " FUNCTION_FUNCTION_ARN}": 
+"{!GetAtt Function.Arn
+  "DomainName:
+    -/Type: AWS::AppSync::DomainName
+"Properties:
+      "DomainName: <String>
+     "CertificateArn: <String>
+  "{Api:
+   -/ Type: AWS::Serverless::Api
+    "Properties:
+      "Name: !Sub
+        -/ ${ResourceName} From Stack ${AWS::StackName}
+        -/ ResourceName: Api
+      "StageName: Prod
+      "DefinitionBody:
+       "openapi: '3.0'
+        "info: {}
+        "paths:
+       {
+            "get:
+              "responses: {}
+      "EndpointConfiguration: REGIONAL
+     "TracingEnabled: true
+  "UserPool:
+    -/Type: AWS::Cognito::UserPool
+    "Properties:
+      "AdminCreateUserConfig:
+        "AllowAdminCreateUserOnly: false
+      "AliasAttributes:
+        - /email
+        - /preferred_username
+     " UserPoolName: !Sub ${AWS::StackName}-UserPool
+ " UserPoolClient:
+      -/Type: AWS::Cognito::UserPoolClient
+  "Table:
+    -/Type: AWS::DynamoDB::Table
+   " Properties:
+     " AttributeDefinitions:
+        -/ AttributeName: id
+         " AttributeType: S
+     " BillingMode: PAY_PER_REQUEST
+      "KeySchema:
+        - /AttributeName: id
+          "KeyType: HASH
+     " StreamSpecification:
+       "StreamViewType: NEW_AND_OLD_IMAGES
+  "EventRule:
+    -/Type: AWS::Events::Rule
+    "Properties:
+     " EventPattern:
+        "source:
+          - /aws.health
+  "Schedule:
+    -/Type: AWS::Scheduler::Schedule
+   " Properties:
+      "(ScheduleExpression: rate(1 minute)"
+      "FlexibleTimeWindow:
+       " Mode: 'OFF'
+  "Stream:
+    "Type: AWS::Kinesis::Stream
+    "Properties:
+    "  StreamEncryption:
+       " EncryptionType: KMS
+      "  KeyId: alias/aws/kinesis
+     " StreamModeDetails:
+        "StreamMode: ON_DEMAND
+  "Function:
+    "Type: AWS::Serverless::Function
+   " Properties:
+     "Description: !Sub
+        - /Stack ${AWS::StackName} Function ${ResourceName}
+        - /ResourceName: Function
+     " CodeUri: src/Function
+     " Runtime: provided.al2
+     " MemorySize: 3008
+     " Timeout: 30
+     " Tracing: Active
+ " FunctionLogGroup:
+    -/Type: AWS::Logs::LogGroup
+    "DeletionPolicy: Retain
+    "Properties:
+    "  LogGroupName: !Sub /aws/lambda/${Function}
+  "Layer:
+    -/Type: AWS::Serverless::LayerVersion
+   " Properties:
+     " Description: !Sub
+        -/ Stack ${AWS::StackName} Layer ${ResourceName}
+        - /ResourceName: Layer
+     " ContentUri: src/Layer
+     "RetentionPolicy: Retain
+ " Bucket:
+   " Type: AWS::S3::Bucket
+   " Properties:
+      "BucketName: !Sub ${AWS::StackName}-bucket-${AWS::AccountId}
+      "BucketEncryption:
+        "ServerSideEncryptionConfiguration:
+          - /ServerSideEncryptionByDefault:
+             " SSEAlgorithm: aws:kms
+             " KMSMasterKeyID: alias/aws/s3
+      "PublicAccessBlockConfiguration:
+        "IgnorePublicAcls: true
+        "RestrictPublicBuckets: true
+ " BucketBucketPolicy:
+   "Type: AWS::S3::BucketPolicy
+    "Properties:
+      "Bucket: !Ref Bucket
+     " PolicyDocument:
+       " Id: RequireEncryptionInTransit
+        "Version: '2012-10-17'
+       " Statement:
+          - /Principal: '*'
+            "Action: '*'
+           " Effect: Deny
+           " Resource:
+              -/ !GetAtt Bucket.Arn
+              -/!Sub ${Bucket.Arn}/*
+           "{ Condition:
+              "Bool:
+                -/aws:SecureTransport: 'false'
+  "Topic":
+    "Type": AWS::SNS::Topic
+  "Queue":
+    "Typ": AWS::SQS::Queue
+  "StateMachine:
+   "Type": AWS::Serverless::StateMachine
+   " Properties":
+     " Definition":
+       " StartAt: LambdaTask"
+        "States":
+          "LambdaTask":
+            "Type": Task
+           " Resource": arn:aws:states:::lambda:invoke
+            "Parameters":
+              "Payload.$: $"
+              "FunctionName}": "${LambdaFunction1}",
+            "End": true
+     " Logging":
+       "Level": ALL
+        "IncludeExecutionData": true
+        "Destinations":
+          -/ CloudWatchLogsLogGroup:
+              "LogGroupArn: !GetAtt StateMachineLogGroup.Arn"
+      "Policies":
+        - /AWSXrayWriteOnlyAccess
+        -/ Statement:
+            - /Effect: Allow
+              "Action":
+                -/ logs:CreateLogDelivery
+                -/ logs:GetLogDelivery
+                -/ logs:UpdateLogDelivery
+                -/ logs:DeleteLogDelivery
+                -/ logs:ListLogDeliveries
+                -/ logs:PutResourcePolicy
+                -/ logs:DescribeResourcePolicies
+                -/ logs:DescribeLogGroups
+              "Resource: '*'
+      "Tracing:
+       -/ Enabled: true
+     " Type: STANDARD
+     " DefinitionSubstitutions:
+      "  LambdaFunction1: !Ref AWS::NoValue
+  "StateMachineLogGroup:
+   " Type: AWS::Logs::LogGroup
+    "Properties:
+      "LogGroupName: !Sub
+        - "/aws/vendedlogs/states/${AWS::StackName}-${ResourceId}-Logs"
+        -/ ResourceId: StateMachine
+  "Skill:
+    "Type: Alexa::ASK::Skill
+    "Properties:
+      "AuthenticationConfiguration:
+       " RefreshToken: <String>
+        "ClientSecret: <String>
+       "ClientId: <String>
+     " VendorId: <String>
+      "SkillPackage:
+        "S3Bucket: <String>
+        "S3Key: <String>
+  "Analyzer:
+    -/Type: AWS::AccessAnalyzer::Analyzer
+    "Properties:
+     -/ Type: <String>}
+"{Certificate:}
+" { Type: AWS::ACMPCA::Certificate
+    "{Properties:
       CertificateAuthorityArn: <String>
       Validity:
         Type: <String>
@@ -245,9 +246,9 @@ Resources:
     Type: AWS::ACMPCA::CertificateAuthorityActivation
     Properties:
       CertificateAuthorityArn: <String>
-      Certificate: <String>
+      Certificate: <String>}",
   Permission:
-    Type: AWS::ACMPCA::Permission
+   Type: AWS::ACMPCA::Permission
     Properties:
       CertificateAuthorityArn: <String>
       Actions:
@@ -279,8 +280,8 @@ Resources:
       Broker: <String>
       Configuration:
         Revision: <Integer>
-        Id: <String>
-  App:
+        Id: <String>}"
+         {App:
     Type: AWS::Amplify::App
     Properties:
       Name: <String>
@@ -341,7 +342,7 @@ Resources:
     Type: AWS::ApiGateway::GatewayResponse
     Properties:
       RestApiId: <String>
-      ResponseType: <String>
+      ResponseType: <String>}"
   Method:
     Type: AWS::ApiGateway::Method
     Properties:
@@ -547,6 +548,7 @@ Parameters:
     Type: String
 
   return <Component {...pageProps} />
-}
+
 
 export default MyApp
+         ]}":
