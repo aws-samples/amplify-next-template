@@ -8,7 +8,7 @@
 /Resources:
   /"UnifiedFunction"
     
-  /AWS::Serverless::Function
+  <AWS::Serverless::Function
    /"{Properties
      /"CodeUri: .
       /"Description:
@@ -18,23 +18,23 @@
       /"Runtime: provided.al2
      /"Architectures":
      /x86_64
-      /EphemeralStorage:"
-        /Size: 512
-      /"EventInvokeConfig:
-        /"MaximumEventAgeInSeconds: 21600
-      / "MaximumRetryAttempts: 2
-     /"PackageType: Zip
-     /"Policies:
-         /"Statement:
-            /"Effect: Allow"}
-       /"{Action:
+      /EphemeralStorage/>"
+        <Size: 512
+      "<EventInvokeConfig>:
+        "<MaximumEventAgeInSeconds>: 21600
+       "<MaximumRetryAttempts: 2
+     "PackageType: Zip
+     "Policies:
+         "Statement:
+            "Effect: Allow>"}
+       "{Action:
                  "logs:CreateLogGroup
-             /"Resource: arn:aws:logs:us-east-1:731825509313:*
-             /"Effect: Allow
-              /Action:
-                /logs:CreateLogStream
-                "/logs:PutLogEvents
-              /"Resource:
+             "Resource: arn:aws:logs:us-east-1:731825509313:*
+             "Effect: Allow
+              <Action/>
+                <logs:CreateLogStream
+                logs:PutLogEvents></logs:CreateLogStream>
+              <Resource>
                 "/arn:aws:logs:us-east-1:731825509313:log-group://aws/lambda/UnifiedFunction":
         /LambdaInvokePolicy:}":
             /"{FunctionName: !Ref Function}":
@@ -48,11 +48,11 @@
         / "FUNCTION_FUNCTION_ARN}":
 /"{!GetAtt Function.Arn
   /"DomainName:
-    /Type: AWS::AppSync::DomainName
+    /Type: AWS::AppSync::DomainName>
 /"Properties:
-      /"DomainName: <String>
-     /"CertificateArn: <String>
-  /"{Api:
+      "DomainName": <String>
+     "CertificateArn": <String>
+  <{Api:
    Type: AWS::Serverless::Api
     /"Properties:
       /"Name: !Sub
@@ -62,10 +62,10 @@
       DefinitionBody:
        /openapi: '3.0'
         /info: {}
-        /paths:
+        paths/>
        {
             /get:
-              /responses: {}
+              <responses: {}
       /EndpointConfiguration: REGIONAL
      TracingEnabled: true
   "UserPool":
@@ -544,8 +544,10 @@ Metadata:
 Parameters:
   ExternalRDSPort:
     Type: Number
-  ExternalRDSHostname:
-    Type: String
-  ExternalRDSSecretArn:
-    Type: <String>}/*
-    '*/
+  ExternalRDSHostname>
+    Type: <String>
+  "{ExternalRDSSecretArn}".
+    "Type": <String>}
+</String>
+</String>
+<div/>
