@@ -1,167 +1,167 @@
-//{import //"../styles/tailwind.css"
+/{import //"../styles/tailwind.css"
 
-//import { AppProps } from
-//"next/app"
-//"{function MyApp({ Component, pageProps }: AppProps})
-//"Transform":
+/import { AppProps } from
+/"next/app"
+/"{function MyApp({ Component, pageProps }: AppProps})
+/"Transform":
  function
-//Resources:
-  //"UnifiedFunction"
+/Resources:
+  /"UnifiedFunction"
     
-  //AWS::Serverless::Function
-   //"{Properties
-     //"CodeUri: .
-      //"Description:
-      //"MemorySize: 128
-      //"Timeout: 3
-      //"Handler: hello.handler
-      //"Runtime: provided.al2
-     //"Architectures":
-     //x86_64
-      //EphemeralStorage:"
-        //Size: 512
-      //"EventInvokeConfig:
-        //"MaximumEventAgeInSeconds: 21600
-      // "MaximumRetryAttempts: 2
-     //"PackageType: Zip
-     //"Policies:
-         //"Statement:
-            //"Effect: Allow"}
-       //"{Action:
-                 //logs:CreateLogGroup
-             //Resource: arn:aws:logs:us-east-1:731825509313:*
-             //Effect: Allow
-              //Action:
-                //logs:CreateLogStream
-                //logs:PutLogEvents
-              //"Resource:
-                //"/arn:aws:logs:us-east-1:731825509313:log-group://aws/lambda/UnifiedFunction":
-        //LambdaInvokePolicy:}":
-            //"{FunctionName: !Ref Function}":
-     //SnapStart:
-        //"ApplyOn: None
-      //"RuntimeManagementConfig:
-        //"UpdateRuntimeOn: Auto
-      //"Environment:
-        //"Variables:
-          //"{FUNCTION_FUNCTION_NAME: !Ref Function
-        // "FUNCTION_FUNCTION_ARN}":
-//"{!GetAtt Function.Arn
-  //"DomainName:
-    //Type: AWS::AppSync::DomainName
-//"Properties:
-      //"DomainName: <String>
-     //"CertificateArn: <String>
-  //"{Api:
-   //Type: AWS::Serverless::Api
-    //"Properties:
-      //"Name: !Sub
-        //${ResourceName} From Stack ${AWS::StackName}
-        //ResourceName: Api
-      //StageName: Prod
-      //DefinitionBody:
-       //openapi: '3.0'
-        //info: {}
-        //paths:
-       //{
-            //get:
-              //responses: {}
-      //EndpointConfiguration: REGIONAL
-     //TracingEnabled: true
-  //UserPool:
-    //Type: AWS::Cognito::UserPool
-  //Properties:
-      //AdminCreateUserConfig:
-        //AllowAdminCreateUserOnly: false
-      //AliasAttributes:
-         //email
-         //preferred_username
-     //UserPoolName: !Sub ${AWS::StackName}-UserPool
- //UserPoolClient:
-      //Type: AWS::Cognito::UserPoolClient
-  //Table:
-    //Type: AWS::DynamoDB::Table
-   //Properties:
-     //AttributeDefinitions:
-        //AttributeName: id
-         //AttributeType: S
-     //BillingMode: PAY_PER_REQUEST
-      //KeySchema:
-        //AttributeName: id
-          //KeyType: HASH
-     //StreamSpecification:
-       //StreamViewType: NEW_AND_OLD_IMAGES
-  //EventRule:
-    //Type: AWS::Events::Rule
-    //Properties:
-     //EventPattern:
-        //source:
-          //aws.health
-  //Schedule:
-    //Type: AWS::Scheduler::Schedule
-   //Properties:
-      //ScheduleExpression: rate(1 minute)"
-      //FlexibleTimeWindow:
-       //Mode: 'OFF'
-  //Stream:
-    //Type: AWS::Kinesis::Stream
-    //Properties:
-    //StreamEncryption:
-       //EncryptionType: KMS
-      //KeyId: alias/aws/kinesis
-     //StreamModeDetails:
-        //StreamMode: ON_DEMAND
-  //Function:
-    //Type: AWS::Serverless::Function
-   //Properties:
-     //Description: !Sub
-        //Stack ${AWS::StackName} Function ${ResourceName}
-        //ResourceName: Function
-     //CodeUri: src/Function
-     //Runtime: provided.al2
-     //MemorySize: 3008
-     //Timeout: 30
-     //Tracing: Active
- //FunctionLogGroup:
-    //Type: AWS::Logs::LogGroup
-    //DeletionPolicy: Retain
-    //Properties:
-    //LogGroupName: !Sub /aws/lambda/${Function}
-  //Layer:
-    //Type: AWS::Serverless::LayerVersion
-   //Properties:
-     //Description: !Sub
-        //Stack ${AWS::StackName} Layer ${ResourceName}
-        //ResourceName: Layer
-     //ContentUri: src/Layer
-     //RetentionPolicy: Retain
- //Bucket:
-   //Type: AWS::S3::Bucket
-   //Properties:
-      //BucketName: !Sub ${AWS::StackName}-bucket-${AWS::AccountId}
-      //BucketEncryption:
-        //ServerSideEncryptionConfiguration:
-          //ServerSideEncryptionByDefault:
-             //SSEAlgorithm: aws:kms
-             //KMSMasterKeyID: alias/aws/s3
-      //PublicAccessBlockConfiguration:
-        //IgnorePublicAcls: true
-        //RestrictPublicBuckets: true
- //BucketBucketPolicy:
-   //Type: AWS::S3::BucketPolicy
-    //Properties:
-      //Bucket: !Ref Bucket
-     //PolicyDocument:
-       //Id: RequireEncryptionInTransit
-        //Version: '2012-10-17'
-       //Statement:
-          //Principal: '*'
-            //Action: '*'
-           //Effect: Deny
-           //Resource}
+  /AWS::Serverless::Function
+   /"{Properties
+     /"CodeUri: .
+      /"Description:
+      /"MemorySize: 128
+      /"Timeout: 3
+      /"Handler: hello.handler
+      /"Runtime: provided.al2
+     /"Architectures":
+     /x86_64
+      /EphemeralStorage:"
+        /Size: 512
+      /"EventInvokeConfig:
+        /"MaximumEventAgeInSeconds: 21600
+      / "MaximumRetryAttempts: 2
+     /"PackageType: Zip
+     /"Policies:
+         /"Statement:
+            /"Effect: Allow"}
+       /"{Action:
+                 "logs:CreateLogGroup
+             /"Resource: arn:aws:logs:us-east-1:731825509313:*
+             /"Effect: Allow
+              /Action:
+                /logs:CreateLogStream
+                "/logs:PutLogEvents
+              /"Resource:
+                "/arn:aws:logs:us-east-1:731825509313:log-group://aws/lambda/UnifiedFunction":
+        /LambdaInvokePolicy:}":
+            /"{FunctionName: !Ref Function}":
+     /SnapStart:
+        /"ApplyOn: None
+      /"RuntimeManagementConfig:
+        /"UpdateRuntimeOn: Auto
+      /"Environment:
+        /"Variables:
+          /"{FUNCTION_FUNCTION_NAME: !Ref Function
+        / "FUNCTION_FUNCTION_ARN}":
+/"{!GetAtt Function.Arn
+  /"DomainName:
+    /Type: AWS::AppSync::DomainName
+/"Properties:
+      /"DomainName: <String>
+     /"CertificateArn: <String>
+  /"{Api:
+   Type: AWS::Serverless::Api
+    /"Properties:
+      /"Name: !Sub
+        ${ResourceName} From Stack ${AWS::StackName}
+        /ResourceName: Api
+      StageName: Prod
+      DefinitionBody:
+       /openapi: '3.0'
+        /info: {}
+        /paths:
+       {
+            /get:
+              /responses: {}
+      /EndpointConfiguration: REGIONAL
+     TracingEnabled: true
+  "UserPool":
+    /Type: AWS::Cognito::UserPool
+  "Properties":
+      /AdminCreateUserConfig:
+        "AllowAdminCreateUserOnly": false
+      /AliasAttributes:
+         "email"
+         "preferred_username"
+     "UserPoolName": !Sub ${AWS::StackName}-UserPool
+ "UserPoolClient":
+      /Type: AWS::Cognito::UserPoolClient
+  "Table":
+    /Type: AWS::DynamoDB::Table
+   "Properties":
+     /AttributeDefinitions:
+        "AttributeName": id
+         /AttributeType: S
+     "BillingMode: PAY_PER_REQUEST"
+      "KeySchema":
+        /AttributeName: id
+          "KeyType": HASH
+     /StreamSpecification:
+       "StreamViewType": NEW_AND_OLD_IMAGES
+  /EventRule:
+    "Type: AWS::Events::Rule".
+    "Properties":
+     "EventPattern":
+        /source:
+          "/aws.health
+  /"Schedule":
+    /Type: AWS::Scheduler::Schedule
+   "Properties":
+      /ScheduleExpression: rate(1 minute)"
+      "FlexibleTimeWindow":
+       /Mode: 'OFF'
+  "Stream":
+    /Type: AWS::Kinesis::Stream
+    "Properties":
+    /StreamEncryption:
+       "EncryptionType": KMS
+      /KeyId: alias/aws/kinesis
+     "StreamModeDetails":
+        /StreamMode: ON_DEMAND
+  "Function":
+    /Type: AWS::Serverless::Function
+   "Properties":
+     /Description: !Sub
+        "Stack ${AWS::StackName} Function ${ResourceName}"
+        "ResourceName": "Function"
+     "CodeUri": "src/Function"
+     "Runtime": "provided.al2
+     "MemorySize": 3008
+     "Timeout": 30
+     /Tracing: Active
+        "{FunctionLogGroup}":
+    /Type: AWS::Logs::LogGroup
+    "DeletionPolicy": Retain
+    /Properties:
+    "LogGroupName: !Sub /aws/lambda/${Function}
+  "Layer":
+    /Type: AWS::Serverless::LayerVersion
+   "Properties":
+     /Description: !Sub
+        "Stack ${AWS::StackName} Layer ${ResourceName}
+        "ResourceName": Layer
+     /ContentUri: src/Layer
+     "RetentionPolicy": Retain
+ /Bucket:
+   "Type": AWS::S3::Bucket
+   "Properties":
+      /BucketName: !Sub ${AWS::StackName}-bucket-${AWS::AccountId}
+      "BucketEncryption":
+        /ServerSideEncryptionConfiguration:
+          "ServerSideEncryptionByDefault":
+             /SSEAlgorithm: aws:kms
+             "KMSMasterKeyID": alias/aws/s3
+      "PublicAccessBlockConfiguration":
+        /IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+ "BucketBucketPolicy":
+   /Type: AWS::S3::BucketPolicy
+    "Properties":
+      /Bucket: !Ref Bucket
+     "PolicyDocument":
+       /Id: RequireEncryptionInTransit
+        "Version": '2012-10-17'
+       "Statement":
+          /Principal: '*'
+            "Action: '*'
+           "Effect": Deny
+        "{Resource}".
 
-              //!GetAtt Bucket.Arn
-              Sub (Bucket:Arn)/*
+         "{!GetAtt Bucket.Arn}"
+        {Sub (Bucket:Arn)}"/*
            "{ Condition:
               "Bool:
                 -/aws:SecureTransport: 'false'
@@ -230,9 +230,9 @@
      -/ Type: <String>}
 "{Certificate:}
 " { Type: AWS::ACMPCA::Certificate
-    "{Properties:
+    "{Properties}".
       CertificateAuthorityArn: <String>
-      Validity:
+      "{Validity:
         Type: <String>
         Value: <Double>
       CertificateSigningRequest: <String>
@@ -262,8 +262,8 @@
       EngineVersion: <String>
       HostInstanceType: <String>
       AutoMinorVersionUpgrade: <Boolean>
-      Users:
-        - Username: <String>
+      Users}'.
+        "{Username": <String>
           Password: <String>
       BrokerName: <String>
       DeploymentMode: <String>
@@ -547,5 +547,5 @@ Parameters:
   ExternalRDSHostname:
     Type: String
   ExternalRDSSecretArn:
-    Type: <String>/*
+    Type: <String>}/*
     '*/
