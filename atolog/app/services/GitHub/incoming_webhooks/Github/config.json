@@ -1,0 +1,12 @@
+{
+    "name": "Github",
+    "run_as_authed_user": false,
+    "run_as_user_id": "",
+    "run_as_user_id_script_source": "",
+    "options": {
+        "secret": "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/atolog-pcxrm/service/GitHub/incoming_webhook/Github"
+    },
+    "respond_result": true,
+    "fetch_custom_user_data": false,
+    "create_user_on_auth": false
+}

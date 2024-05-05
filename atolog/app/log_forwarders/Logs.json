@@ -1,0 +1,28 @@
+{
+    "name": "Logs",
+    "log_types": [
+        "auth",
+        "endpoint",
+        "function",
+        "graphql",
+        "push",
+        "schema",
+        "service",
+        "sync",
+        "trigger"
+    ],
+    "log_statuses": [
+        "error",
+        "success"
+    ],
+    "policy": {
+        "type": "batch"
+    },
+    "action": {
+        "type": "collection",
+        "data_source": "mongodb-atlas",
+        "database": "todo",
+        "collection": "Item"
+    },
+    "disabled": false
+}
