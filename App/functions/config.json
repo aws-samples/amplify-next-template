@@ -1,0 +1,8 @@
+[
+    {
+        "name": "updateCollectionView",
+        "private": true,
+        "run_as_system": true,
+        "can_evaluate": {}
+    }
+]
