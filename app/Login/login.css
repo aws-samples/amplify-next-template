@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+body{
+    background-image: url(LoginBackgroundDark.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 500px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+
+.container .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 36px;
+    text-align: center;
+    gap: 10px;
+    margin-top: 7px;
+    width: 100%;
+}
+
+.header .underline{
+    width: 60px;
+    height: 5px;
+    background: #fff;
+    border-radius: 9px;
+    align-items: center;
+}
+
+.container .inputs {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.inputs input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.inputs input::placeholder {
+    color: #fff;
+}
+
+.inputs .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
+
+.forgot-password {
+    margin: 20px;
+    margin-left: 110px;
+    color: #434242;
+    font-size: 14px;
+}
+
+.forgot-password span {
+    color: #4c00b4;
+    cursor: pointer;
+}
+
+.submit-container {
+    display: flex;
+    gap: 30px;
+    margin: 10px auto;
+    justify-content: center;
+}
+
+.submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 190px;
+    height: 45px;
+    color: #c16c47;
+    background: #ffe1c5;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.gray{
+    background: #eaeaea;
+    color: #676767;
+}
+
+.submit-container .button{
+    font-size: 14px;
+    padding: 0.5em 1em;
+    margin: 0.25;
+    border-radius: 1em;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #ffe1c5;
+    color: #c16c47;
+}
+/*
+.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 50px;
+    color: #fff;
+    background: #4c00b4;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}*/
