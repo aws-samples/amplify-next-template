@@ -1,0 +1,29 @@
+Runtime: nodejs16.x
+AutoPublishAlias: live
+DeploymentPreference:
+  Type: Canary10Percent5Minutes
+Architectures:
+  - x86_64
+cd ~/environment/sam-app
+sam validate --lint
+git add .
+git commit -m "Add Canary deployment configuration to SAM"
+git push
+CanaryErrorsAlarm:
+  Type: AWS::CloudWatch::Alarm
+  Properties:
+    AlarmDescription: Lambda function canary errors
+    ComparisonOperator: GreaterThanThreshold
+    EvaluationPeriods: 2
+    MetricName: Errors
+    Namespace: AWS/Lambda
+    Period: 60
+    Statistic: Sum
+    Threshold: 0
+    Dimensions:
+      - Name: Resource
+        Value: !Sub "${HelloWorldFunction}:live"
+      - Name: FunctionName
+        Value: !Ref HelloWorldFunction
+      - Name: ExecutedVersion
+        Value: !GetAtt HelloWorldFunction.Version.Version
