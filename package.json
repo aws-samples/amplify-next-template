@@ -16,11 +16,16 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "^1.0.4",
-    "@aws-amplify/backend-cli": "^1.1.1",
+    "@aws-amplify/backend": "^1.2.1",
+    "@aws-amplify/backend-cli": "^1.2.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5.3.2"
+    "aws-cdk": "^2",
+    "aws-cdk-lib": "^2",
+    "constructs": "^10.3.0",
+    "esbuild": "^0.23.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.2"
   }
 }
