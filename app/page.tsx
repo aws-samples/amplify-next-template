@@ -14,10 +14,14 @@ const client = generateClient<Schema>();
 
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [loading, setLoading] = useState(true);
 
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
+      next: (data) => {
+        setTodos([...data.items]);
+        setLoading(false);
+      },
     });
   }
 
@@ -35,11 +39,15 @@ export default function App() {
     <main>
       <h1>My todos</h1>
       <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
-        ))}
-      </ul>
+      {loading ? (
+        <div className="loader" />
+      ) : (
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id}>{todo.content}</li>
+          ))}
+        </ul>
+      )}
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
